@@ -364,6 +364,10 @@ PM_CheckJump
 =============
 */
 static qboolean PM_CheckJump( void ) {
+	if ( trap_Cvar_VariableIntegerValue( "g_nojump" ) ) {
+		return qfalse;
+	}
+
 	if ( pm->ps->pm_flags & PMF_RESPAWNED ) {
 		return qfalse;		// don't allow jump until all buttons are up
 	}

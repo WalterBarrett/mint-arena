@@ -1503,7 +1503,7 @@ CG_CallVoteComplete
 */
 static void CG_CallVoteComplete( int localPlayerNum, char *args, int argNum ) {
 	if ( argNum == 2 ) {
-		trap_Field_CompleteList( "capturelimit\0fraglimit\0g_doWarmup\0g_gametype\0g_instagib\0kick\0kicknum\0map\0map_restart\0nextmap\0timelimit\0" );
+		trap_Field_CompleteList( "capturelimit\0fraglimit\0g_doWarmup\0g_gametype\0g_instagib\0g_nojump\0kick\0kicknum\0map\0map_restart\0nextmap\0timelimit\0" );
 	}
 	if ( argNum == 3 && !Q_stricmp( CG_Argv( 1 ), "kick" ) ) {
 		CG_Field_CompletePlayerName( -1, qfalse, qfalse );
