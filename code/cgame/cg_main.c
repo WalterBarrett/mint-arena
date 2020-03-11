@@ -356,6 +356,7 @@ typedef struct {
 
 #define RANGE_ALL 0, 0, qfalse
 #define RANGE_BOOL 0, 1, qtrue
+#define RANGE_BOOL_OR_AUTO -1, 1, qtrue
 #define RANGE_INT(min,max) min, max, qtrue
 #define RANGE_FLOAT(min,max) min, max, qfalse
 
@@ -428,11 +429,7 @@ static cvarTable_t cgameCvarTable[] = {
 #endif
 	{ &cg_forceModel, "cg_forceModel", "0", CVAR_ARCHIVE, RANGE_BOOL },
 	{ &cg_predictItems, "cg_predictItems", "1", CVAR_ARCHIVE | CVAR_USERINFO_ALL, RANGE_BOOL },
-#ifdef MISSIONPACK
-	{ &cg_deferPlayers, "cg_deferPlayers", "0", CVAR_ARCHIVE, RANGE_BOOL },
-#else
-	{ &cg_deferPlayers, "cg_deferPlayers", "1", CVAR_ARCHIVE, RANGE_BOOL },
-#endif
+	{ &cg_deferPlayers, "cg_deferPlayers", "-1", CVAR_ARCHIVE, RANGE_BOOL_OR_AUTO },
 	{ &cg_drawTeamOverlay, "cg_drawTeamOverlay", "0", CVAR_ARCHIVE, RANGE_INT(0, 3) },
 #ifdef MISSIONPACK_HUD
 	{ &cg_teamOverlayUserinfo, "teamoverlay", "1", CVAR_ROM | CVAR_USERINFO_ALL, RANGE_ALL },
