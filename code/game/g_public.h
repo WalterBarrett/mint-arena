@@ -28,6 +28,7 @@ Suite 120, Rockville, Maryland 20850 USA.
 ===========================================================================
 */
 //
+#include "../qcommon/q_shared.h"
 
 // g_public.h -- game module information visible to server
 

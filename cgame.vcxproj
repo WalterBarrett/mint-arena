@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="code\botlib\aasfile.h" />
+    <ClInclude Include="code\botlib\be_aas.h" />
+    <ClInclude Include="code\botlib\be_aas_bsp.h" />
+    <ClInclude Include="code\botlib\be_aas_cluster.h" />
+    <ClInclude Include="code\botlib\be_aas_debug.h" />
+    <ClInclude Include="code\botlib\be_aas_def.h" />
+    <ClInclude Include="code\botlib\be_aas_entity.h" />
+    <ClInclude Include="code\botlib\be_aas_file.h" />
+    <ClInclude Include="code\botlib\be_aas_funcs.h" />
+    <ClInclude Include="code\botlib\be_aas_main.h" />
+    <ClInclude Include="code\botlib\be_aas_move.h" />
+    <ClInclude Include="code\botlib\be_aas_optimize.h" />
+    <ClInclude Include="code\botlib\be_aas_reach.h" />
+    <ClInclude Include="code\botlib\be_aas_route.h" />
+    <ClInclude Include="code\botlib\be_aas_routealt.h" />
+    <ClInclude Include="code\botlib\be_aas_sample.h" />
+    <ClInclude Include="code\botlib\be_interface.h" />
+    <ClInclude Include="code\botlib\botlib.h" />
+    <ClInclude Include="code\botlib\l_crc.h" />
+    <ClInclude Include="code\botlib\l_libvar.h" />
+    <ClInclude Include="code\botlib\l_log.h" />
+    <ClInclude Include="code\botlib\l_memory.h" />
+    <ClInclude Include="code\cgame\cg_local.h" />
+    <ClInclude Include="code\cgame\cg_public.h" />
+    <ClInclude Include="code\cgame\cg_syscalls.h" />
+    <ClInclude Include="code\client\keycodes.h" />
+    <ClInclude Include="code\game\ai_ea.h" />
+    <ClInclude Include="code\game\bg_lib.h" />
+    <ClInclude Include="code\game\bg_local.h" />
+    <ClInclude Include="code\game\bg_public.h" />
+    <ClInclude Include="code\game\g_local.h" />
+    <ClInclude Include="code\game\g_public.h" />
+    <ClInclude Include="code\game\g_syscalls.h" />
+    <ClInclude Include="code\game\g_team.h" />
+    <ClInclude Include="code\q3_ui\ui_local.h" />
+    <ClInclude Include="code\qcommon\qfiles.h" />
+    <ClInclude Include="code\qcommon\q_platform.h" />
+    <ClInclude Include="code\qcommon\q_shared.h" />
+    <ClInclude Include="code\qcommon\q_unicode.h" />
+    <ClInclude Include="code\qcommon\surfaceflags.h" />
+    <ClInclude Include="code\qcommon\unicode_data.h" />
+    <ClInclude Include="code\renderercommon\tr_types.h" />
+    <ClInclude Include="code\ui\ui_public.h" />
+    <ClInclude Include="code\ui\ui_shared.h" />
+    <ClInclude Include="ui\menudef.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="code\botlib\be_aas_bspq3.c" />
+    <ClCompile Include="code\botlib\be_aas_cluster.c" />
+    <ClCompile Include="code\botlib\be_aas_debug.c" />
+    <ClCompile Include="code\botlib\be_aas_entity.c" />
+    <ClCompile Include="code\botlib\be_aas_file.c" />
+    <ClCompile Include="code\botlib\be_aas_main.c" />
+    <ClCompile Include="code\botlib\be_aas_move.c" />
+    <ClCompile Include="code\botlib\be_aas_optimize.c" />
+    <ClCompile Include="code\botlib\be_aas_reach.c" />
+    <ClCompile Include="code\botlib\be_aas_route.c" />
+    <ClCompile Include="code\botlib\be_aas_routealt.c" />
+    <ClCompile Include="code\botlib\be_aas_sample.c" />
+    <ClCompile Include="code\botlib\be_interface.c" />
+    <ClCompile Include="code\botlib\l_crc.c" />
+    <ClCompile Include="code\botlib\l_libvar.c" />
+    <ClCompile Include="code\botlib\l_log.c" />
+    <ClCompile Include="code\botlib\l_memory.c" />
+    <ClCompile Include="code\cgame\cg_atmospheric.c" />
+    <ClCompile Include="code\cgame\cg_console.c" />
+    <ClCompile Include="code\cgame\cg_consolecmds.c" />
+    <ClCompile Include="code\cgame\cg_draw.c" />
+    <ClCompile Include="code\cgame\cg_drawtools.c" />
+    <ClCompile Include="code\cgame\cg_effects.c" />
+    <ClCompile Include="code\cgame\cg_ents.c" />
+    <ClCompile Include="code\cgame\cg_event.c" />
+    <ClCompile Include="code\cgame\cg_field.c" />
+    <ClCompile Include="code\cgame\cg_info.c" />
+    <ClCompile Include="code\cgame\cg_input.c" />
+    <ClCompile Include="code\cgame\cg_localents.c" />
+    <ClCompile Include="code\cgame\cg_main.c" />
+    <ClCompile Include="code\cgame\cg_marks.c" />
+    <ClCompile Include="code\cgame\cg_newdraw.c" />
+    <ClCompile Include="code\cgame\cg_particles.c" />
+    <ClCompile Include="code\cgame\cg_players.c" />
+    <ClCompile Include="code\cgame\cg_playerstate.c" />
+    <ClCompile Include="code\cgame\cg_polybus.c" />
+    <ClCompile Include="code\cgame\cg_predict.c" />
+    <ClCompile Include="code\cgame\cg_scoreboard.c" />
+    <ClCompile Include="code\cgame\cg_servercmds.c" />
+    <ClCompile Include="code\cgame\cg_snapshot.c" />
+    <ClCompile Include="code\cgame\cg_spawn.c" />
+    <ClCompile Include="code\cgame\cg_surface.c" />
+    <ClCompile Include="code\cgame\cg_syscalls.c" />
+    <ClCompile Include="code\cgame\cg_text.c" />
+    <ClCompile Include="code\cgame\cg_unlagged.c" />
+    <ClCompile Include="code\cgame\cg_view.c" />
+    <ClCompile Include="code\cgame\cg_weapons.c" />
+    <ClCompile Include="code\game\bg_lib.c" />
+    <ClCompile Include="code\game\bg_misc.c" />
+    <ClCompile Include="code\game\bg_pmove.c" />
+    <ClCompile Include="code\game\bg_slidemove.c" />
+    <ClCompile Include="code\game\bg_tracemap.c" />
+    <ClCompile Include="code\q3_ui\ui_addbots.c" />
+    <ClCompile Include="code\q3_ui\ui_atoms.c" />
+    <ClCompile Include="code\q3_ui\ui_cinematics.c" />
+    <ClCompile Include="code\q3_ui\ui_confirm.c" />
+    <ClCompile Include="code\q3_ui\ui_connect.c" />
+    <ClCompile Include="code\q3_ui\ui_controls2.c" />
+    <ClCompile Include="code\q3_ui\ui_credits.c" />
+    <ClCompile Include="code\q3_ui\ui_demo2.c" />
+    <ClCompile Include="code\q3_ui\ui_display.c" />
+    <ClCompile Include="code\q3_ui\ui_gameinfo.c" />
+    <ClCompile Include="code\q3_ui\ui_ingame.c" />
+    <ClCompile Include="code\q3_ui\ui_ingame_selectplayer.c" />
+    <ClCompile Include="code\q3_ui\ui_joystick.c" />
+    <ClCompile Include="code\q3_ui\ui_loadconfig.c" />
+    <ClCompile Include="code\q3_ui\ui_main.c" />
+    <ClCompile Include="code\q3_ui\ui_menu.c" />
+    <ClCompile Include="code\q3_ui\ui_mfield.c" />
+    <ClCompile Include="code\q3_ui\ui_mods.c" />
+    <ClCompile Include="code\q3_ui\ui_network.c" />
+    <ClCompile Include="code\q3_ui\ui_options.c" />
+    <ClCompile Include="code\q3_ui\ui_playermodel.c" />
+    <ClCompile Include="code\q3_ui\ui_players.c" />
+    <ClCompile Include="code\q3_ui\ui_playersettings.c" />
+    <ClCompile Include="code\q3_ui\ui_preferences.c" />
+    <ClCompile Include="code\q3_ui\ui_qmenu.c" />
+    <ClCompile Include="code\q3_ui\ui_removebots.c" />
+    <ClCompile Include="code\q3_ui\ui_saveconfig.c" />
+    <ClCompile Include="code\q3_ui\ui_selectplayer.c" />
+    <ClCompile Include="code\q3_ui\ui_serverinfo.c" />
+    <ClCompile Include="code\q3_ui\ui_servers2.c" />
+    <ClCompile Include="code\q3_ui\ui_setup.c" />
+    <ClCompile Include="code\q3_ui\ui_sound.c" />
+    <ClCompile Include="code\q3_ui\ui_sparena.c" />
+    <ClCompile Include="code\q3_ui\ui_specifyserver.c" />
+    <ClCompile Include="code\q3_ui\ui_splevel.c" />
+    <ClCompile Include="code\q3_ui\ui_sppostgame.c" />
+    <ClCompile Include="code\q3_ui\ui_spreset.c" />
+    <ClCompile Include="code\q3_ui\ui_spskill.c" />
+    <ClCompile Include="code\q3_ui\ui_startserver.c" />
+    <ClCompile Include="code\q3_ui\ui_team.c" />
+    <ClCompile Include="code\q3_ui\ui_teamorders.c" />
+    <ClCompile Include="code\q3_ui\ui_video.c" />
+    <ClCompile Include="code\qcommon\q_math.c" />
+    <ClCompile Include="code\qcommon\q_shared.c" />
+    <ClCompile Include="code\qcommon\q_unicode.c" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <ProjectGuid>{EC4B4F54-1F88-49A0-A5A4-2E8ED0D37233}</ProjectGuid>
+    <Keyword>MakeFileProj</Keyword>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>VSBuild\$(Configuration)\</OutDir>
+    <IntDir>VSIntermediate\$(TargetName)\$(Platform)\</IntDir>
+    <TargetName>mint-$(ProjectName)_x86</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>VSBuild\$(Configuration)\</OutDir>
+    <IntDir>VSIntermediate\$(TargetName)\$(Platform)\</IntDir>
+    <TargetName>mint-$(ProjectName)_x86</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>VSBuild\$(Configuration)\</OutDir>
+    <IntDir>VSIntermediate\$(TargetName)\$(Platform)\</IntDir>
+    <TargetName>mint-$(ProjectName)_x86_64</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>VSBuild\$(Configuration)\</OutDir>
+    <IntDir>VSIntermediate\$(TargetName)\$(Platform)\</IntDir>
+    <TargetName>mint-$(ProjectName)_x86_64</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>CGAME;_WINDLL;__i386__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ProgramDataBaseFileName>$(IntDir)$(MSBuildProjectName).pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>CGAME;_WINDLL;__i386__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ProgramDataBaseFileName>$(IntDir)$(MSBuildProjectName).pdb</ProgramDataBaseFileName>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PreprocessorDefinitions>CGAME;_WINDLL;__WIN64__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ProgramDataBaseFileName>$(IntDir)$(MSBuildProjectName).pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PreprocessorDefinitions>CGAME;_WINDLL;__WIN64__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ProgramDataBaseFileName>$(IntDir)$(MSBuildProjectName).pdb</ProgramDataBaseFileName>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

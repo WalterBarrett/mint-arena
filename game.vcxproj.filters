@@ -1,0 +1,399 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="Header Files\botlib">
+      <UniqueIdentifier>{7212bd68-b61f-45f4-96d8-248eaa74801a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\botlib">
+      <UniqueIdentifier>{394aa697-4b0d-431a-9d13-c05123b3a181}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\client">
+      <UniqueIdentifier>{61f7d4c9-4509-41c5-81dc-f5b2b018769f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\game">
+      <UniqueIdentifier>{46250c32-cd32-4101-9ce4-55be3d29d0f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\qcommon">
+      <UniqueIdentifier>{8164f616-b7bc-4204-b8eb-487950ba9c5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\renderercommon">
+      <UniqueIdentifier>{abd149cb-70ed-4a1c-bd12-5b4135161b21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\game">
+      <UniqueIdentifier>{8b1a6f81-f6cf-4e5d-bc12-4e67b04cab68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\qcommon">
+      <UniqueIdentifier>{cea97104-4425-4bc2-9915-92a6568a7786}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="code\botlib\aasfile.h">
+      <Filter>Header Files\botlib</Filter>
+    </ClInclude>
+    <ClInclude Include="code\botlib\be_aas.h">
+      <Filter>Header Files\botlib</Filter>
+    </ClInclude>
+    <ClInclude Include="code\botlib\be_aas_bsp.h">
+      <Filter>Header Files\botlib</Filter>
+    </ClInclude>
+    <ClInclude Include="code\botlib\be_aas_cluster.h">
+      <Filter>Header Files\botlib</Filter>
+    </ClInclude>
+    <ClInclude Include="code\botlib\be_aas_debug.h">
+      <Filter>Header Files\botlib</Filter>
+    </ClInclude>
+    <ClInclude Include="code\botlib\be_aas_def.h">
+      <Filter>Header Files\botlib</Filter>
+    </ClInclude>
+    <ClInclude Include="code\botlib\be_aas_entity.h">
+      <Filter>Header Files\botlib</Filter>
+    </ClInclude>
+    <ClInclude Include="code\botlib\be_aas_file.h">
+      <Filter>Header Files\botlib</Filter>
+    </ClInclude>
+    <ClInclude Include="code\botlib\be_aas_funcs.h">
+      <Filter>Header Files\botlib</Filter>
+    </ClInclude>
+    <ClInclude Include="code\botlib\be_aas_main.h">
+      <Filter>Header Files\botlib</Filter>
+    </ClInclude>
+    <ClInclude Include="code\botlib\be_aas_move.h">
+      <Filter>Header Files\botlib</Filter>
+    </ClInclude>
+    <ClInclude Include="code\botlib\be_aas_optimize.h">
+      <Filter>Header Files\botlib</Filter>
+    </ClInclude>
+    <ClInclude Include="code\botlib\be_aas_reach.h">
+      <Filter>Header Files\botlib</Filter>
+    </ClInclude>
+    <ClInclude Include="code\botlib\be_aas_route.h">
+      <Filter>Header Files\botlib</Filter>
+    </ClInclude>
+    <ClInclude Include="code\botlib\be_aas_routealt.h">
+      <Filter>Header Files\botlib</Filter>
+    </ClInclude>
+    <ClInclude Include="code\botlib\be_aas_sample.h">
+      <Filter>Header Files\botlib</Filter>
+    </ClInclude>
+    <ClInclude Include="code\botlib\be_interface.h">
+      <Filter>Header Files\botlib</Filter>
+    </ClInclude>
+    <ClInclude Include="code\botlib\botlib.h">
+      <Filter>Header Files\botlib</Filter>
+    </ClInclude>
+    <ClInclude Include="code\botlib\l_crc.h">
+      <Filter>Header Files\botlib</Filter>
+    </ClInclude>
+    <ClInclude Include="code\botlib\l_libvar.h">
+      <Filter>Header Files\botlib</Filter>
+    </ClInclude>
+    <ClInclude Include="code\botlib\l_log.h">
+      <Filter>Header Files\botlib</Filter>
+    </ClInclude>
+    <ClInclude Include="code\botlib\l_memory.h">
+      <Filter>Header Files\botlib</Filter>
+    </ClInclude>
+    <ClInclude Include="code\client\keycodes.h">
+      <Filter>Header Files\client</Filter>
+    </ClInclude>
+    <ClInclude Include="code\game\ai_char.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="code\game\ai_chat.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="code\game\ai_chat_sys.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="code\game\ai_cmd.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="code\game\ai_dmnet.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="code\game\ai_dmq3.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="code\game\ai_ea.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="code\game\ai_gen.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="code\game\ai_goal.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="code\game\ai_main.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="code\game\ai_move.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="code\game\ai_team.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="code\game\ai_vcmd.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="code\game\ai_weap.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="code\game\ai_weight.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="code\game\bg_lib.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="code\game\bg_local.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="code\game\syn.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="code\game\inv.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="code\game\match.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="code\game\g_team.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="code\game\g_syscalls.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="code\game\g_public.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="code\game\g_local.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="code\game\chars.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="code\game\bg_public.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="code\qcommon\q_platform.h">
+      <Filter>Header Files\qcommon</Filter>
+    </ClInclude>
+    <ClInclude Include="code\qcommon\q_shared.h">
+      <Filter>Header Files\qcommon</Filter>
+    </ClInclude>
+    <ClInclude Include="code\qcommon\q_unicode.h">
+      <Filter>Header Files\qcommon</Filter>
+    </ClInclude>
+    <ClInclude Include="code\qcommon\qfiles.h">
+      <Filter>Header Files\qcommon</Filter>
+    </ClInclude>
+    <ClInclude Include="code\qcommon\surfaceflags.h">
+      <Filter>Header Files\qcommon</Filter>
+    </ClInclude>
+    <ClInclude Include="code\qcommon\unicode_data.h">
+      <Filter>Header Files\qcommon</Filter>
+    </ClInclude>
+    <ClInclude Include="code\renderercommon\tr_types.h">
+      <Filter>Header Files\renderercommon</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="code\botlib\l_memory.c">
+      <Filter>Source Files\botlib</Filter>
+    </ClCompile>
+    <ClCompile Include="code\botlib\l_log.c">
+      <Filter>Source Files\botlib</Filter>
+    </ClCompile>
+    <ClCompile Include="code\botlib\l_libvar.c">
+      <Filter>Source Files\botlib</Filter>
+    </ClCompile>
+    <ClCompile Include="code\botlib\l_crc.c">
+      <Filter>Source Files\botlib</Filter>
+    </ClCompile>
+    <ClCompile Include="code\botlib\be_interface.c">
+      <Filter>Source Files\botlib</Filter>
+    </ClCompile>
+    <ClCompile Include="code\botlib\be_aas_sample.c">
+      <Filter>Source Files\botlib</Filter>
+    </ClCompile>
+    <ClCompile Include="code\botlib\be_aas_routealt.c">
+      <Filter>Source Files\botlib</Filter>
+    </ClCompile>
+    <ClCompile Include="code\botlib\be_aas_route.c">
+      <Filter>Source Files\botlib</Filter>
+    </ClCompile>
+    <ClCompile Include="code\botlib\be_aas_reach.c">
+      <Filter>Source Files\botlib</Filter>
+    </ClCompile>
+    <ClCompile Include="code\botlib\be_aas_optimize.c">
+      <Filter>Source Files\botlib</Filter>
+    </ClCompile>
+    <ClCompile Include="code\botlib\be_aas_move.c">
+      <Filter>Source Files\botlib</Filter>
+    </ClCompile>
+    <ClCompile Include="code\botlib\be_aas_main.c">
+      <Filter>Source Files\botlib</Filter>
+    </ClCompile>
+    <ClCompile Include="code\botlib\be_aas_file.c">
+      <Filter>Source Files\botlib</Filter>
+    </ClCompile>
+    <ClCompile Include="code\botlib\be_aas_entity.c">
+      <Filter>Source Files\botlib</Filter>
+    </ClCompile>
+    <ClCompile Include="code\botlib\be_aas_debug.c">
+      <Filter>Source Files\botlib</Filter>
+    </ClCompile>
+    <ClCompile Include="code\botlib\be_aas_cluster.c">
+      <Filter>Source Files\botlib</Filter>
+    </ClCompile>
+    <ClCompile Include="code\botlib\be_aas_bspq3.c">
+      <Filter>Source Files\botlib</Filter>
+    </ClCompile>
+    <ClCompile Include="code\game\ai_char.c">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="code\game\ai_chat.c">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="code\game\ai_chat_sys.c">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="code\game\ai_cmd.c">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="code\game\ai_dmnet.c">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="code\game\ai_dmq3.c">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="code\game\ai_ea.c">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="code\game\ai_gen.c">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="code\game\ai_goal.c">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="code\game\ai_main.c">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="code\game\ai_move.c">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="code\game\ai_team.c">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="code\game\ai_vcmd.c">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="code\game\ai_weap.c">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="code\game\ai_weight.c">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="code\game\bg_lib.c">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="code\game\bg_misc.c">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="code\game\bg_pmove.c">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="code\game\bg_slidemove.c">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="code\game\bg_tracemap.c">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="code\game\g_active.c">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="code\game\g_arenas.c">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="code\game\g_bot.c">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="code\game\g_botlib.c">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="code\game\g_client.c">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="code\game\g_cmds.c">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="code\game\g_combat.c">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="code\game\g_items.c">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="code\game\g_main.c">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="code\game\g_misc.c">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="code\game\g_missile.c">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="code\game\g_mover.c">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="code\game\g_session.c">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="code\game\g_spawn.c">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="code\game\g_svcmds.c">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="code\game\g_syscalls.c">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="code\game\g_target.c">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="code\game\g_team.c">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="code\game\g_trigger.c">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="code\game\g_unlagged.c">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="code\game\g_utils.c">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="code\game\g_weapon.c">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="code\qcommon\q_math.c">
+      <Filter>Source Files\qcommon</Filter>
+    </ClCompile>
+    <ClCompile Include="code\qcommon\q_shared.c">
+      <Filter>Source Files\qcommon</Filter>
+    </ClCompile>
+    <ClCompile Include="code\qcommon\q_unicode.c">
+      <Filter>Source Files\qcommon</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

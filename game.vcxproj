@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="code\botlib\aasfile.h" />
+    <ClInclude Include="code\botlib\be_aas.h" />
+    <ClInclude Include="code\botlib\be_aas_bsp.h" />
+    <ClInclude Include="code\botlib\be_aas_cluster.h" />
+    <ClInclude Include="code\botlib\be_aas_debug.h" />
+    <ClInclude Include="code\botlib\be_aas_def.h" />
+    <ClInclude Include="code\botlib\be_aas_entity.h" />
+    <ClInclude Include="code\botlib\be_aas_file.h" />
+    <ClInclude Include="code\botlib\be_aas_funcs.h" />
+    <ClInclude Include="code\botlib\be_aas_main.h" />
+    <ClInclude Include="code\botlib\be_aas_move.h" />
+    <ClInclude Include="code\botlib\be_aas_optimize.h" />
+    <ClInclude Include="code\botlib\be_aas_reach.h" />
+    <ClInclude Include="code\botlib\be_aas_route.h" />
+    <ClInclude Include="code\botlib\be_aas_routealt.h" />
+    <ClInclude Include="code\botlib\be_aas_sample.h" />
+    <ClInclude Include="code\botlib\be_interface.h" />
+    <ClInclude Include="code\botlib\botlib.h" />
+    <ClInclude Include="code\botlib\l_crc.h" />
+    <ClInclude Include="code\botlib\l_libvar.h" />
+    <ClInclude Include="code\botlib\l_log.h" />
+    <ClInclude Include="code\botlib\l_memory.h" />
+    <ClInclude Include="code\client\keycodes.h" />
+    <ClInclude Include="code\game\ai_char.h" />
+    <ClInclude Include="code\game\ai_chat.h" />
+    <ClInclude Include="code\game\ai_chat_sys.h" />
+    <ClInclude Include="code\game\ai_cmd.h" />
+    <ClInclude Include="code\game\ai_dmnet.h" />
+    <ClInclude Include="code\game\ai_dmq3.h" />
+    <ClInclude Include="code\game\ai_ea.h" />
+    <ClInclude Include="code\game\ai_gen.h" />
+    <ClInclude Include="code\game\ai_goal.h" />
+    <ClInclude Include="code\game\ai_main.h" />
+    <ClInclude Include="code\game\ai_move.h" />
+    <ClInclude Include="code\game\ai_team.h" />
+    <ClInclude Include="code\game\ai_vcmd.h" />
+    <ClInclude Include="code\game\ai_weap.h" />
+    <ClInclude Include="code\game\ai_weight.h" />
+    <ClInclude Include="code\game\bg_lib.h" />
+    <ClInclude Include="code\game\bg_local.h" />
+    <ClInclude Include="code\game\bg_public.h" />
+    <ClInclude Include="code\game\chars.h" />
+    <ClInclude Include="code\game\g_local.h" />
+    <ClInclude Include="code\game\g_public.h" />
+    <ClInclude Include="code\game\g_syscalls.h" />
+    <ClInclude Include="code\game\g_team.h" />
+    <ClInclude Include="code\game\inv.h" />
+    <ClInclude Include="code\game\match.h" />
+    <ClInclude Include="code\game\syn.h" />
+    <ClInclude Include="code\qcommon\qfiles.h" />
+    <ClInclude Include="code\qcommon\q_platform.h" />
+    <ClInclude Include="code\qcommon\q_shared.h" />
+    <ClInclude Include="code\qcommon\q_unicode.h" />
+    <ClInclude Include="code\qcommon\surfaceflags.h" />
+    <ClInclude Include="code\qcommon\unicode_data.h" />
+    <ClInclude Include="code\renderercommon\tr_types.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="code\botlib\be_aas_bspq3.c" />
+    <ClCompile Include="code\botlib\be_aas_cluster.c" />
+    <ClCompile Include="code\botlib\be_aas_debug.c" />
+    <ClCompile Include="code\botlib\be_aas_entity.c" />
+    <ClCompile Include="code\botlib\be_aas_file.c" />
+    <ClCompile Include="code\botlib\be_aas_main.c" />
+    <ClCompile Include="code\botlib\be_aas_move.c" />
+    <ClCompile Include="code\botlib\be_aas_optimize.c" />
+    <ClCompile Include="code\botlib\be_aas_reach.c" />
+    <ClCompile Include="code\botlib\be_aas_route.c" />
+    <ClCompile Include="code\botlib\be_aas_routealt.c" />
+    <ClCompile Include="code\botlib\be_aas_sample.c" />
+    <ClCompile Include="code\botlib\be_interface.c" />
+    <ClCompile Include="code\botlib\l_crc.c" />
+    <ClCompile Include="code\botlib\l_libvar.c" />
+    <ClCompile Include="code\botlib\l_log.c" />
+    <ClCompile Include="code\botlib\l_memory.c" />
+    <ClCompile Include="code\game\ai_char.c" />
+    <ClCompile Include="code\game\ai_chat.c" />
+    <ClCompile Include="code\game\ai_chat_sys.c" />
+    <ClCompile Include="code\game\ai_cmd.c" />
+    <ClCompile Include="code\game\ai_dmnet.c" />
+    <ClCompile Include="code\game\ai_dmq3.c" />
+    <ClCompile Include="code\game\ai_ea.c" />
+    <ClCompile Include="code\game\ai_gen.c" />
+    <ClCompile Include="code\game\ai_goal.c" />
+    <ClCompile Include="code\game\ai_main.c" />
+    <ClCompile Include="code\game\ai_move.c" />
+    <ClCompile Include="code\game\ai_team.c" />
+    <ClCompile Include="code\game\ai_vcmd.c" />
+    <ClCompile Include="code\game\ai_weap.c" />
+    <ClCompile Include="code\game\ai_weight.c" />
+    <ClCompile Include="code\game\bg_lib.c" />
+    <ClCompile Include="code\game\bg_misc.c" />
+    <ClCompile Include="code\game\bg_pmove.c" />
+    <ClCompile Include="code\game\bg_slidemove.c" />
+    <ClCompile Include="code\game\bg_tracemap.c" />
+    <ClCompile Include="code\game\g_active.c" />
+    <ClCompile Include="code\game\g_arenas.c" />
+    <ClCompile Include="code\game\g_bot.c" />
+    <ClCompile Include="code\game\g_botlib.c" />
+    <ClCompile Include="code\game\g_client.c" />
+    <ClCompile Include="code\game\g_cmds.c" />
+    <ClCompile Include="code\game\g_combat.c" />
+    <ClCompile Include="code\game\g_items.c" />
+    <ClCompile Include="code\game\g_main.c" />
+    <ClCompile Include="code\game\g_misc.c" />
+    <ClCompile Include="code\game\g_missile.c" />
+    <ClCompile Include="code\game\g_mover.c" />
+    <ClCompile Include="code\game\g_session.c" />
+    <ClCompile Include="code\game\g_spawn.c" />
+    <ClCompile Include="code\game\g_svcmds.c" />
+    <ClCompile Include="code\game\g_syscalls.c" />
+    <ClCompile Include="code\game\g_target.c" />
+    <ClCompile Include="code\game\g_team.c" />
+    <ClCompile Include="code\game\g_trigger.c" />
+    <ClCompile Include="code\game\g_unlagged.c" />
+    <ClCompile Include="code\game\g_utils.c" />
+    <ClCompile Include="code\game\g_weapon.c" />
+    <ClCompile Include="code\qcommon\q_math.c" />
+    <ClCompile Include="code\qcommon\q_shared.c" />
+    <ClCompile Include="code\qcommon\q_unicode.c" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <ProjectGuid>{BD4812CA-4C25-47B9-AF36-78F4148B15CA}</ProjectGuid>
+    <Keyword>MakeFileProj</Keyword>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>VSBuild\$(Configuration)\</OutDir>
+    <IntDir>VSIntermediate\$(TargetName)\$(Platform)\</IntDir>
+    <TargetName>mint-$(ProjectName)_x86</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>VSBuild\$(Configuration)\</OutDir>
+    <IntDir>VSIntermediate\$(TargetName)\$(Platform)\</IntDir>
+    <TargetName>mint-$(ProjectName)_x86</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>VSBuild\$(Configuration)\</OutDir>
+    <IntDir>VSIntermediate\$(TargetName)\$(Platform)\</IntDir>
+    <TargetName>mint-$(ProjectName)_x86_64</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>VSBuild\$(Configuration)\</OutDir>
+    <IntDir>VSIntermediate\$(TargetName)\$(Platform)\</IntDir>
+    <TargetName>mint-$(ProjectName)_x86_64</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PreprocessorDefinitions>GAME;_WINDLL;__WIN64__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ProgramDataBaseFileName>$(IntDir)$(MSBuildProjectName).pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PreprocessorDefinitions>GAME;_WINDLL;__WIN64__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ProgramDataBaseFileName>$(IntDir)$(MSBuildProjectName).pdb</ProgramDataBaseFileName>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>GAME;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ProgramDataBaseFileName>$(IntDir)$(MSBuildProjectName).pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>GAME;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ProgramDataBaseFileName>$(IntDir)$(MSBuildProjectName).pdb</ProgramDataBaseFileName>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
