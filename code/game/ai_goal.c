@@ -596,7 +596,12 @@ void BotInitLevelItems(void)
 			// instagib only spawns IT_TEAM items. treat non-team items as item_botroam so bots can still navigate the map.
 			li->flags |= IFL_ROAM;
 			li->weight = 1;
-		} //end if
+		}
+		else if (G_ItemRemovedFromGame(classname))
+		{
+			li->flags |= IFL_ROAM;
+			li->weight = 1;
+		}
 		//if not a stationary item
 		if (!(spawnflags & 1))
 		{
