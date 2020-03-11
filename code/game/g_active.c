@@ -462,39 +462,51 @@ void PlayerTimerActions( gentity_t *ent, int msec ) {
 #ifdef MISSIONPACK
 	if( BG_ItemForItemNum( player->ps.stats[STAT_PERSISTANT_POWERUP] )->giTag == PW_AMMOREGEN ) {
 		int w, max, inc, t, i;
-    int weapList[]={WP_MACHINEGUN,WP_SHOTGUN,WP_GRENADE_LAUNCHER,WP_ROCKET_LAUNCHER,WP_LIGHTNING,WP_RAILGUN,WP_PLASMAGUN,WP_BFG,WP_NAILGUN,WP_PROX_LAUNCHER,WP_CHAINGUN};
-    int weapCount = ARRAY_LEN( weapList );
+		int weapList[] = {
+			WP_MACHINEGUN,
+			WP_SHOTGUN,
+			WP_GRENADE_LAUNCHER,
+			WP_ROCKET_LAUNCHER,
+			WP_LIGHTNING,
+			WP_RAILGUN,
+			WP_PLASMAGUN,
+			WP_BFG,
+			WP_NAILGUN,
+			WP_PROX_LAUNCHER,
+			WP_CHAINGUN,
+		};
+		int weapCount = ARRAY_LEN( weapList );
 		//
-    for (i = 0; i < weapCount; i++) {
-		  w = weapList[i];
+		for (i = 0; i < weapCount; i++) {
+			w = weapList[i];
 
-		  switch(w) {
-			  case WP_MACHINEGUN: max = 50; inc = 4; t = 1000; break;
-			  case WP_SHOTGUN: max = 10; inc = 1; t = 1500; break;
-			  case WP_GRENADE_LAUNCHER: max = 10; inc = 1; t = 2000; break;
-			  case WP_ROCKET_LAUNCHER: max = 10; inc = 1; t = 1750; break;
-			  case WP_LIGHTNING: max = 50; inc = 5; t = 1500; break;
-			  case WP_RAILGUN: max = 10; inc = 1; t = 1750; break;
-			  case WP_PLASMAGUN: max = 50; inc = 5; t = 1500; break;
-			  case WP_BFG: max = 10; inc = 1; t = 4000; break;
-			  case WP_NAILGUN: max = 10; inc = 1; t = 1250; break;
-			  case WP_PROX_LAUNCHER: max = 5; inc = 1; t = 2000; break;
-			  case WP_CHAINGUN: max = 100; inc = 5; t = 1000; break;
-			  default: max = 0; inc = 0; t = 1000; break;
-		  }
-		  player->ammoTimes[w] += msec;
-		  if ( player->ps.ammo[w] >= max ) {
-			  player->ammoTimes[w] = 0;
-		  }
-		  if ( player->ammoTimes[w] >= t ) {
-			  while ( player->ammoTimes[w] >= t )
-				  player->ammoTimes[w] -= t;
-			  player->ps.ammo[w] += inc;
-			  if ( player->ps.ammo[w] > max ) {
-				  player->ps.ammo[w] = max;
-			  }
-		  }
-    }
+			switch(w) {
+				case WP_MACHINEGUN: max = 50; inc = 4; t = 1000; break;
+				case WP_SHOTGUN: max = 10; inc = 1; t = 1500; break;
+				case WP_GRENADE_LAUNCHER: max = 10; inc = 1; t = 2000; break;
+				case WP_ROCKET_LAUNCHER: max = 10; inc = 1; t = 1750; break;
+				case WP_LIGHTNING: max = 50; inc = 5; t = 1500; break;
+				case WP_RAILGUN: max = 10; inc = 1; t = 1750; break;
+				case WP_PLASMAGUN: max = 50; inc = 5; t = 1500; break;
+				case WP_BFG: max = 10; inc = 1; t = 4000; break;
+				case WP_NAILGUN: max = 10; inc = 1; t = 1250; break;
+				case WP_PROX_LAUNCHER: max = 5; inc = 1; t = 2000; break;
+				case WP_CHAINGUN: max = 100; inc = 5; t = 1000; break;
+				default: max = 0; inc = 0; t = 1000; break;
+			}
+			player->ammoTimes[w] += msec;
+			if ( player->ps.ammo[w] >= max ) {
+				player->ammoTimes[w] = 0;
+			}
+			if ( player->ammoTimes[w] >= t ) {
+				while ( player->ammoTimes[w] >= t )
+					player->ammoTimes[w] -= t;
+				player->ps.ammo[w] += inc;
+				if ( player->ps.ammo[w] > max ) {
+					player->ps.ammo[w] = max;
+				}
+			}
+		}
 	}
 #endif
 }

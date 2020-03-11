@@ -80,7 +80,6 @@ BotVoiceChat_GetFlag
 ==================
 */
 void BotVoiceChat_GetFlag(bot_state_t *bs, int playernum, int mode) {
-	//
 	if (gametype == GT_CTF) {
 		if (!ctf_redflag.areanum || !ctf_blueflag.areanum)
 			return;
@@ -132,7 +131,6 @@ void BotVoiceChat_Offense(bot_state_t *bs, int playernum, int mode) {
 	}
 #ifdef MISSIONPACK
 	if (gametype == GT_HARVESTER) {
-		//
 		bs->decisionmaker = playernum;
 		bs->ordered = qtrue;
 		bs->order_time = FloatTime();
@@ -151,7 +149,6 @@ void BotVoiceChat_Offense(bot_state_t *bs, int playernum, int mode) {
 	else
 #endif
 	{
-		//
 		bs->decisionmaker = playernum;
 		bs->ordered = qtrue;
 		bs->order_time = FloatTime();
@@ -178,7 +175,6 @@ BotVoiceChat_Defend
 void BotVoiceChat_Defend(bot_state_t *bs, int playernum, int mode) {
 #ifdef MISSIONPACK
 	if ( gametype == GT_OBELISK || gametype == GT_HARVESTER) {
-		//
 		switch(BotTeam(bs)) {
 			case TEAM_RED: memcpy(&bs->teamgoal, &redobelisk, sizeof(bot_goal_t)); break;
 			case TEAM_BLUE: memcpy(&bs->teamgoal, &blueobelisk, sizeof(bot_goal_t)); break;
@@ -192,7 +188,6 @@ void BotVoiceChat_Defend(bot_state_t *bs, int playernum, int mode) {
 			|| gametype == GT_1FCTF
 #endif
 			) {
-		//
 		switch(BotTeam(bs)) {
 			case TEAM_RED: memcpy(&bs->teamgoal, &ctf_redflag, sizeof(bot_goal_t)); break;
 			case TEAM_BLUE: memcpy(&bs->teamgoal, &ctf_blueflag, sizeof(bot_goal_t)); break;
@@ -202,7 +197,7 @@ void BotVoiceChat_Defend(bot_state_t *bs, int playernum, int mode) {
 	else {
 		return;
 	}
-	//
+	
 	bs->decisionmaker = playernum;
 	bs->ordered = qtrue;
 	bs->order_time = FloatTime();
@@ -214,7 +209,7 @@ void BotVoiceChat_Defend(bot_state_t *bs, int playernum, int mode) {
 	bs->teamgoal_time = FloatTime() + TEAM_DEFENDKEYAREA_TIME;
 	//away from defending
 	bs->defendaway_time = 0;
-	//
+	
 	BotSetTeamStatus(bs);
 	// remember last ordered task
 	BotRememberLastOrderedTask(bs);
@@ -236,17 +231,16 @@ BotVoiceChat_Patrol
 ==================
 */
 void BotVoiceChat_Patrol(bot_state_t *bs, int playernum, int mode) {
-	//
 	bs->decisionmaker = playernum;
-	//
+	
 	bs->ltgtype = 0;
 	bs->lead_time = 0;
 	bs->lastgoal_ltgtype = 0;
-	//
+	
 	BotAI_BotInitialChat(bs, "dismissed", NULL);
 	BotEnterChat(bs->cs, playernum, CHAT_TELL);
 	BotVoiceChatOnly(bs, -1, VOICECHAT_ONPATROL);
-	//
+	
 	BotSetTeamStatus(bs);
 	BotPrintTeamGoal(bs);
 }
@@ -261,7 +255,6 @@ void BotVoiceChat_Camp(bot_state_t *bs, int playernum, int mode) {
 	aas_entityinfo_t entinfo;
 	char netname[MAX_NETNAME];
 
-	//
 	bs->teamgoal.entitynum = -1;
 	BotEntityInfo(playernum, &entinfo);
 	//if info is valid (in PVS)
@@ -284,7 +277,7 @@ void BotVoiceChat_Camp(bot_state_t *bs, int playernum, int mode) {
 		BotEnterChat(bs->cs, playernum, CHAT_TELL);
 		return;
 	}
-	//
+	
 	bs->decisionmaker = playernum;
 	bs->ordered = qtrue;
 	bs->order_time = FloatTime();
@@ -298,7 +291,7 @@ void BotVoiceChat_Camp(bot_state_t *bs, int playernum, int mode) {
 	bs->teammate = playernum;
 	//not arrived yet
 	bs->arrive_time = 0;
-	//
+	
 	BotSetTeamStatus(bs);
 	// remember last ordered task
 	BotRememberLastOrderedTask(bs);
