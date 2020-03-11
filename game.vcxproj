@@ -186,22 +186,22 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>VSBuild\$(Configuration)\</OutDir>
+    <OutDir>$(MSBuildProjectDirectory)\..\..\Assets\triumvirate\openarena\</OutDir>
     <IntDir>VSIntermediate\$(TargetName)\$(Platform)\</IntDir>
     <TargetName>mint-$(ProjectName)_x86</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>VSBuild\$(Configuration)\</OutDir>
+    <OutDir>$(MSBuildProjectDirectory)\..\..\Assets\triumvirate\openarena\</OutDir>
     <IntDir>VSIntermediate\$(TargetName)\$(Platform)\</IntDir>
     <TargetName>mint-$(ProjectName)_x86</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>VSBuild\$(Configuration)\</OutDir>
+    <OutDir>$(MSBuildProjectDirectory)\..\..\Assets\triumvirate\openarena\</OutDir>
     <IntDir>VSIntermediate\$(TargetName)\$(Platform)\</IntDir>
     <TargetName>mint-$(ProjectName)_x86_64</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>VSBuild\$(Configuration)\</OutDir>
+    <OutDir>$(MSBuildProjectDirectory)\..\..\Assets\triumvirate\openarena\</OutDir>
     <IntDir>VSIntermediate\$(TargetName)\$(Platform)\</IntDir>
     <TargetName>mint-$(ProjectName)_x86_64</TargetName>
   </PropertyGroup>
