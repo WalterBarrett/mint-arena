@@ -2077,3 +2077,15 @@ void G_RunFrame( int levelTime ) {
 	// accepting commands from connected clients
 	level.frameStartTime = trap_Milliseconds();
 }
+
+qboolean G_ItemRemovedFromGame( const char * classname ) {
+	if (!Q_stricmp(classname, "item_armor_shard"))
+	{
+		return qtrue;
+	}
+	if (!Q_stricmpn(classname, "item_health", 11))
+	{
+		return qtrue;
+	}
+	return qfalse;
+}

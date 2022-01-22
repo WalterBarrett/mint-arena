@@ -673,6 +673,7 @@ void SendScoreboardMessageToAllClients( void );
 void QDECL G_DPrintf( const char *fmt, ... ) __attribute__ ((format (printf, 1, 2)));
 void QDECL G_Printf( const char *fmt, ... ) __attribute__ ((format (printf, 1, 2)));
 void QDECL G_Error( const char *fmt, ... ) __attribute__ ((noreturn, format (printf, 1, 2)));
+qboolean G_ItemRemovedFromGame( const char * classname );
 
 //
 // g_client.c
