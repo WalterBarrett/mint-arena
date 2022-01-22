@@ -678,6 +678,7 @@ typedef struct {
 	menuradiobutton_s	friendlyfire;
 	menufield_s			hostname;
 	menuradiobutton_s	instagib;
+	menuradiobutton_s	nojump;
 	menuradiobutton_s	pure;
 	menulist_s			botSkill;
 
@@ -779,6 +780,7 @@ static void ServerOptions_Start( void ) {
 	int		friendlyfire;
 	int		flaglimit;
 	int		instagib;
+	int		nojump;
 	int		pure;
 	int		skill;
 	int		n;
@@ -792,6 +794,7 @@ static void ServerOptions_Start( void ) {
 	dedicated	 = s_serveroptions.dedicated.curvalue;
 	friendlyfire = s_serveroptions.friendlyfire.curvalue;
 	instagib	 = s_serveroptions.instagib.curvalue;
+	nojump	 	 = s_serveroptions.nojump.curvalue;
 	pure		 = s_serveroptions.pure.curvalue;
 	skill		 = s_serveroptions.botSkill.curvalue + 1;
 
@@ -1481,6 +1484,13 @@ static void ServerOptions_MenuInit( qboolean multiplayer ) {
 	s_serveroptions.instagib.generic.name		= "Instagib:";
 
 	y += BIGCHAR_HEIGHT+2;
+	s_serveroptions.nojump.generic.type			= MTYPE_RADIOBUTTON;
+	s_serveroptions.nojump.generic.flags		= QMF_PULSEIFFOCUS|QMF_SMALLFONT;
+	s_serveroptions.nojump.generic.x			= OPTIONS_X;
+	s_serveroptions.nojump.generic.y			= y;
+	s_serveroptions.nojump.generic.name			= "Disable Jumping:";
+
+	y += BIGCHAR_HEIGHT+2;
 	s_serveroptions.pure.generic.type			= MTYPE_RADIOBUTTON;
 	s_serveroptions.pure.generic.flags			= QMF_PULSEIFFOCUS|QMF_SMALLFONT;
 	s_serveroptions.pure.generic.x				= OPTIONS_X;
@@ -1638,6 +1648,7 @@ static void ServerOptions_MenuInit( qboolean multiplayer ) {
 		Menu_AddItem( &s_serveroptions.menu, &s_serveroptions.friendlyfire );
 	}
 	Menu_AddItem( &s_serveroptions.menu, &s_serveroptions.instagib );
+	Menu_AddItem( &s_serveroptions.menu, &s_serveroptions.nojump );
 	Menu_AddItem( &s_serveroptions.menu, &s_serveroptions.pure );
 	if( s_serveroptions.multiplayer ) {
 		Menu_AddItem( &s_serveroptions.menu, &s_serveroptions.publicserver );

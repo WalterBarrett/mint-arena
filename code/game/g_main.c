@@ -115,6 +115,7 @@ vmCvar_t	g_proxMineTimeout;
 #endif
 vmCvar_t	g_playerCapsule;
 vmCvar_t	g_instagib;
+vmCvar_t	g_nojump;
 
 static cvarTable_t		gameCvarTable[] = {
 	// don't override the cheat state set by the system
@@ -128,6 +129,7 @@ static cvarTable_t		gameCvarTable[] = {
 	// latched vars
 	{ &g_gametype, "g_gametype", "0", CVAR_SERVERINFO | CVAR_USERINFO | CVAR_LATCH, GCF_DO_RESTART, RANGE_INT(0, GT_MAX_GAME_TYPE-1)  },
 	{ &g_instagib, "g_instagib", "0", CVAR_LATCH, GCF_DO_RESTART, RANGE_BOOL },
+	{ &g_nojump, "g_nojump", "1", CVAR_LATCH, GCF_DO_RESTART, RANGE_BOOL },
 
 	{ &g_maxplayers, "sv_maxclients", "8", CVAR_SERVERINFO | CVAR_LATCH | CVAR_ARCHIVE, 0, RANGE_ALL },
 	{ &g_maxGamePlayers, "g_maxGameClients", "0", CVAR_SERVERINFO | CVAR_LATCH | CVAR_ARCHIVE, 0, RANGE_INT(0, MAX_CLIENTS-1) },
