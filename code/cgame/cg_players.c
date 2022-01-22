@@ -1261,11 +1261,13 @@ void CG_NewPlayerInfo( int playerNum ) {
 	// so we can avoid loading checks if possible
 	if ( !CG_ScanForExistingPlayerInfo( &newInfo ) ) {
 		qboolean	forceDefer;
+		qboolean	autoDefer;
 
 		forceDefer = trap_MemoryRemaining() < 4000000;
+		autoDefer = (cg_deferPlayers.integer == -1) && (cgs.gametype >= GT_TEAM);
 
 		// if we are defering loads, just have it pick the first valid
-		if ( forceDefer || (cg_deferPlayers.integer && !cg_buildScript.integer && !cg.loading ) ) {
+		if ( forceDefer || ((autoDefer || cg_deferPlayers.integer > 0) && !cg_buildScript.integer && !cg.loading ) ) {
 			// keep whatever they had if it won't violate team skins
 			CG_SetDeferredPlayerInfo( playerNum, &newInfo );
 			// if we are low on memory, leave them with this model
