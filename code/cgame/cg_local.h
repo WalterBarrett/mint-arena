@@ -97,7 +97,11 @@ Suite 120, Rockville, Maryland 20850 USA.
 #define	TEAMCHAT_WIDTH		80
 #define TEAMCHAT_HEIGHT		8
 
+#ifdef LIVE
+#define	NUM_CROSSHAIRS		29
+#else
 #define	NUM_CROSSHAIRS		10
+#endif
 
 #define TEAM_OVERLAY_MAXNAME_WIDTH	12
 #define TEAM_OVERLAY_MAXLOCATION_WIDTH	16

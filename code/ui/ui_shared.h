@@ -115,7 +115,11 @@ Suite 120, Rockville, Maryland 20850 USA.
 #define SLIDER_HEIGHT 16.0
 #define SLIDER_THUMB_WIDTH 12.0
 #define SLIDER_THUMB_HEIGHT 20.0
+#ifdef LIVE
+#define	NUM_CROSSHAIRS			29
+#else
 #define	NUM_CROSSHAIRS			10
+#endif
 
 typedef struct {
   const char *command;

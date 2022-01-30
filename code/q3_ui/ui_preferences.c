@@ -70,7 +70,11 @@ enum {
 	ID_BACK
 };
 
+#ifdef LIVE
+#define	NUM_CROSSHAIRS			29
+#else
 #define	NUM_CROSSHAIRS			10
+#endif
 
 
 typedef struct {
@@ -543,7 +547,11 @@ void Preferences_Cache( void ) {
 	trap_R_RegisterShaderNoMip( ART_BACK0 );
 	trap_R_RegisterShaderNoMip( ART_BACK1 );
 	for( n = 0; n < NUM_CROSSHAIRS; n++ ) {
+#ifdef LIVE
+		s_preferences.crosshairShader[n] = trap_R_RegisterShaderNoMip( va("gfx/2d/crosshair%i", n ) );
+#else
 		s_preferences.crosshairShader[n] = trap_R_RegisterShaderNoMip( va("gfx/2d/crosshair%c", 'a' + n ) );
+#endif
 	}
 }
 
