@@ -1700,6 +1700,11 @@ static void PM_Weapon( void ) {
 		addTime = 30;
 		break;
 #endif
+#ifdef LIVE
+	case WP_HEAVY_MACHINEGUN:
+		addTime = 75;
+		break;
+#endif
 	}
 
 #ifdef MISSIONPACK

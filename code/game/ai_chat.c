@@ -311,6 +311,11 @@ char *BotWeaponNameForMeansOfDeath(int mod) {
 		case MOD_JUICED:
 			return "Prox mine";
 #endif
+#ifdef LIVE
+		case MOD_HEAVY_MACHINEGUN:
+			weapon = WP_HEAVY_MACHINEGUN;
+			break;
+#endif
 		case MOD_GRAPPLE:
 			return "Grapple";
 		default:

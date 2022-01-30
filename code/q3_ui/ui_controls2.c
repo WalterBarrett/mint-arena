@@ -162,6 +162,9 @@ enum {
 	ANIM_WEAPON12,
 	ANIM_WEAPON13,
 #endif
+#ifdef LIVE
+	ANIM_WEAPON14,
+#endif
 	ANIM_ATTACK,
 	ANIM_GESTURE,
 	ANIM_DIE,
@@ -704,6 +707,12 @@ static void Controls_UpdateModel( int anim ) {
 
 	case ANIM_WEAPON13:
 		s_controls.playerWeapon = WP_CHAINGUN;
+		break;
+#endif
+
+#ifdef LIVE
+	case ANIM_WEAPON14:
+		s_controls.playerWeapon = WP_HEAVY_MACHINEGUN;
 		break;
 #endif
 

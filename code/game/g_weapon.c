@@ -144,6 +144,10 @@ MACHINEGUN
 ======================================================================
 */
 
+#ifdef LIVE
+#define HEAVY_MACHINEGUN_SPREAD	400		// Not sure if this correct
+#define	HEAVY_MACHINEGUN_DAMAGE	8
+#endif
 #ifdef MISSIONPACK
 #define CHAINGUN_SPREAD		600
 #define CHAINGUN_DAMAGE		7
@@ -899,6 +903,11 @@ void FireWeapon( gentity_t *ent ) {
 		break;
 	case WP_CHAINGUN:
 		Bullet_Fire( ent, CHAINGUN_SPREAD, CHAINGUN_DAMAGE, MOD_CHAINGUN );
+		break;
+#endif
+#ifdef LIVE
+	case WP_HEAVY_MACHINEGUN:
+		Bullet_Fire( ent, HEAVY_MACHINEGUN_SPREAD, HEAVY_MACHINEGUN_DAMAGE, MOD_HEAVY_MACHINEGUN );
 		break;
 #endif
 	default:

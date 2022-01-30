@@ -101,6 +101,9 @@ tryagain:
 		break;
 
 	case WP_MACHINEGUN:
+#ifdef LIVE
+	case WP_HEAVY_MACHINEGUN:
+#endif
 		MAKERGB( pi->flashDlightColor, 1, 1, 0 );
 		break;
 

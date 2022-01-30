@@ -870,6 +870,38 @@ Only in One Flag CTF games
 	},
 #endif
 
+#ifdef LIVE
+/*QUAKED weapon_hmg (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+*/
+	{
+		"weapon_hmg",
+		"sound/misc/w_pkup.wav",
+        { "models/weapons3/hmg/hmg.md3", 
+		NULL, NULL, NULL},
+/* icon */		"icons/weap_hmg",
+/* pickup */	"Heavy Machinegun", // TODO: Check this
+		40, // TODO: Check this
+		IT_WEAPON,
+		WP_HEAVY_MACHINEGUN,
+/* sounds */ ""
+	},
+
+/*QUAKED ammo_hmg (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+*/
+	{
+		"ammo_hmg",
+		"sound/misc/am_pkup.wav",
+        { "models/powerups/ammo/hmgam.md3", 
+		NULL, NULL, NULL},
+/* icon */		"icons/ammo_hmg",
+/* pickup */	"Heavy Bullets",
+		50, // TODO: Check this
+		IT_AMMO,
+		WP_HEAVY_MACHINEGUN,
+/* sounds */ ""
+	},
+#endif
+
 	// end of list marker
 	{NULL}
 };

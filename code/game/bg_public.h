@@ -651,6 +651,9 @@ typedef enum {
 	WP_PROX_LAUNCHER,
 	WP_CHAINGUN,
 #endif
+#ifdef LIVE
+	WP_HEAVY_MACHINEGUN,
+#endif
 
 	WP_NUM_WEAPONS
 } weapon_t;
@@ -1010,6 +1013,9 @@ typedef enum {
 	MOD_PROXIMITY_MINE,
 	MOD_KAMIKAZE,
 	MOD_JUICED,
+#endif
+#ifdef LIVE
+	MOD_HEAVY_MACHINEGUN,
 #endif
 	MOD_GRAPPLE,
 	MOD_SUICIDE_TEAM_CHANGE

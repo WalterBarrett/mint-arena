@@ -393,6 +393,9 @@ char	*modNames[] = {
 	"MOD_KAMIKAZE",
 	"MOD_JUICED",
 #endif
+#ifdef LIVE
+	"MOD_HEAVY_MACHINEGUN",
+#endif
 	"MOD_GRAPPLE",
 	"MOD_SUICIDE_TEAM_CHANGE"
 };

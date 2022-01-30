@@ -80,6 +80,12 @@ Suite 120, Rockville, Maryland 20850 USA.
 #define INVENTORY_NEUTRALFLAG		47
 #define INVENTORY_REDCUBE			48
 #define INVENTORY_BLUECUBE			49
+
+#ifdef LIVE
+#define INVENTORY_HEAVYMACHINEGUN   50
+#define INVENTORY_HEAVYBULLETS		51
+#endif
+
 //enemy stuff
 #define ENEMY_HORIZONTAL_DIST		200
 #define ENEMY_HEIGHT				201
