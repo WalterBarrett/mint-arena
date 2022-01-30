@@ -26,6 +26,9 @@ endif
 ifndef USE_MISSIONPACK_Q3_UI
   USE_MISSIONPACK_Q3_UI =
 endif
+ifndef BUILD_LIVEGAME
+  BUILD_LIVEGAME=
+endif
 ifndef BUILD_FINAL
   BUILD_FINAL      =0
 endif
@@ -132,6 +135,16 @@ endif
 endif
 
 MISSIONPACK_CFLAGS+=-DMODDIR=\"$(MISSIONPACK)\" -DBASEQ3=\"$(BASEGAME)\"
+
+ifndef LIVEGAME
+LIVEGAME=baseql
+endif
+
+ifndef LIVEGAME_CFLAGS
+LIVEGAME_CFLAGS=-DMISSIONPACK -DMISSIONPACK_HUD -DLIVE
+endif
+
+LIVEGAME_CFLAGS+=-DMODDIR=\"$(LIVEGAME)\"
 
 # Add "-DEXAMPLE" to define EXAMPLE in engine and game/cgame.
 ifndef BUILD_DEFINES
@@ -684,6 +697,11 @@ ifneq ($(BUILD_GAME_SO),0)
       $(B)/$(MISSIONPACK)/$(VM_PREFIX)cgame_$(SHLIBNAME) \
       $(B)/$(MISSIONPACK)/$(VM_PREFIX)game_$(SHLIBNAME)
   endif
+  ifneq ($(BUILD_LIVEGAME),0)
+    TARGETS += \
+      $(B)/$(LIVEGAME)/$(VM_PREFIX)cgame_$(SHLIBNAME) \
+      $(B)/$(LIVEGAME)/$(VM_PREFIX)game_$(SHLIBNAME)
+  endif
 endif
 
 ifneq ($(BUILD_GAME_QVM),0)
@@ -696,6 +714,11 @@ ifneq ($(BUILD_GAME_QVM),0)
     TARGETS += \
       $(B)/$(MISSIONPACK)/vm/$(VM_PREFIX)cgame.qvm \
       $(B)/$(MISSIONPACK)/vm/$(VM_PREFIX)game.qvm
+  endif
+  ifneq ($(BUILD_LIVEGAME),0)
+    TARGETS += \
+      $(B)/$(LIVEGAME)/vm/$(VM_PREFIX)cgame.qvm \
+      $(B)/$(LIVEGAME)/vm/$(VM_PREFIX)game.qvm
   endif
 endif
 
@@ -775,6 +798,24 @@ endef
 define DO_CGAME_CC_MISSIONPACK
 $(echo_cmd) "CGAME_CC_MISSIONPACK $<"
 $(Q)$(CC) $(MISSIONPACK_CFLAGS) -DCGAME $(SHLIBCFLAGS) $(CFLAGS) $(OPTIMIZEVM) -o $@ -c $<
+$(Q)$(DO_QVM_DEP)
+endef
+
+define DO_SHLIB_CC_LIVEGAME
+$(echo_cmd) "SHLIB_CC_LIVEGAME $<"
+$(Q)$(CC) $(LIVEGAME_CFLAGS) $(SHLIBCFLAGS) $(CFLAGS) $(OPTIMIZEVM) -o $@ -c $<
+$(Q)$(DO_QVM_DEP)
+endef
+
+define DO_GAME_CC_LIVEGAME
+$(echo_cmd) "GAME_CC_LIVEGAME $<"
+$(Q)$(CC) $(LIVEGAME_CFLAGS) -DGAME $(SHLIBCFLAGS) $(CFLAGS) $(OPTIMIZEVM) -o $@ -c $<
+$(Q)$(DO_QVM_DEP)
+endef
+
+define DO_CGAME_CC_LIVEGAME
+$(echo_cmd) "CGAME_CC_LIVEGAME $<"
+$(Q)$(CC) $(LIVEGAME_CFLAGS) -DCGAME $(SHLIBCFLAGS) $(CFLAGS) $(OPTIMIZEVM) -o $@ -c $<
 $(Q)$(DO_QVM_DEP)
 endef
 
@@ -873,6 +914,13 @@ makedirs:
 	@$(MKDIR) $(B)/$(MISSIONPACK)/qcommon
 	@$(MKDIR) $(B)/$(MISSIONPACK)/q3ui
 	@$(MKDIR) $(B)/$(MISSIONPACK)/vm
+	@$(MKDIR) $(B)/$(LIVEGAME)/cgame
+	@$(MKDIR) $(B)/$(LIVEGAME)/botlib
+	@$(MKDIR) $(B)/$(LIVEGAME)/game
+	@$(MKDIR) $(B)/$(LIVEGAME)/ui
+	@$(MKDIR) $(B)/$(LIVEGAME)/qcommon
+	@$(MKDIR) $(B)/$(LIVEGAME)/q3ui
+	@$(MKDIR) $(B)/$(LIVEGAME)/vm
 	@$(MKDIR) $(B)/tools/asm
 	@$(MKDIR) $(B)/tools/etc
 	@$(MKDIR) $(B)/tools/rcc
@@ -1047,6 +1095,21 @@ endef
 define DO_GAME_Q3LCC_MISSIONPACK
 $(echo_cmd) "GAME_Q3LCC_MISSIONPACK $<"
 $(Q)$(Q3LCC) $(MISSIONPACK_CFLAGS) -DGAME $(QVM_CFLAGS) -o $@ $<
+endef
+
+define DO_Q3LCC_LIVEGAME
+$(echo_cmd) "Q3LCC_LIVEGAME $<"
+$(Q)$(Q3LCC) $(LIVEGAME_CFLAGS) $(QVM_CFLAGS) -o $@ $<
+endef
+
+define DO_CGAME_Q3LCC_LIVEGAME
+$(echo_cmd) "CGAME_Q3LCC_LIVEGAME $<"
+$(Q)$(Q3LCC) $(LIVEGAME_CFLAGS) -DCGAME $(QVM_CFLAGS) -o $@ $<
+endef
+
+define DO_GAME_Q3LCC_LIVEGAME
+$(echo_cmd) "GAME_Q3LCC_LIVEGAME $<"
+$(Q)$(Q3LCC) $(LIVEGAME_CFLAGS) -DGAME $(QVM_CFLAGS) -o $@ $<
 endef
 
 
@@ -1266,6 +1329,66 @@ $(B)/$(MISSIONPACK)/vm/$(VM_PREFIX)cgame.qvm: $(MPCGVMOBJ) $(GDIR)/bg_syscalls.a
 	$(echo_cmd) "Q3ASM $@"
 	$(Q)$(Q3ASM) -o $@ $(MPCGVMOBJ) $(GDIR)/bg_syscalls.asm
 
+#############################################################################
+## LIVEGAME CGAME
+#############################################################################
+
+MPCGOBJ = \
+  $(B)/$(LIVEGAME)/cgame/cg_main.o \
+  $(B)/$(LIVEGAME)/cgame/bg_misc.o \
+  $(B)/$(LIVEGAME)/cgame/bg_pmove.o \
+  $(B)/$(LIVEGAME)/cgame/bg_slidemove.o \
+  $(B)/$(LIVEGAME)/cgame/bg_lib.o \
+  $(B)/$(LIVEGAME)/cgame/bg_tracemap.o \
+  $(B)/$(LIVEGAME)/cgame/cg_atmospheric.o \
+  $(B)/$(LIVEGAME)/cgame/cg_console.o \
+  $(B)/$(LIVEGAME)/cgame/cg_consolecmds.o \
+  $(B)/$(LIVEGAME)/cgame/cg_newdraw.o \
+  $(B)/$(LIVEGAME)/cgame/cg_draw.o \
+  $(B)/$(LIVEGAME)/cgame/cg_drawtools.o \
+  $(B)/$(LIVEGAME)/cgame/cg_effects.o \
+  $(B)/$(LIVEGAME)/cgame/cg_ents.o \
+  $(B)/$(LIVEGAME)/cgame/cg_event.o \
+  $(B)/$(LIVEGAME)/cgame/cg_field.o \
+  $(B)/$(LIVEGAME)/cgame/cg_info.o \
+  $(B)/$(LIVEGAME)/cgame/cg_input.o \
+  $(B)/$(LIVEGAME)/cgame/cg_localents.o \
+  $(B)/$(LIVEGAME)/cgame/cg_marks.o \
+  $(B)/$(LIVEGAME)/cgame/cg_particles.o \
+  $(B)/$(LIVEGAME)/cgame/cg_players.o \
+  $(B)/$(LIVEGAME)/cgame/cg_playerstate.o \
+  $(B)/$(LIVEGAME)/cgame/cg_polybus.o \
+  $(B)/$(LIVEGAME)/cgame/cg_predict.o \
+  $(B)/$(LIVEGAME)/cgame/cg_scoreboard.o \
+  $(B)/$(LIVEGAME)/cgame/cg_servercmds.o \
+  $(B)/$(LIVEGAME)/cgame/cg_snapshot.o \
+  $(B)/$(LIVEGAME)/cgame/cg_spawn.o \
+  $(B)/$(LIVEGAME)/cgame/cg_surface.o \
+  $(B)/$(LIVEGAME)/cgame/cg_syscalls.o \
+  $(B)/$(LIVEGAME)/cgame/cg_text.o \
+  $(B)/$(LIVEGAME)/cgame/cg_unlagged.o \
+  $(B)/$(LIVEGAME)/cgame/cg_view.o \
+  $(B)/$(LIVEGAME)/cgame/cg_weapons.o \
+  \
+  $(B)/$(LIVEGAME)/qcommon/q_math.o \
+  $(B)/$(LIVEGAME)/qcommon/q_shared.o \
+  $(B)/$(LIVEGAME)/qcommon/q_unicode.o \
+  \
+  $(B)/$(LIVEGAME)/ui/ui_main.o \
+  $(B)/$(LIVEGAME)/ui/ui_atoms.o \
+  $(B)/$(LIVEGAME)/ui/ui_gameinfo.o \
+  $(B)/$(LIVEGAME)/ui/ui_players.o \
+  $(B)/$(LIVEGAME)/ui/ui_shared.o
+
+MPCGVMOBJ = $(MPCGOBJ:%.o=%.asm)
+
+$(B)/$(LIVEGAME)/$(VM_PREFIX)cgame_$(SHLIBNAME): $(MPCGOBJ)
+	$(echo_cmd) "LD $@"
+	$(Q)$(CC) $(CFLAGS) $(SHLIBLDFLAGS) -o $@ $(MPCGOBJ)
+
+$(B)/$(LIVEGAME)/vm/$(VM_PREFIX)cgame.qvm: $(MPCGVMOBJ) $(GDIR)/bg_syscalls.asm $(Q3ASM)
+	$(echo_cmd) "Q3ASM $@"
+	$(Q)$(Q3ASM) -o $@ $(MPCGVMOBJ) $(GDIR)/bg_syscalls.asm
 
 
 #############################################################################
@@ -1426,6 +1549,85 @@ $(B)/$(MISSIONPACK)/vm/$(VM_PREFIX)game.qvm: $(MPGVMOBJ) $(GDIR)/bg_syscalls.asm
 	$(echo_cmd) "Q3ASM $@"
 	$(Q)$(Q3ASM) -o $@ $(MPGVMOBJ) $(GDIR)/bg_syscalls.asm
 
+#############################################################################
+## LIVEGAME GAME
+#############################################################################
+
+MPGOBJ = \
+  $(B)/$(LIVEGAME)/game/g_main.o \
+  $(B)/$(LIVEGAME)/game/ai_char.o \
+  $(B)/$(LIVEGAME)/game/ai_chat.o \
+  $(B)/$(LIVEGAME)/game/ai_chat_sys.o \
+  $(B)/$(LIVEGAME)/game/ai_cmd.o \
+  $(B)/$(LIVEGAME)/game/ai_dmnet.o \
+  $(B)/$(LIVEGAME)/game/ai_dmq3.o \
+  $(B)/$(LIVEGAME)/game/ai_ea.o \
+  $(B)/$(LIVEGAME)/game/ai_gen.o \
+  $(B)/$(LIVEGAME)/game/ai_goal.o \
+  $(B)/$(LIVEGAME)/game/ai_main.o \
+  $(B)/$(LIVEGAME)/game/ai_move.o \
+  $(B)/$(LIVEGAME)/game/ai_team.o \
+  $(B)/$(LIVEGAME)/game/ai_weap.o \
+  $(B)/$(LIVEGAME)/game/ai_weight.o \
+  $(B)/$(LIVEGAME)/game/ai_vcmd.o \
+  $(B)/$(LIVEGAME)/game/bg_misc.o \
+  $(B)/$(LIVEGAME)/game/bg_pmove.o \
+  $(B)/$(LIVEGAME)/game/bg_slidemove.o \
+  $(B)/$(LIVEGAME)/game/bg_lib.o \
+  $(B)/$(LIVEGAME)/game/bg_tracemap.o \
+  $(B)/$(LIVEGAME)/game/g_active.o \
+  $(B)/$(LIVEGAME)/game/g_arenas.o \
+  $(B)/$(LIVEGAME)/game/g_bot.o \
+  $(B)/$(LIVEGAME)/game/g_botlib.o \
+  $(B)/$(LIVEGAME)/game/g_client.o \
+  $(B)/$(LIVEGAME)/game/g_cmds.o \
+  $(B)/$(LIVEGAME)/game/g_combat.o \
+  $(B)/$(LIVEGAME)/game/g_items.o \
+  $(B)/$(LIVEGAME)/game/g_misc.o \
+  $(B)/$(LIVEGAME)/game/g_missile.o \
+  $(B)/$(LIVEGAME)/game/g_mover.o \
+  $(B)/$(LIVEGAME)/game/g_session.o \
+  $(B)/$(LIVEGAME)/game/g_spawn.o \
+  $(B)/$(LIVEGAME)/game/g_svcmds.o \
+  $(B)/$(LIVEGAME)/game/g_syscalls.o \
+  $(B)/$(LIVEGAME)/game/g_target.o \
+  $(B)/$(LIVEGAME)/game/g_team.o \
+  $(B)/$(LIVEGAME)/game/g_trigger.o \
+  $(B)/$(LIVEGAME)/game/g_unlagged.o \
+  $(B)/$(LIVEGAME)/game/g_utils.o \
+  $(B)/$(LIVEGAME)/game/g_weapon.o \
+  \
+  $(B)/$(LIVEGAME)/botlib/be_aas_bspq3.o \
+  $(B)/$(LIVEGAME)/botlib/be_aas_cluster.o \
+  $(B)/$(LIVEGAME)/botlib/be_aas_debug.o \
+  $(B)/$(LIVEGAME)/botlib/be_aas_entity.o \
+  $(B)/$(LIVEGAME)/botlib/be_aas_file.o \
+  $(B)/$(LIVEGAME)/botlib/be_aas_main.o \
+  $(B)/$(LIVEGAME)/botlib/be_aas_move.o \
+  $(B)/$(LIVEGAME)/botlib/be_aas_optimize.o \
+  $(B)/$(LIVEGAME)/botlib/be_aas_reach.o \
+  $(B)/$(LIVEGAME)/botlib/be_aas_route.o \
+  $(B)/$(LIVEGAME)/botlib/be_aas_routealt.o \
+  $(B)/$(LIVEGAME)/botlib/be_aas_sample.o \
+  $(B)/$(LIVEGAME)/botlib/be_interface.o \
+  $(B)/$(LIVEGAME)/botlib/l_crc.o \
+  $(B)/$(LIVEGAME)/botlib/l_libvar.o \
+  $(B)/$(LIVEGAME)/botlib/l_log.o \
+  $(B)/$(LIVEGAME)/botlib/l_memory.o \
+  \
+  $(B)/$(LIVEGAME)/qcommon/q_math.o \
+  $(B)/$(LIVEGAME)/qcommon/q_shared.o
+
+MPGVMOBJ = $(MPGOBJ:%.o=%.asm)
+
+$(B)/$(LIVEGAME)/$(VM_PREFIX)game_$(SHLIBNAME): $(MPGOBJ)
+	$(echo_cmd) "LD $@"
+	$(Q)$(CC) $(CFLAGS) $(SHLIBLDFLAGS) -o $@ $(MPGOBJ)
+
+$(B)/$(LIVEGAME)/vm/$(VM_PREFIX)game.qvm: $(MPGVMOBJ) $(GDIR)/bg_syscalls.asm $(Q3ASM)
+	$(echo_cmd) "Q3ASM $@"
+	$(Q)$(Q3ASM) -o $@ $(MPGVMOBJ) $(GDIR)/bg_syscalls.asm
+
 
 # Extra dependencies to ensure the git version is incorporated
 ifeq ($(USE_GIT),1)
@@ -1435,7 +1637,10 @@ ifeq ($(USE_GIT),1)
     $(B)/$(BASEGAME)/game/g_main.o \
     $(B)/$(MISSIONPACK)/cgame/cg_main.o \
     $(B)/$(MISSIONPACK)/cgame/cg_console.o \
-    $(B)/$(MISSIONPACK)/game/g_main.o
+    $(B)/$(MISSIONPACK)/game/g_main.o \
+    $(B)/$(LIVEGAME)/cgame/cg_main.o \
+    $(B)/$(LIVEGAME)/cgame/cg_console.o \
+    $(B)/$(LIVEGAME)/game/g_main.o
 
   GITVERVMOBJ = $(GITVEROBJ:%.o=%.asm)
 
@@ -1490,6 +1695,30 @@ $(B)/$(MISSIONPACK)/ui/%.asm: $(UIDIR)/%.c $(Q3LCC)
 $(B)/$(MISSIONPACK)/q3ui/%.asm: $(Q3UIDIR)/%.c $(Q3LCC)
 	$(DO_CGAME_Q3LCC_MISSIONPACK)
 
+$(B)/$(LIVEGAME)/cgame/bg_%.o: $(GDIR)/bg_%.c
+	$(DO_CGAME_CC_LIVEGAME)
+
+$(B)/$(LIVEGAME)/cgame/%.o: $(CGDIR)/%.c
+	$(DO_CGAME_CC_LIVEGAME)
+
+$(B)/$(LIVEGAME)/ui/%.o: $(UIDIR)/%.c
+	$(DO_CGAME_CC_LIVEGAME)
+
+$(B)/$(LIVEGAME)/q3ui/%.o: $(Q3UIDIR)/%.c
+	$(DO_CGAME_CC_LIVEGAME)
+
+$(B)/$(LIVEGAME)/cgame/bg_%.asm: $(GDIR)/bg_%.c $(Q3LCC)
+	$(DO_CGAME_Q3LCC_LIVEGAME)
+
+$(B)/$(LIVEGAME)/cgame/%.asm: $(CGDIR)/%.c $(Q3LCC)
+	$(DO_CGAME_Q3LCC_LIVEGAME)
+
+$(B)/$(LIVEGAME)/ui/%.asm: $(UIDIR)/%.c $(Q3LCC)
+	$(DO_CGAME_Q3LCC_LIVEGAME)
+
+$(B)/$(LIVEGAME)/q3ui/%.asm: $(Q3UIDIR)/%.c $(Q3LCC)
+	$(DO_CGAME_Q3LCC_LIVEGAME)
+
 
 $(B)/$(BASEGAME)/game/%.o: $(GDIR)/%.c
 	$(DO_GAME_CC)
@@ -1503,6 +1732,12 @@ $(B)/$(MISSIONPACK)/game/%.o: $(GDIR)/%.c
 $(B)/$(MISSIONPACK)/game/%.asm: $(GDIR)/%.c $(Q3LCC)
 	$(DO_GAME_Q3LCC_MISSIONPACK)
 
+$(B)/$(LIVEGAME)/game/%.o: $(GDIR)/%.c
+	$(DO_GAME_CC_LIVEGAME)
+
+$(B)/$(LIVEGAME)/game/%.asm: $(GDIR)/%.c $(Q3LCC)
+	$(DO_GAME_Q3LCC_LIVEGAME)
+
 $(B)/$(BASEGAME)/botlib/%.o: $(BLIBDIR)/%.c
 	$(DO_GAME_CC)
 
@@ -1515,6 +1750,12 @@ $(B)/$(MISSIONPACK)/botlib/%.o: $(BLIBDIR)/%.c
 $(B)/$(MISSIONPACK)/botlib/%.asm: $(BLIBDIR)/%.c $(Q3LCC)
 	$(DO_GAME_Q3LCC_MISSIONPACK)
 
+$(B)/$(LIVEGAME)/botlib/%.o: $(BLIBDIR)/%.c
+	$(DO_GAME_CC_LIVEGAME)
+
+$(B)/$(LIVEGAME)/botlib/%.asm: $(BLIBDIR)/%.c $(Q3LCC)
+	$(DO_GAME_Q3LCC_LIVEGAME)
+
 $(B)/$(BASEGAME)/qcommon/%.o: $(CMDIR)/%.c
 	$(DO_SHLIB_CC)
 
@@ -1526,6 +1767,12 @@ $(B)/$(MISSIONPACK)/qcommon/%.o: $(CMDIR)/%.c
 
 $(B)/$(MISSIONPACK)/qcommon/%.asm: $(CMDIR)/%.c $(Q3LCC)
 	$(DO_Q3LCC_MISSIONPACK)
+
+$(B)/$(LIVEGAME)/qcommon/%.o: $(CMDIR)/%.c
+	$(DO_SHLIB_CC_LIVEGAME)
+
+$(B)/$(LIVEGAME)/qcommon/%.asm: $(CMDIR)/%.c $(Q3LCC)
+	$(DO_Q3LCC_LIVEGAME)
 
 
 #############################################################################
@@ -1545,6 +1792,9 @@ ifneq ($(BUILD_GAME_SO),0)
   ifneq ($(BUILD_MISSIONPACK),0)
 	-$(MKDIR) -m 0755 $(COPYDIR)/$(MISSIONPACK)
   endif
+  ifneq ($(BUILD_LIVEGAME),0)
+	-$(MKDIR) -m 0755 $(COPYDIR)/$(LIVEGAME)
+  endif
 endif
 
 ifneq ($(BUILD_GAME_SO),0)
@@ -1559,6 +1809,12 @@ ifneq ($(BUILD_GAME_SO),0)
 					$(COPYDIR)/$(MISSIONPACK)/.
 	$(INSTALL) $(STRIP_FLAG) -m 0755 $(BR)/$(MISSIONPACK)/$(VM_PREFIX)game_$(SHLIBNAME) \
 					$(COPYDIR)/$(MISSIONPACK)/.
+  endif
+  ifneq ($(BUILD_LIVEGAME),0)
+	$(INSTALL) $(STRIP_FLAG) -m 0755 $(BR)/$(LIVEGAME)/$(VM_PREFIX)cgame_$(SHLIBNAME) \
+					$(COPYDIR)/$(LIVEGAME)/.
+	$(INSTALL) $(STRIP_FLAG) -m 0755 $(BR)/$(LIVEGAME)/$(VM_PREFIX)game_$(SHLIBNAME) \
+					$(COPYDIR)/$(LIVEGAME)/.
   endif
 endif
 
