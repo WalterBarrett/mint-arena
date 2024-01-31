@@ -977,7 +977,9 @@ void Menus_ShowByName(const char *p) {
 }
 
 void Menus_OpenByName(const char *p) {
-  Menus_ActivateByName(p);
+	if (!Menus_ActivateByName(p)) {
+		Com_DPrintf("Could not find menu \"%s\".\n", p);
+	}
 }
 
 static void Menu_RunCloseScript(menuDef_t *menu) {
