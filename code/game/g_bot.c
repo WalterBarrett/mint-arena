@@ -70,7 +70,7 @@ extern gentity_t	*podium3;
 G_ParseInfos
 ===============
 */
-int G_ParseInfos( char *buf, int max, char *infos[] ) {
+int G_ParseInfos( char *buf, int max, char *infos[], int maxInfos ) {
 	char	*token;
 	int		count;
 	char	key[MAX_TOKEN_CHARS];
@@ -112,7 +112,7 @@ int G_ParseInfos( char *buf, int max, char *infos[] ) {
 			Info_SetValueForKey( info, key, token );
 		}
 		//NOTE: extra space for arena number
-		infos[count] = trap_HeapMalloc(strlen(info) + strlen("\\num\\") + strlen(va("%d", MAX_ARENAS)) + 1);
+		infos[count] = trap_HeapMalloc(strlen(info) + strlen("\\num\\") + strlen(va("%d", maxInfos)) + 1);
 		if (infos[count]) {
 			strcpy(infos[count], info);
 			count++;
@@ -146,7 +146,7 @@ static void G_LoadArenasFromFile( char *filename ) {
 	buf[len] = 0;
 	trap_FS_FCloseFile( f );
 
-	g_numArenas += G_ParseInfos( buf, MAX_ARENAS - g_numArenas, &g_arenaInfos[g_numArenas] );
+	g_numArenas += G_ParseInfos( buf, MAX_ARENAS - g_numArenas, &g_arenaInfos[g_numArenas], MAX_ARENAS );
 }
 
 /*
@@ -1000,7 +1000,7 @@ static void G_LoadBotsFromFile( char *filename ) {
 	buf[len] = 0;
 	trap_FS_FCloseFile( f );
 
-	g_numBots += G_ParseInfos( buf, MAX_BOTS - g_numBots, &g_botInfos[g_numBots] );
+	g_numBots += G_ParseInfos( buf, MAX_BOTS - g_numBots, &g_botInfos[g_numBots], MAX_BOTS );
 }
 
 /*
