@@ -1618,6 +1618,9 @@ void Item_MouseEnter(itemDef_t *item, float x, float y) {
 				item->window.flags |= WINDOW_MOUSEOVERTEXT;
 			}
 			if (!(item->window.flags & WINDOW_MOUSEOVER)) {
+				if (item->window.backgroundHover) {
+					item->window.background = item->window.backgroundHover;
+				}
 				Item_RunScript(item, item->mouseEnter);
 				item->window.flags |= WINDOW_MOUSEOVER;
 			}
@@ -1630,6 +1633,9 @@ void Item_MouseEnter(itemDef_t *item, float x, float y) {
 				item->window.flags &= ~WINDOW_MOUSEOVERTEXT;
 			}
 			if (!(item->window.flags & WINDOW_MOUSEOVER)) {
+				if (item->window.backgroundHover) {
+					item->window.background = item->window.backgroundHover;
+				}
 				Item_RunScript(item, item->mouseEnter);
 				item->window.flags |= WINDOW_MOUSEOVER;
 			}
@@ -1647,6 +1653,9 @@ void Item_MouseLeave(itemDef_t *item) {
       Item_RunScript(item, item->mouseExitText);
       item->window.flags &= ~WINDOW_MOUSEOVERTEXT;
     }
+	if (item->window.backgroundHover) {
+		item->window.background = item->window.backgroundDefault;
+	}
     Item_RunScript(item, item->mouseExit);
     item->window.flags &= ~(WINDOW_LB_RIGHTARROW | WINDOW_LB_LEFTARROW);
   }
@@ -4881,6 +4890,17 @@ qboolean ItemParse_background( itemDef_t *item, int handle ) {
 		return qfalse;
 	}
 	item->window.background = DC->registerShaderNoMip(temp);
+	item->window.backgroundDefault = item->window.background;
+	return qtrue;
+}
+
+qboolean ItemParse_backgroundhover( itemDef_t *item, int handle ) {
+	const char *temp;
+
+	if (!PC_String_Parse(handle, &temp)) {
+		return qfalse;
+	}
+	item->window.backgroundHover = DC->registerShaderNoMip(temp);
 	return qtrue;
 }
 
@@ -5230,6 +5250,7 @@ keywordHash_t itemParseKeywords[] = {
 	{"bordercolor", ItemParse_bordercolor, NULL},
 	{"outlinecolor", ItemParse_outlinecolor, NULL},
 	{"background", ItemParse_background, NULL},
+	{"backgroundhover", ItemParse_backgroundhover, NULL},
 	{"onFocus", ItemParse_onFocus, NULL},
 	{"leaveFocus", ItemParse_leaveFocus, NULL},
 	{"mouseEnter", ItemParse_mouseEnter, NULL},

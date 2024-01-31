@@ -173,6 +173,8 @@ typedef struct {
   vec4_t borderColor;             // border color
   vec4_t outlineColor;            // border color
   qhandle_t background;           // background asset  
+  qhandle_t backgroundDefault;    // background asset when not hovered over
+  qhandle_t backgroundHover;      // background asset when hovered over
 } windowDef_t;
 
 typedef windowDef_t Window;
