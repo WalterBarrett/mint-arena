@@ -1923,6 +1923,7 @@ qboolean CG_ConsoleCompleteArgument( connstate_t state, int realTime, int comple
 void CG_InitConsoleCommands( void );
 
 void CG_StopCinematic_f( void );
+void CG_Field_CompleteMapName( char *args, int argNum );
 
 //
 // cg_servercmds.c

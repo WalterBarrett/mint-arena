@@ -1523,6 +1523,17 @@ static void CG_CallVoteComplete( int localPlayerNum, char *args, int argNum ) {
 }
 
 /*
+==================
+CG_Field_CompleteMapName
+==================
+*/
+void CG_Field_CompleteMapName( char *args, int argNum ) {
+	if( argNum == 2 ) {
+		trap_Field_CompleteFilename( "maps", ".bsp", qtrue, qfalse );
+	}
+}
+
+/*
 =================
 CG_VoteComplete
 =================
