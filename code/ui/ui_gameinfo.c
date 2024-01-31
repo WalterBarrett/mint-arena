@@ -254,6 +254,10 @@ static void UI_LoadBotsFromFile( char *filename ) {
 	COM_Compress(buf);
 
 	ui_numBots += UI_ParseInfos( buf, MAX_BOTS - ui_numBots, &ui_botInfos[ui_numBots] );
+	
+	if (UI_OutOfMemory()) {
+		trap_Print(S_COLOR_YELLOW "WARNING: not enough memory in pool to load all bots\n");
+	}
 }
 
 /*
