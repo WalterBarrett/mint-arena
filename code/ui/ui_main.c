@@ -2648,8 +2648,8 @@ static void UI_StartSkirmish(qboolean next) {
 	trap_Cvar_SetValue("ui_pure", temp);
 
 	trap_Cvar_SetValue("cg_drawTimer", 1);
-	trap_Cvar_SetValue("g_doWarmup", 1);
-	trap_Cvar_SetValue("g_warmup", 15);
+	trap_Cvar_SetValue( "g_doWarmup", 0 );
+	trap_Cvar_SetValue("g_warmup", 0);
 	trap_Cvar_SetValue("sv_pure", 0);
 	trap_Cvar_SetValue("g_friendlyFire", 0);
 	trap_Cvar_Set("g_redTeam", CG_Cvar_VariableString("ui_teamName"));
