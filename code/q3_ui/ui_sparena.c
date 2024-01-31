@@ -51,8 +51,8 @@ void UI_SPArena_Start( const char *arenaInfo ) {
 	}
 	trap_Cvar_SetValue( "ui_spSelection", level );
 
-	trap_Cvar_SetValue( "ui_singlePlayerActive", 1 );
-	trap_Cvar_SetValue( "g_gametype", GT_SINGLE_PLAYER );
+	trap_Cvar_SetValue( "ui_singlePlayerActive", SP_CAMPAIGN_Q3A );
+	trap_Cvar_SetValue( "g_gametype", GT_FFA );
 	trap_Cvar_SetValue( "g_doWarmup", 0 );
 
 	map = Info_ValueForKey( arenaInfo, "map" );
@@ -87,8 +87,8 @@ void UI_SPMap_f( void ) {
 		trap_Cvar_SetValue( "sv_maxclients", 8 );
 	}
 
-	trap_Cvar_SetValue( "ui_singlePlayerActive", 1 );
-	trap_Cvar_SetValue( "g_gametype", GT_SINGLE_PLAYER );
+	trap_Cvar_SetValue( "ui_singlePlayerActive", SP_CAMPAIGN_Q3A );
+	trap_Cvar_SetValue( "g_gametype", GT_FFA );
 	trap_Cvar_SetValue( "g_doWarmup", 0 );
 
 	trap_Cmd_ExecuteText( EXEC_APPEND, va( "%s %s\n", cheats ? "devmap" : "map", map ) );

@@ -1022,7 +1022,6 @@ int bg_numPlayerStateFields = ARRAY_LEN(bg_playerStateFields);
 const char *bg_netGametypeNames[GT_MAX_GAME_TYPE] = {
 	"FFA",
 	"Tournament",
-	"SP",
 	"TeamDM",
 	"CTF",
 #ifdef MISSIONPACK
@@ -1035,7 +1034,6 @@ const char *bg_netGametypeNames[GT_MAX_GAME_TYPE] = {
 const char *bg_displayGametypeNames[GT_MAX_GAME_TYPE] = {
 	"Free For All",
 	"Tournament",
-	"Single Player",
 	"Team Deathmatch",
 	"Capture the Flag",
 #ifdef MISSIONPACK
@@ -1053,7 +1051,7 @@ BG_CheckSpawnEntity
 qboolean BG_CheckSpawnEntity( const bgEntitySpawnInfo_t *info ) {
 	int			i, gametype;
 	char		*s, *value, *gametypeName;
-	static char *gametypeNames[GT_MAX_GAME_TYPE] = {"ffa", "tournament", "single", "team", "ctf"
+	static char *gametypeNames[GT_MAX_GAME_TYPE] = {"ffa", "tournament", "team", "ctf"
 #ifdef MISSIONPACK
 		, "oneflag", "obelisk", "harvester"
 #endif
@@ -1062,14 +1060,14 @@ qboolean BG_CheckSpawnEntity( const bgEntitySpawnInfo_t *info ) {
 	gametype = info->gametype;
 
 	// check for "notsingle" flag
-	if ( gametype == GT_SINGLE_PLAYER ) {
+	if ( info->singlePlayer ) {
 		info->spawnInt( "notsingle", "0", &i );
 		if ( i ) {
 			return qfalse;
 		}
 	}
 
-	// check for "notteam" flag (GT_FFA, GT_TOURNAMENT, GT_SINGLE_PLAYER)
+	// check for "notteam" flag (GT_FFA, GT_TOURNAMENT)
 	if ( gametype >= GT_TEAM ) {
 		info->spawnInt( "notteam", "0", &i );
 		if ( i ) {

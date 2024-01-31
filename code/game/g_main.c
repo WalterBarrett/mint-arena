@@ -415,12 +415,6 @@ void G_RegisterCvars( void ) {
 		G_RemapTeamShaders();
 	}
 
-	// Don't allow single player gametype to be used in multiplayer.
-	if ( g_gametype.integer == GT_SINGLE_PLAYER && !g_singlePlayer.integer) {
-		trap_Cvar_SetValue( "g_gametype", GT_FFA );
-		trap_Cvar_Update( &g_gametype );
-	}
-
 	// Don't allow instagib in single player mode.
 	if ( g_singlePlayer.integer && g_instagib.integer) {
 		trap_Cvar_SetValue( "g_instagib", 0 );
@@ -506,7 +500,7 @@ void G_InitGame( int levelTime, int randomSeed, int restart ) {
 
 	level.snd_fry = G_SoundIndex("sound/player/fry.wav");	// FIXME standing in lava / slime
 
-	if ( g_gametype.integer != GT_SINGLE_PLAYER && g_logfile.string[0] ) {
+	if ( !g_singlePlayer.integer && g_logfile.string[0] ) {
 		if ( g_logfileSync.integer ) {
 			trap_FS_FOpenFile( g_logfile.string, &level.logFile, FS_APPEND_SYNC );
 		} else {
@@ -589,7 +583,7 @@ void G_InitGame( int levelTime, int randomSeed, int restart ) {
 
 	G_DPrintf ("-----------------------------------\n");
 
-	if( g_gametype.integer == GT_SINGLE_PLAYER || trap_Cvar_VariableIntegerValue( "com_buildScript" ) ) {
+	if( g_singlePlayer.integer == SP_CAMPAIGN_Q3A || trap_Cvar_VariableIntegerValue( "com_buildScript" ) ) {
 		G_ModelIndex( SP_PODIUM_MODEL );
 	}
 
@@ -1064,7 +1058,7 @@ void CalculateRanks( void ) {
 				level.players[ level.sortedPlayers[i] ].ps.persistant[PERS_RANK] = rank | RANK_TIED_FLAG;
 			}
 			score = newScore;
-			if ( g_gametype.integer == GT_SINGLE_PLAYER && level.numPlayingPlayers == 1 ) {
+			if ( g_singlePlayer.integer && level.numPlayingPlayers == 1 ) {
 				level.players[ level.sortedPlayers[i] ].ps.persistant[PERS_RANK] = rank | RANK_TIED_FLAG;
 			}
 		}
@@ -1218,18 +1212,13 @@ void BeginIntermission( void ) {
 		MovePlayerToIntermission( player );
 		trap_UnlinkEntity(player);
 	}
-#ifdef MISSIONPACK
 	if (g_singlePlayer.integer) {
-		trap_Cvar_SetValue("ui_singlePlayerActive", 0);
 		UpdateTournamentInfo();
+		if (g_singlePlayer.integer == SP_CAMPAIGN_Q3A) {
+			SpawnModelsOnVictoryPads();
+		}
+		trap_Cvar_SetValue("ui_singlePlayerActive", SP_NONE);
 	}
-#else
-	// if single player game
-	if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
-		UpdateTournamentInfo();
-		SpawnModelsOnVictoryPads();
-	}
-#endif
 	// send the current scoring to all clients
 	SendScoreboardMessageToAllClients();
 
@@ -1434,7 +1423,7 @@ void CheckIntermissionExit( void ) {
 	gplayer_t	*cl;
 	clientList_t	readyList;
 
-	if ( g_gametype.integer == GT_SINGLE_PLAYER ) {
+	if ( g_singlePlayer.integer ) {
 		return;
 	}
 
@@ -1692,7 +1681,7 @@ void CheckTournament( void ) {
 			level.restarted = qtrue;
 			return;
 		}
-	} else if ( g_gametype.integer != GT_SINGLE_PLAYER && level.warmupTime != 0 ) {
+	} else if ( !g_singlePlayer.integer && level.warmupTime != 0 ) {
 		int		counts[TEAM_NUM_TEAMS];
 		qboolean	notEnough = qfalse;
 

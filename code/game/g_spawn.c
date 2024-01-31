@@ -449,6 +449,7 @@ void G_SpawnGEntityFromSpawnVars( void ) {
 	}
 
 	spawnInfo.gametype = g_gametype.integer;
+	spawnInfo.singlePlayer = g_singlePlayer.integer;
 	spawnInfo.spawnInt = G_SpawnInt;
 	spawnInfo.spawnString = G_SpawnString;
 

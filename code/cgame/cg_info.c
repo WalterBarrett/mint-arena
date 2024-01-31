@@ -142,7 +142,7 @@ void CG_LoadingPlayer( int playerNum ) {
 	Q_strncpyz( personality, Info_ValueForKey( info, "n" ), sizeof(personality) );
 	Q_CleanStr( personality );
 
-	if( cgs.gametype == GT_SINGLE_PLAYER ) {
+	if( cgs.singlePlayer == SP_CAMPAIGN_Q3A ) {
 		trap_S_RegisterSound( va( "sound/player/announce/%s.wav", personality ), qtrue );
 	}
 

@@ -455,7 +455,7 @@ static cvarTable_t cgameCvarTable[] = {
 	{ &cg_blood, "com_blood", "1", CVAR_ARCHIVE, RANGE_ALL },
 	{ NULL,  "g_gametype", "0", CVAR_SERVERINFO | CVAR_USERINFO | CVAR_LATCH, RANGE_INT(0, GT_MAX_GAME_TYPE-1) },
 	{ &cg_synchronousClients, "g_synchronousClients", "0", CVAR_SYSTEMINFO, RANGE_BOOL },
-	{ &cg_singlePlayer, "ui_singlePlayerActive", "0", CVAR_SYSTEMINFO | CVAR_ROM, RANGE_ALL },
+	{ &cg_singlePlayer, "ui_singlePlayerActive", "0", CVAR_SERVERINFO | CVAR_SYSTEMINFO | CVAR_ROM, RANGE_ALL },
 #ifdef MISSIONPACK
 	{ &cg_redTeamName, "g_redteam", DEFAULT_REDTEAM_NAME, CVAR_ARCHIVE | CVAR_SYSTEMINFO, RANGE_ALL },
 	{ &cg_blueTeamName, "g_blueteam", DEFAULT_BLUETEAM_NAME, CVAR_ARCHIVE | CVAR_SYSTEMINFO, RANGE_ALL },

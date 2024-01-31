@@ -204,6 +204,8 @@ void CG_ParseServerinfo( void ) {
 	Q_strncpyz( cgs.gametypeName, Info_ValueForKey( info, "sv_gametypeName" ), sizeof (cgs.gametypeName) );
 	cgs.gametype = atoi( Info_ValueForKey( info, "g_gametype" ) );
 	trap_Cvar_SetValue("g_gametype", cgs.gametype);
+	cgs.singlePlayer = atoi( Info_ValueForKey( info, "ui_singlePlayerActive" ) );
+	trap_Cvar_SetValue("ui_singlePlayerActive", cgs.singlePlayer);
 	cgs.dmflags = atoi( Info_ValueForKey( info, "dmflags" ) );
 	cgs.fraglimit = atoi( Info_ValueForKey( info, "fraglimit" ) );
 	cgs.capturelimit = atoi( Info_ValueForKey( info, "capturelimit" ) );

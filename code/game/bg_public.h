@@ -163,7 +163,6 @@ Suite 120, Rockville, Maryland 20850 USA.
 typedef enum {
 	GT_FFA,				// free for all
 	GT_TOURNAMENT,		// one on one tournament
-	GT_SINGLE_PLAYER,	// single player ffa
 
 	//-- team games go after this --
 
@@ -1134,6 +1133,12 @@ void	SnapVectorTowards( vec3_t v, vec3_t to );
 #define MAX_BOTS			1024
 #define MAX_BOTS_TEXT		8192
 
+typedef enum {
+	SP_NONE,
+	SP_SKIRMISH,
+	SP_CAMPAIGN_Q3A
+} sptype_t;
+
 
 // Kamikaze
 
@@ -1214,6 +1219,7 @@ int cmdcmp( const void *a, const void *b );
 typedef struct
 {
 	int gametype;
+	int singlePlayer;
 
 	// callbacks to test the entity
 	// these will be different functions during game and cgame

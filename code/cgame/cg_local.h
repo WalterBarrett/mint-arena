@@ -1247,6 +1247,7 @@ typedef struct {
 	// parsed from serverinfo
 	char			gametypeName[MAX_NAME_LENGTH];
 	gametype_t		gametype;
+	sptype_t		singlePlayer;
 	int				dmflags;
 	int				fraglimit;
 	int				capturelimit;

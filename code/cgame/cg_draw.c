@@ -2372,7 +2372,7 @@ static qboolean CG_DrawScoreboard( void ) {
 	}
 
 	// should never happen in Team Arena
-	if (cgs.gametype == GT_SINGLE_PLAYER && cg.cur_lc && cg.cur_lc->predictedPlayerState.pm_type == PM_INTERMISSION ) {
+	if (cg_singlePlayer.integer && cg.cur_lc && cg.cur_lc->predictedPlayerState.pm_type == PM_INTERMISSION ) {
 		firstTime[cg.cur_localPlayerNum] = qtrue;
 		return qfalse;
 	}

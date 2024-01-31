@@ -2624,7 +2624,7 @@ static void UI_StartSkirmish(qboolean next) {
 
 	k = UI_TeamIndexFromName(CG_Cvar_VariableString("ui_opponentName"));
 
-	trap_Cvar_SetValue( "ui_singlePlayerActive", 1 );
+	trap_Cvar_SetValue( "ui_singlePlayerActive", SP_SKIRMISH );
 
 	// set up sp overrides, will be replaced on postgame
 	temp = trap_Cvar_VariableValue( "capturelimit" );
@@ -2835,7 +2835,7 @@ static void UI_RunMenuScript(char **args) {
 		if (Q_stricmp(name, "StartServer") == 0) {
 			int i, clients, oldclients;
 			float skill;
-			trap_Cvar_SetValue( "ui_singlePlayerActive", 0 );
+			trap_Cvar_SetValue( "ui_singlePlayerActive", SP_NONE );
 			trap_Cvar_SetValue( "dedicated", Com_Clamp( 0, 2, ui_dedicated.integer ) );
 			trap_Cvar_SetValue( "sv_public", (ui_dedicated.integer == 2) );
 			trap_Cvar_SetValue( "g_gametype", uiInfo.gameTypes[ui_netGameType.integer].gtEnum );
@@ -3006,18 +3006,18 @@ static void UI_RunMenuScript(char **args) {
 			uiInfo.serverStatusInfo.numLines = 0;
 			Menu_SetFeederSelection(NULL, FEEDER_FINDPLAYER, 0, NULL);
 		} else if (Q_stricmp(name, "JoinServer") == 0) {
-			trap_Cvar_SetValue( "ui_singlePlayerActive", 0 );
+			trap_Cvar_SetValue( "ui_singlePlayerActive", SP_NONE );
 			if (uiInfo.serverStatus.currentServer >= 0 && uiInfo.serverStatus.currentServer < uiInfo.serverStatus.numDisplayServers) {
 				trap_LAN_GetServerAddressString(UI_SourceForLAN(), uiInfo.serverStatus.displayServers[uiInfo.serverStatus.currentServer], buff, 1024);
 				trap_Cmd_ExecuteText( EXEC_APPEND, va( "connect %s\n", buff ) );
 			}
 		} else if (Q_stricmp(name, "FoundPlayerJoinServer") == 0) {
-			trap_Cvar_SetValue( "ui_singlePlayerActive", 0 );
+			trap_Cvar_SetValue( "ui_singlePlayerActive", SP_NONE );
 			if (uiInfo.currentFoundPlayerServer >= 0 && uiInfo.currentFoundPlayerServer < uiInfo.numFoundPlayerServers) {
 				trap_Cmd_ExecuteText( EXEC_APPEND, va( "connect %s\n", uiInfo.foundPlayerServerAddresses[uiInfo.currentFoundPlayerServer] ) );
 			}
 		} else if (Q_stricmp(name, "Quit") == 0) {
-			trap_Cvar_SetValue( "ui_singlePlayerActive", 0 );
+			trap_Cvar_SetValue( "ui_singlePlayerActive", SP_NONE );
 			trap_Cmd_ExecuteText( EXEC_NOW, "quit");
 		} else if (Q_stricmp(name, "Controls") == 0) {
 			UI_EnterMenu();
@@ -3197,9 +3197,6 @@ static int UI_MapCountByGameType(qboolean singlePlayer) {
 	int i, c, game;
 	c = 0;
 	game = singlePlayer ? uiInfo.gameTypes[ui_gameType.integer].gtEnum : uiInfo.gameTypes[ui_netGameType.integer].gtEnum;
-	if (game == GT_SINGLE_PLAYER) {
-		game++;
-	} 
 	if (game == GT_TEAM) {
 		game = GT_FFA;
 	}
@@ -3207,11 +3204,6 @@ static int UI_MapCountByGameType(qboolean singlePlayer) {
 	for (i = 0; i < uiInfo.mapCount; i++) {
 		uiInfo.mapList[i].active = qfalse;
 		if ( uiInfo.mapList[i].typeBits & (1 << game)) {
-			if (singlePlayer) {
-				if (!(uiInfo.mapList[i].typeBits & (1 << GT_SINGLE_PLAYER))) {
-					continue;
-				}
-			}
 			c++;
 			uiInfo.mapList[i].active = qtrue;
 		}

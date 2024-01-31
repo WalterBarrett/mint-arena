@@ -372,7 +372,7 @@ Svcmd_AbortPodium_f
 ===============
 */
 void Svcmd_AbortPodium_f( void ) {
-	if( g_gametype.integer != GT_SINGLE_PLAYER ) {
+	if( g_singlePlayer.integer != SP_CAMPAIGN_Q3A ) {
 		return;
 	}
 

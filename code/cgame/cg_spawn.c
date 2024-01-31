@@ -236,6 +236,7 @@ void CG_ParseEntityFromSpawnVars( void ) {
 	bgEntitySpawnInfo_t spawnInfo;
 
 	spawnInfo.gametype = cgs.gametype;
+	spawnInfo.singlePlayer = cgs.singlePlayer;
 	spawnInfo.spawnInt = CG_SpawnInt;
 	spawnInfo.spawnString = CG_SpawnString;
 
