@@ -370,6 +370,90 @@ void Cmd_God_f (gentity_t *ent)
 
 /*
 ==================
+Cmd_Win_f
+
+Wins the match for the player's team
+
+argv(0) win
+==================
+*/
+void Cmd_Win_f (gentity_t *ent)
+{
+	team_t team, playerTeam = ent->player->ps.persistant[PERS_TEAM];
+
+	if ( !CheatsOk( ent ) ) {
+		return;
+	}
+
+	level.warmupTime = 0;
+
+	AddScore(ent, ent->r.currentOrigin, 1000);
+
+	for (team = 0; team < TEAM_NUM_TEAMS; team++) {
+		if (team == playerTeam) {
+			level.teamScores[team] += 1000;
+		} else {
+			level.teamScores[team] -= 1000;
+		}
+	}
+
+	trap_SendServerCommand( ent-g_entities, "print \"Winning match.\n\"");
+}
+
+
+/*
+==================
+Cmd_Lose_f
+
+Loses the match for the player's team
+
+argv(0) lose
+==================
+*/
+void Cmd_Lose_f (gentity_t *ent)
+{
+	gentity_t *ent2;
+	team_t team, playerTeam = ent->player->ps.persistant[PERS_TEAM];
+	int i;
+
+	if ( !CheatsOk( ent ) ) {
+		return;
+	}
+
+	level.warmupTime = 0;
+
+	AddScore(ent, ent->r.currentOrigin, -1000);
+
+	for (i = 0; i < ARRAY_LEN(g_entities); i++) {
+		ent2 = &g_entities[i];
+
+		if (ent2->player == NULL) {
+			continue;
+		}
+
+		team = ent2->player->ps.persistant[PERS_TEAM];
+
+		if (team != playerTeam || (playerTeam == TEAM_FREE && ent != ent2)) {
+			AddScore(ent2, ent2->r.currentOrigin, 1000);
+		} else {
+			AddScore(ent2, ent2->r.currentOrigin, -1000);
+		}
+	}
+
+	for (team = 0; team < TEAM_NUM_TEAMS; team++) {
+		if (team != playerTeam) {
+			level.teamScores[team] += 1000;
+		} else {
+			level.teamScores[team] -= 1000;
+		}
+	}
+
+	trap_SendServerCommand( ent-g_entities, "print \"Losing match.\n\"");
+}
+
+
+/*
+==================
 Cmd_Notarget_f
 
 Sets player to notarget

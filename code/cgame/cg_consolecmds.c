@@ -1745,6 +1745,8 @@ static playerConsoleCommand_t	playerCommands[] = {
 #endif
 	{ "give", CG_ForwardToServer_f, CMD_INGAME, CG_GiveComplete },
 	{ "god", CG_ForwardToServer_f, CMD_INGAME },
+	{ "win", CG_ForwardToServer_f, CMD_INGAME },
+	{ "lose", CG_ForwardToServer_f, CMD_INGAME },
 	{ "notarget", CG_ForwardToServer_f, CMD_INGAME },
 	{ "noclip", CG_ForwardToServer_f, CMD_INGAME },
 	{ "where", CG_ForwardToServer_f, CMD_INGAME },
