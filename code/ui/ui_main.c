@@ -4500,6 +4500,9 @@ static qboolean MapList_Parse(char **p) {
 			//}
   		uiInfo.mapList[uiInfo.mapCount].cinematic = -1;
 			uiInfo.mapList[uiInfo.mapCount].levelShot = trap_R_RegisterShaderNoMip(va("levelshots/%s_small", uiInfo.mapList[uiInfo.mapCount].mapLoadName));
+			if (!uiInfo.mapList[uiInfo.mapCount].levelShot) {
+				uiInfo.mapList[uiInfo.mapCount].levelShot = trap_R_RegisterShaderNoMip(va("levelshots/%s", uiInfo.mapList[uiInfo.mapCount].mapLoadName));
+			}
 
 			if (uiInfo.mapCount < MAX_MAPS) {
 				uiInfo.mapCount++;
