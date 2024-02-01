@@ -2662,6 +2662,8 @@ static void UI_StartSkirmish(qboolean next) {
 		trap_Cvar_SetValue("sv_maxClients", 2);
 		Com_sprintf( buff, sizeof(buff), "wait ; addbot %s %f "", %i \n", uiInfo.mapList[ui_currentMap.integer].opponentName, skill, delay);
 		trap_Cmd_ExecuteText( EXEC_APPEND, buff );
+	} else if (g == GT_TEAM) {
+		trap_Cvar_SetValue("sv_maxClients", uiInfo.mapList[ui_currentMap.integer].teamMembers + 1);
 	} else {
 		temp = uiInfo.mapList[ui_currentMap.integer].teamMembers * 2;
 		trap_Cvar_SetValue("sv_maxClients", temp);
