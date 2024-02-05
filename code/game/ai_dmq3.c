@@ -2526,9 +2526,12 @@ int BotHasPersistantPowerupAndWeapon(bot_state_t *bs) {
 	//if the bot can use the bfg
 	if (bs->inventory[INVENTORY_BFG10K] > 0 &&
 			bs->inventory[INVENTORY_BFGAMMO] > 7) return qtrue;
-	//if the bot can use the railgun
-	if (bs->inventory[INVENTORY_RAILGUN] > 0 &&
+	//if the bot can use the instagib railgun
+	if (g_instagib.integer && bs->inventory[INVENTORY_RAILGUN] > 0 &&
 			bs->inventory[INVENTORY_SLUGS] > 5) return qtrue;
+	//if the bot can use the standard railgun
+	if (!g_instagib.integer && bs->inventory[INVENTORY_RAILGUN] > 0 &&
+			bs->inventory[INVENTORY_SLUGS] > 10) return qtrue;
 	//if the bot can use the lightning gun
 	if (bs->inventory[INVENTORY_LIGHTNING] > 0 &&
 			bs->inventory[INVENTORY_LIGHTNINGAMMO] > 50) return qtrue;
