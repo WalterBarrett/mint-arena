@@ -1218,14 +1218,19 @@ void CG_AddPlayerWeapon( refEntity_t *parent, playerState_t *ps, centity_t *cent
 	gun.renderfx = parent->renderfx;
 
 	// set custom shading for railgun refire rate
-	if( weaponNum == WP_RAILGUN && cent->pe.railFireTime + 1500 > cg.time ) {
+	if( trap_Cvar_VariableIntegerValue( "g_instagib" ) && weaponNum == WP_RAILGUN && cent->pe.railFireTime + 1500 > cg.time ) {
 		int scale = 255 * ( cg.time - cent->pe.railFireTime ) / 1500;
 		gun.shaderRGBA[0] = ( pi->c1RGBA[0] * scale ) >> 8;
 		gun.shaderRGBA[1] = ( pi->c1RGBA[1] * scale ) >> 8;
 		gun.shaderRGBA[2] = ( pi->c1RGBA[2] * scale ) >> 8;
 		gun.shaderRGBA[3] = 255;
-	}
-	else {
+	} else if( weaponNum == WP_RAILGUN && cent->pe.railFireTime + 1000 > cg.time ) {
+		int scale = 255 * ( cg.time - cent->pe.railFireTime ) / 1000;
+		gun.shaderRGBA[0] = ( pi->c1RGBA[0] * scale ) >> 8;
+		gun.shaderRGBA[1] = ( pi->c1RGBA[1] * scale ) >> 8;
+		gun.shaderRGBA[2] = ( pi->c1RGBA[2] * scale ) >> 8;
+		gun.shaderRGBA[3] = 255;
+	} else {
 		Byte4Copy( pi->c1RGBA, gun.shaderRGBA );
 	}
 

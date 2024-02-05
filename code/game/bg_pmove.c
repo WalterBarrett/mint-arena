@@ -1681,7 +1681,11 @@ static void PM_Weapon( void ) {
 		addTime = 100;
 		break;
 	case WP_RAILGUN:
-		addTime = 1500;
+		if( trap_Cvar_VariableIntegerValue( "g_instagib" ) ) {
+			addTime = 1500;
+		} else {
+			addTime = 1000;
+		}
 		break;
 	case WP_BFG:
 		addTime = 200;

@@ -474,7 +474,17 @@ void PlayerTimerActions( gentity_t *ent, int msec ) {
 			  case WP_GRENADE_LAUNCHER: max = 10; inc = 1; t = 2000; break;
 			  case WP_ROCKET_LAUNCHER: max = 10; inc = 1; t = 1750; break;
 			  case WP_LIGHTNING: max = 50; inc = 5; t = 1500; break;
-			  case WP_RAILGUN: max = 10; inc = 1; t = 1750; break;
+			  case WP_RAILGUN:
+				if ( g_instagib.integer ) {
+					max = 10;
+					inc = 1;
+					t = 1750;
+				} else {
+					max = 50;
+					inc = 5;
+					t = 1250;
+				}
+				break;
 			  case WP_PLASMAGUN: max = 50; inc = 5; t = 1500; break;
 			  case WP_BFG: max = 10; inc = 1; t = 4000; break;
 			  case WP_NAILGUN: max = 10; inc = 1; t = 1250; break;
