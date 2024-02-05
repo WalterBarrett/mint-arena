@@ -1461,6 +1461,13 @@ static void CG_RegisterSounds( void ) {
 	if ( cgs.gametype >= GT_TEAM || cg_buildScript.integer ) {
 		CG_CachePlayerSounds( cg_defaultMaleTeamModel.string );
 		CG_CachePlayerSounds( cg_defaultFemaleTeamModel.string );
+		// TODO: Make this search through the classes for the sounds to cache
+		CG_CachePlayerSounds( "tim" );
+		CG_CachePlayerSounds( "beret" );
+		CG_CachePlayerSounds( "smarine" );
+		CG_CachePlayerSounds( "sarge" );
+		CG_CachePlayerSounds( "tony" );
+		CG_CachePlayerSounds( "assassin" );
 	}
 #endif
 
@@ -1751,6 +1758,13 @@ static void CG_RegisterGraphics( void ) {
 	if ( cgs.gametype >= GT_TEAM || cg_buildScript.integer ) {
 		CG_CachePlayerModels( cg_defaultMaleTeamModel.string, cg_defaultMaleTeamHeadModel.string );
 		CG_CachePlayerModels( cg_defaultFemaleTeamModel.string, cg_defaultFemaleTeamHeadModel.string );
+		// TODO: Make this search through the classes for the models to cache
+		CG_CachePlayerModels( "tim", "tim" );
+		CG_CachePlayerModels( "beret", "beret" );
+		CG_CachePlayerModels( "smarine", "smarine" );
+		CG_CachePlayerModels( "sarge", "sarge" );
+		CG_CachePlayerModels( "tony", "tony" );
+		CG_CachePlayerModels( "assassin", "assassin" );
 	}
 #endif
 

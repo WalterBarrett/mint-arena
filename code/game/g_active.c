@@ -1034,6 +1034,9 @@ void PlayerThink( int playerNum ) {
 	if ( !(ent->r.svFlags & SVF_BOT) && !g_synchronousClients.integer ) {
 		PlayerThink_real( ent );
 	}
+
+	// TODO: Reduce the amount this is called.
+	PlayerUserinfoChanged(playerNum);
 }
 
 

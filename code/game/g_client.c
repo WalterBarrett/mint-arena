@@ -706,6 +706,86 @@ float PlayerHandicap( gplayer_t *player ) {
 	return handicap;
 }
 
+struct classInfo_s {
+	const char * unalignedModel;
+	const char * redModel;
+	const char * blueModel;
+	powerup_t powerup;
+};
+
+typedef struct classInfo_s classInfo_t;
+
+classInfo_t playerClasses[NUM_CLASSES] = {
+	{ // CLASS_CIVILIAN
+		"tony",
+		"tony/red",
+		"tony/blue",
+		PW_NONE,
+	},
+	{ // CLASS_SCOUT
+		"beret",
+		"beret/red",
+		"beret/blue",
+		PW_SCOUT,
+	},
+	{ // CLASS_GUARD
+		"smarine",
+		"smarine/red",
+		"smarine/blue",
+		PW_GUARD,
+	},
+	{ // CLASS_DOUBLER
+		"sarge",
+		"sarge/red",
+		"sarge/blue",
+		PW_DOUBLER,
+	},
+	{ // CLASS_AMMOREGEN
+		"assassin",
+		"assassin/red",
+		"assassin/blue",
+		PW_AMMOREGEN,
+	},
+};
+
+qboolean PlayerHeadModelSkinExists( const char *headModelSkinName ) {
+	char headModelName[MAX_QPATH];
+	char headSkinName[MAX_QPATH];
+	char filename[MAX_QPATH];
+	char *slash;
+
+	if ( !headModelSkinName[0] ) {
+		return qfalse;
+	}
+
+	Q_strncpyz( headModelName, headModelSkinName, sizeof( headModelName ) );
+	slash = strchr( headModelName, '/' );
+	if ( !slash ) {
+		// headModelName did not include a skin name
+		Q_strncpyz( headSkinName, "default", sizeof( headSkinName ) );
+	} else {
+		Q_strncpyz( headSkinName, slash + 1, sizeof( headSkinName ) );
+		*slash = '\0';
+	}
+
+	// load cmodels before models so filecache works
+	if (headModelName[0] == '*' ) {
+		Com_sprintf( filename, sizeof( filename ), "models/players/heads/%s/%s.md3", &headModelName[1], &headModelName[1] );
+	} else {
+		Com_sprintf( filename, sizeof( filename ), "models/players/%s/head.md3", headModelName );
+	}
+	if (trap_R_RegisterModel( filename ))
+	{
+		return qtrue;
+	}
+
+	if ( headModelName[0] != '*') {
+		Com_sprintf( filename, sizeof( filename ), "models/players/heads/%s/%s.md3", headModelName, headModelName );
+		return !!trap_R_RegisterModel( filename );
+	}
+
+	return qfalse;
+}
 
 /*
 ===========
@@ -720,7 +800,7 @@ if desired.
 */
 void PlayerUserinfoChanged( int playerNum ) {
 	gentity_t *ent;
-	int		teamTask, teamLeader;
+	int		teamTask, teamLeader, i;
 	char	*s;
 	char	model[MAX_QPATH];
 	char	headModel[MAX_QPATH];
@@ -729,6 +809,7 @@ void PlayerUserinfoChanged( int playerNum ) {
 	char	c1[MAX_INFO_STRING];
 	char	c2[MAX_INFO_STRING];
 	char	userinfo[MAX_INFO_STRING];
+	teamClass_t detectedClass;
 
 	ent = g_entities + playerNum;
 	player = ent->player;
@@ -785,12 +866,29 @@ void PlayerUserinfoChanged( int playerNum ) {
 	player->ps.stats[STAT_MAX_HEALTH] = player->pers.maxHealth;
 
 	// set model
-	if( g_gametype.integer >= GT_TEAM ) {
-		Q_strncpyz( model, Info_ValueForKey (userinfo, "team_model"), sizeof( model ) );
-		Q_strncpyz( headModel, Info_ValueForKey (userinfo, "team_headmodel"), sizeof( headModel ) );
+	Q_strncpyz( model, playerClasses[CLASS_CIVILIAN].unalignedModel, sizeof( model ) );
+	Q_strncpyz( headModel, Info_ValueForKey (userinfo, "headmodel"), sizeof( headModel ) );
+
+	if (!PlayerHeadModelSkinExists(headModel)) {
+		Q_strncpyz( headModel, playerClasses[CLASS_CIVILIAN].unalignedModel, sizeof( headModel ) );
+	}
+
+	detectedClass = CLASS_CIVILIAN;
+	for ( i = FIRST_STANDARD_CLASS; i <= LAST_STANDARD_CLASS; i++ ) {
+		if (playerClasses[i].powerup != PW_NONE && player->ps.powerups[playerClasses[i].powerup]) {
+			detectedClass = i;
+			break;
+		}
+	}
+
+	player->pers.currentClass = detectedClass;
+
+	if (player->sess.sessionTeam == TEAM_RED) {
+		Q_strncpyz( model, playerClasses[player->pers.currentClass].redModel, sizeof( model ) );
+	} else if (player->sess.sessionTeam == TEAM_BLUE) {
+		Q_strncpyz( model, playerClasses[player->pers.currentClass].blueModel, sizeof( model ) );
 	} else {
-		Q_strncpyz( model, Info_ValueForKey (userinfo, "model"), sizeof( model ) );
-		Q_strncpyz( headModel, Info_ValueForKey (userinfo, "headmodel"), sizeof( headModel ) );
+		Q_strncpyz( model, playerClasses[player->pers.currentClass].unalignedModel, sizeof( model ) );
 	}
 
 	// teamInfo

@@ -892,20 +892,11 @@ static void CG_LoadPlayerInfo( int playerNum, playerInfo_t *pi ) {
 			CG_Error( "CG_RegisterPlayerModelname( %s, %s, %s, %s %s ) failed", pi->modelName, pi->skinName, pi->headModelName, pi->headSkinName, teamname );
 		}
 
-		if ( cgs.gametype >= GT_TEAM ) {
-			defaultModel = cg_defaultTeamModelGender.string[0] == 'f' ? cg_defaultFemaleTeamModel.string : cg_defaultMaleTeamModel.string;
-			defaultHeadModel = cg_defaultModelGender.string[0] == 'f' ? cg_defaultFemaleTeamHeadModel.string : cg_defaultMaleTeamHeadModel.string;
+		defaultModel = cg_defaultModelGender.string[0] == 'f' ? cg_defaultFemaleModel.string : cg_defaultMaleModel.string;
+		defaultHeadModel = cg_defaultModelGender.string[0] == 'f' ? cg_defaultFemaleHeadModel.string : cg_defaultMaleHeadModel.string;
 
-			// keep skin name
-			skinName = pi->skinName;
-			headSkinName = pi->headSkinName;
-		} else {
-			defaultModel = cg_defaultModelGender.string[0] == 'f' ? cg_defaultFemaleModel.string : cg_defaultMaleModel.string;
-			defaultHeadModel = cg_defaultModelGender.string[0] == 'f' ? cg_defaultFemaleHeadModel.string : cg_defaultMaleHeadModel.string;
-
-			skinName = "default";
-			headSkinName = "default";
-		}
+		skinName = "default";
+		headSkinName = "default";
 
 		if ( !CG_RegisterPlayerModelname( pi, defaultModel, skinName, defaultHeadModel, headSkinName, teamname ) ) {
 			CG_Error( "Default%s player model (model %s/%s, head %s/%s) failed to register", (cgs.gametype >= GT_TEAM) ? " team" : "", defaultModel, skinName, defaultHeadModel, headSkinName );
@@ -924,11 +915,7 @@ static void CG_LoadPlayerInfo( int playerNum, playerInfo_t *pi ) {
 
 	// sounds
 	dir = pi->modelName;
-	if (cgs.gametype >= GT_TEAM) {
-		fallback = (pi->gender == GENDER_FEMALE) ? cg_defaultFemaleTeamModel.string : cg_defaultMaleTeamModel.string;
-	} else {
-		fallback = (pi->gender == GENDER_FEMALE) ? cg_defaultFemaleModel.string : cg_defaultMaleModel.string;
-	}
+	fallback = (pi->gender == GENDER_FEMALE) ? cg_defaultFemaleModel.string : cg_defaultMaleModel.string;
 
 	for ( i = 0 ; i < MAX_CUSTOM_SOUNDS ; i++ ) {
 		s = cg_customSoundNames[i];

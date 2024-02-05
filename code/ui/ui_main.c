@@ -1016,23 +1016,12 @@ static void UI_DrawPlayerModel(rectDef_t *rect) {
 	vec3_t	viewangles;
 	vec3_t	moveangles;
 
-	  if (trap_Cvar_VariableValue("ui_Q3Model")) {
-		Q_strncpyz(model, CG_Cvar_VariableString("model"), sizeof(model));
-		Q_strncpyz(head, CG_Cvar_VariableString("headmodel"), sizeof(head));
-		if (!q3Model) {
-			q3Model = qtrue;
-			updateModel = qtrue;
-		}
-		team[0] = '\0';
-	} else {
-
-		Q_strncpyz(team, CG_Cvar_VariableString("ui_teamName"), sizeof(team));
-		Q_strncpyz(model, CG_Cvar_VariableString("team_model"), sizeof(model));
-		Q_strncpyz(head, CG_Cvar_VariableString("team_headmodel"), sizeof(head));
-		if (q3Model) {
-			q3Model = qfalse;
-			updateModel = qtrue;
-		}
+	Q_strncpyz(team, CG_Cvar_VariableString("ui_teamName"), sizeof(team));
+	Q_strncpyz(model, CG_Cvar_VariableString("team_model"), sizeof(model));
+	Q_strncpyz(head, CG_Cvar_VariableString("headmodel"), sizeof(head));
+	if (q3Model) {
+		q3Model = qfalse;
+		updateModel = qtrue;
 	}
   if (updateModel) {
   	memset( &info, 0, sizeof(uiPlayerInfo_t) );

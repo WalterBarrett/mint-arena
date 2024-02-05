@@ -216,6 +216,23 @@ typedef enum {
 	TEAM_ACTIVE		// Now actively playing
 } playerTeamStateState_t;
 
+typedef enum teamClass_s {
+	CLASS_CIVILIAN,
+
+	CLASS_SCOUT,
+	CLASS_GUARD,
+	CLASS_DOUBLER,
+	CLASS_AMMOREGEN,
+
+	NUM_CLASSES,
+
+	CLASS_RANDOM,
+
+	FIRST_STANDARD_CLASS = CLASS_SCOUT,
+	LAST_STANDARD_CLASS = CLASS_AMMOREGEN,
+	NUM_STANDARD_CLASSES = LAST_STANDARD_CLASS - FIRST_STANDARD_CLASS + 1,
+} teamClass_t;
+
 typedef struct {
 	playerTeamStateState_t	state;
 
@@ -262,6 +279,7 @@ typedef struct {
 	int			voteCount;			// to prevent people from constantly calling votes
 	int			teamVoteCount;		// to prevent people from constantly calling votes
 	qboolean	teamInfo;			// send team overlay updates?
+	teamClass_t	currentClass;
 } playerPersistant_t;
 
 #define MAX_PLAYER_MARKERS 17

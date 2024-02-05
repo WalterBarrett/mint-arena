@@ -435,6 +435,7 @@ void Touch_Item (gentity_t *ent, gentity_t *other, trace_t *trace) {
 #ifdef MISSIONPACK
 	case IT_PERSISTANT_POWERUP:
 		respawn = Pickup_PersistantPowerup(ent, other);
+		PlayerUserinfoChanged( other->player->ps.playerNum );
 		break;
 #endif
 	case IT_TEAM:
