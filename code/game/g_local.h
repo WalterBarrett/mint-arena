@@ -32,6 +32,7 @@ Suite 120, Rockville, Maryland 20850 USA.
 
 #include "../qcommon/q_shared.h"
 #include "bg_public.h"
+#include "bg_classes.h"
 #include "g_public.h"
 #include "ai_ea.h"
 
@@ -215,23 +216,6 @@ typedef enum {
 	TEAM_BEGIN,		// Beginning a team game, spawn at base
 	TEAM_ACTIVE		// Now actively playing
 } playerTeamStateState_t;
-
-typedef enum teamClass_s {
-	CLASS_CIVILIAN,
-
-	CLASS_SCOUT,
-	CLASS_GUARD,
-	CLASS_DOUBLER,
-	CLASS_AMMOREGEN,
-
-	NUM_CLASSES,
-
-	CLASS_RANDOM,
-
-	FIRST_STANDARD_CLASS = CLASS_SCOUT,
-	LAST_STANDARD_CLASS = CLASS_AMMOREGEN,
-	NUM_STANDARD_CLASSES = LAST_STANDARD_CLASS - FIRST_STANDARD_CLASS + 1,
-} teamClass_t;
 
 typedef struct {
 	playerTeamStateState_t	state;

@@ -30,6 +30,7 @@ Suite 120, Rockville, Maryland 20850 USA.
 //
 // cg_main.c -- initialization and primary entry point for cgame
 #include "cg_local.h"
+#include "../game/bg_classes.h"
 #include "../ui/ui_public.h"
 
 #ifdef MISSIONPACK_HUD
@@ -1461,13 +1462,13 @@ static void CG_RegisterSounds( void ) {
 	if ( cgs.gametype >= GT_TEAM || cg_buildScript.integer ) {
 		CG_CachePlayerSounds( cg_defaultMaleTeamModel.string );
 		CG_CachePlayerSounds( cg_defaultFemaleTeamModel.string );
-		// TODO: Make this search through the classes for the sounds to cache
-		CG_CachePlayerSounds( "tim" );
-		CG_CachePlayerSounds( "beret" );
-		CG_CachePlayerSounds( "smarine" );
-		CG_CachePlayerSounds( "sarge" );
-		CG_CachePlayerSounds( "tony" );
-		CG_CachePlayerSounds( "assassin" );
+
+		// Search through the classes for the sounds to cache
+		for ( i = 0 ; i < NUM_CLASSES ; i++ ) {
+			CG_CachePlayerSounds( playerClasses->unalignedModel );
+			CG_CachePlayerSounds( playerClasses->redModel );
+			CG_CachePlayerSounds( playerClasses->blueModel );
+		}
 	}
 #endif
 
@@ -1758,13 +1759,13 @@ static void CG_RegisterGraphics( void ) {
 	if ( cgs.gametype >= GT_TEAM || cg_buildScript.integer ) {
 		CG_CachePlayerModels( cg_defaultMaleTeamModel.string, cg_defaultMaleTeamHeadModel.string );
 		CG_CachePlayerModels( cg_defaultFemaleTeamModel.string, cg_defaultFemaleTeamHeadModel.string );
-		// TODO: Make this search through the classes for the models to cache
-		CG_CachePlayerModels( "tim", "tim" );
-		CG_CachePlayerModels( "beret", "beret" );
-		CG_CachePlayerModels( "smarine", "smarine" );
-		CG_CachePlayerModels( "sarge", "sarge" );
-		CG_CachePlayerModels( "tony", "tony" );
-		CG_CachePlayerModels( "assassin", "assassin" );
+
+		// Search through the classes for the models to cache
+		for ( i = 0 ; i < NUM_CLASSES ; i++ ) {
+			CG_CachePlayerModels( playerClasses->unalignedModel, playerClasses->unalignedModel );
+			CG_CachePlayerModels( playerClasses->redModel, playerClasses->redModel );
+			CG_CachePlayerModels( playerClasses->blueModel, playerClasses->blueModel );
+		}
 	}
 #endif
 

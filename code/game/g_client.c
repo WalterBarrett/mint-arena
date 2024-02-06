@@ -706,48 +706,6 @@ float PlayerHandicap( gplayer_t *player ) {
 	return handicap;
 }
 
-struct classInfo_s {
-	const char * unalignedModel;
-	const char * redModel;
-	const char * blueModel;
-	powerup_t powerup;
-};
-
-typedef struct classInfo_s classInfo_t;
-
-classInfo_t playerClasses[NUM_CLASSES] = {
-	{ // CLASS_CIVILIAN
-		"tony",
-		"tony/red",
-		"tony/blue",
-		PW_NONE,
-	},
-	{ // CLASS_SCOUT
-		"beret",
-		"beret/red",
-		"beret/blue",
-		PW_SCOUT,
-	},
-	{ // CLASS_GUARD
-		"smarine",
-		"smarine/red",
-		"smarine/blue",
-		PW_GUARD,
-	},
-	{ // CLASS_DOUBLER
-		"sarge",
-		"sarge/red",
-		"sarge/blue",
-		PW_DOUBLER,
-	},
-	{ // CLASS_AMMOREGEN
-		"assassin",
-		"assassin/red",
-		"assassin/blue",
-		PW_AMMOREGEN,
-	},
-};
-
 qboolean PlayerHeadModelSkinExists( const char *headModelSkinName ) {
 	char headModelName[MAX_QPATH];
 	char headSkinName[MAX_QPATH];
