@@ -869,6 +869,7 @@ ifdef ARCHIVE
 endif
 
 makedirs:
+ifneq ($(BUILD_BASEGAME),0)
 	@$(MKDIR) $(B)/$(BASEGAME)/cgame
 	@$(MKDIR) $(B)/$(BASEGAME)/botlib
 	@$(MKDIR) $(B)/$(BASEGAME)/game
@@ -876,6 +877,8 @@ makedirs:
 	@$(MKDIR) $(B)/$(BASEGAME)/mpui
 	@$(MKDIR) $(B)/$(BASEGAME)/qcommon
 	@$(MKDIR) $(B)/$(BASEGAME)/vm
+endif
+ifneq ($(BUILD_MISSIONPACK),0)
 	@$(MKDIR) $(B)/$(MISSIONPACK)/cgame
 	@$(MKDIR) $(B)/$(MISSIONPACK)/botlib
 	@$(MKDIR) $(B)/$(MISSIONPACK)/game
@@ -883,6 +886,7 @@ makedirs:
 	@$(MKDIR) $(B)/$(MISSIONPACK)/qcommon
 	@$(MKDIR) $(B)/$(MISSIONPACK)/q3ui
 	@$(MKDIR) $(B)/$(MISSIONPACK)/vm
+endif
 	@$(MKDIR) $(B)/tools/asm
 	@$(MKDIR) $(B)/tools/etc
 	@$(MKDIR) $(B)/tools/rcc
