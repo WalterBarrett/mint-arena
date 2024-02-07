@@ -5094,6 +5094,47 @@ void BotCheckForProxMines(bot_state_t *bs, entityState_t *state) {
 
 /*
 ==================
+BotCheckForTurrets
+==================
+*/
+void BotCheckForTurrets(bot_state_t *bs, entityState_t *state) {
+	if (state->eType != ET_TURRET) {
+		return;
+	}
+
+	// if this turret is on our own team
+	if (state->team == BotTeam(bs)) {
+#if 1
+		return;
+#else
+		// if the bot doesn't have a weapon to repair the turret
+		if (!(bs->inventory[INVENTORY_LIGHTNING] > 0 && bs->inventory[INVENTORY_LIGHTNINGAMMO] > 0) ) {
+			return;
+		}
+		// full health
+		if (state->modelindex2 >= 0xff) {
+			return;
+		}
+		if (bs->numturrets >= MAX_TURRETS) {
+			return;
+		}
+		bs->turrets[bs->numturrets] = state->number;
+		bs->numturrets++;
+		return;
+#endif
+	} else {
+		// try to avoid the turret
+		BotAddAvoidSpot(bs->ms, state->pos.trBase, 160, AVOID_ALWAYS);
+		if (bs->numturrets >= MAX_TURRETS) {
+			return;
+		}
+		bs->turrets[bs->numturrets] = state->number;
+		bs->numturrets++;
+	}
+}
+
+/*
+==================
 BotCheckForKamikazeBody
 ==================
 */
@@ -5409,6 +5450,8 @@ void BotCheckSnapshot(bot_state_t *bs) {
 	bs->kamikazebody = 0;
 	//reset number of proxmines
 	bs->numproxmines = 0;
+	//reset number of turrets
+	bs->numturrets = 0;
 	//
 	ent = 0;
 	while( ( ent = BotAI_GetSnapshotEntity( bs->playernum, ent, &state ) ) != -1 ) {
@@ -5420,6 +5463,8 @@ void BotCheckSnapshot(bot_state_t *bs) {
 #ifdef MISSIONPACK
 		//check for proximity mines which the bot should deactivate
 		BotCheckForProxMines(bs, &state);
+		//check for turrets which the bot should avoid
+		BotCheckForTurrets(bs, &state);
 		//check for dead bodies with the kamikaze effect which should be gibbed
 		BotCheckForKamikazeBody(bs, &state);
 #endif

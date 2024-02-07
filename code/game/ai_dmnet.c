@@ -1324,7 +1324,7 @@ BotClearPath
 ==================
 */
 void BotClearPath(bot_state_t *bs, bot_moveresult_t *moveresult) {
-	int i, bestmine;
+	int i, besttarget;
 	float dist, bestdist;
 	vec3_t target, dir;
 	bsp_trace_t bsptrace;
@@ -1368,40 +1368,61 @@ void BotClearPath(bot_state_t *bs, bot_moveresult_t *moveresult) {
 	if (moveresult->flags & MOVERESULT_BLOCKEDBYAVOIDSPOT) {
 		bs->blockedbyavoidspot_time = FloatTime() + 5;
 	}
-	// if blocked by an avoid spot and the view angles and weapon are used for movement
+	// if blocked by an avoid spot and the view angles and weapon aren't used for movement
 	if (bs->blockedbyavoidspot_time > FloatTime() &&
 		!(moveresult->flags & (MOVERESULT_MOVEMENTVIEW | MOVERESULT_MOVEMENTWEAPON)) ) {
 		bestdist = 300;
-		bestmine = -1;
+		besttarget = -1;
 		for (i = 0; i < bs->numproxmines; i++) {
 			BotAI_GetEntityState(bs->proxmines[i], &state);
 			VectorSubtract(state.pos.trBase, bs->origin, dir);
 			dist = VectorLength(dir);
 			if (dist < bestdist) {
 				bestdist = dist;
-				bestmine = i;
+				besttarget = bs->proxmines[i];
 			}
 		}
-		if (bestmine != -1) {
+		for (i = 0; i < bs->numturrets; i++) {
+			BotAI_GetEntityState(bs->turrets[i], &state);
+			VectorSubtract(state.pos.trBase, bs->origin, dir);
+			dist = VectorLength(dir);
+			if (dist < bestdist) {
+				bestdist = dist;
+				besttarget = bs->turrets[i];
+			}
+		}
+		if (besttarget != -1) {
 			//
 			// state->team == TEAM_RED || state->team == TEAM_BLUE
 			//
 			// deactivate prox mines in the bot's path by shooting
 			// rockets or plasma cells etc. at them
-			BotAI_GetEntityState(bs->proxmines[bestmine], &state);
+			BotAI_GetEntityState(besttarget, &state);
 			VectorCopy(state.pos.trBase, target);
 			target[2] += 2;
 			VectorSubtract(target, bs->eye, dir);
 			vectoangles(dir, moveresult->ideal_viewangles);
-			// if the bot has a weapon that does splash damage
-			if (bs->inventory[INVENTORY_PLASMAGUN] > 0 && bs->inventory[INVENTORY_CELLS] > 0)
-				moveresult->weapon = WEAPONINDEX_PLASMAGUN;
-			else if (bs->inventory[INVENTORY_ROCKETLAUNCHER] > 0 && bs->inventory[INVENTORY_ROCKETS] > 0)
-				moveresult->weapon = WEAPONINDEX_ROCKET_LAUNCHER;
-			else if (bs->inventory[INVENTORY_BFG10K] > 0 && bs->inventory[INVENTORY_BFGAMMO] > 0)
-				moveresult->weapon = WEAPONINDEX_BFG;
-			else {
-				moveresult->weapon = 0;
+			if (state.eType == ET_TURRET) {
+				if (state.team == BotTeam(bs)) {
+					if (bs->inventory[INVENTORY_LIGHTNING] > 0 && bs->inventory[INVENTORY_LIGHTNINGAMMO] > 0) {
+						moveresult->weapon = WEAPONINDEX_LIGHTNING;
+					} else {
+						moveresult->weapon = 0;
+					}
+				} else {
+					moveresult->weapon = BotChooseBestFightWeapon(bs->ws, bs->inventory);
+				}
+			} else {
+				// if the bot has a weapon that does splash damage
+				if (bs->inventory[INVENTORY_PLASMAGUN] > 0 && bs->inventory[INVENTORY_CELLS] > 0)
+					moveresult->weapon = WEAPONINDEX_PLASMAGUN;
+				else if (bs->inventory[INVENTORY_ROCKETLAUNCHER] > 0 && bs->inventory[INVENTORY_ROCKETS] > 0)
+					moveresult->weapon = WEAPONINDEX_ROCKET_LAUNCHER;
+				else if (bs->inventory[INVENTORY_BFG10K] > 0 && bs->inventory[INVENTORY_BFGAMMO] > 0)
+					moveresult->weapon = WEAPONINDEX_BFG;
+				else {
+					moveresult->weapon = 0;
+				}
 			}
 			if (moveresult->weapon) {
 				//
@@ -1412,9 +1433,9 @@ void BotClearPath(bot_state_t *bs, bot_moveresult_t *moveresult) {
 					if (InFieldOfVision(bs->viewangles, 20, moveresult->ideal_viewangles)) {
 						//
 						BotAI_Trace(&bsptrace, bs->eye, NULL, NULL, target, bs->entitynum, MASK_SHOT);
-						// if the mine is visible from the current position
+						// if the target is visible from the current position
 						if (bsptrace.fraction >= 1.0 || bsptrace.entityNum == state.number) {
-							// shoot at the mine
+							// shoot at the target
 							EA_Attack(bs->playernum);
 						}
 					}

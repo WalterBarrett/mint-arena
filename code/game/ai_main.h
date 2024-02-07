@@ -93,6 +93,7 @@ Suite 120, Rockville, Maryland 20850 USA.
 #define PRESENCE_CROUCH				4
 //
 #define MAX_PROXMINES				64
+#define MAX_TURRETS					64
 
 //check points
 typedef struct bot_waypoint_s
@@ -219,6 +220,8 @@ typedef struct bot_state_s
 	int kamikazebody;								//kamikaze body
 	int proxmines[MAX_PROXMINES];
 	int numproxmines;
+	int turrets[MAX_TURRETS];
+	int numturrets;
 	//
 	int character;									//the bot character
 	int ms;											//move state of the bot
