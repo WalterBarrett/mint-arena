@@ -500,12 +500,14 @@ static void TurretDie( gentity_t *self, gentity_t *inflictor, gentity_t *attacke
 
 	G_AddEvent( self, EV_OBELISKEXPLODE, 0 );
 
-	if (!!( self->spawnflags & 2 )) {
-		trap_SendServerCommand( -1, va("cp \"%s" S_COLOR_WHITE "\ndestroyed a red turret.\n\"", attacker->player->pers.netname));
-	} else if (!!( self->spawnflags & 4 )) {
-		trap_SendServerCommand( -1, va("cp \"%s" S_COLOR_WHITE "\ndestroyed a blue turret.\n\"", attacker->player->pers.netname));
-	} else {
-		trap_SendServerCommand( -1, va("cp \"%s" S_COLOR_WHITE "\ndestroyed an unaligned turret.\n\"", attacker->player->pers.netname));
+	if (attacker && attacker->player) {
+		if (!!( self->spawnflags & 2 )) {
+			trap_SendServerCommand( -1, va("cp \"%s" S_COLOR_WHITE "\ndestroyed a red turret.\n\"", attacker->player->pers.netname));
+		} else if (!!( self->spawnflags & 4 )) {
+			trap_SendServerCommand( -1, va("cp \"%s" S_COLOR_WHITE "\ndestroyed a blue turret.\n\"", attacker->player->pers.netname));
+		} else {
+			trap_SendServerCommand( -1, va("cp \"%s" S_COLOR_WHITE "\ndestroyed an unaligned turret.\n\"", attacker->player->pers.netname));
+		}
 	}
 
 	G_FreeEntity( self );
