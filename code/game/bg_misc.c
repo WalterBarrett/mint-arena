@@ -763,7 +763,7 @@ Only in CTF games
 /* sounds */ ""
 	},
 
-/*QUAKED item_doubler (.3 .3 1) (-16 -16 -16) (16 16 16) suspended redTeam blueTeam
+/*QUAKED item_ammoregen (.3 .3 1) (-16 -16 -16) (16 16 16) suspended redTeam blueTeam
 */
 	{
 		"item_ammoregen",
