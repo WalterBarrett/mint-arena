@@ -1099,6 +1099,7 @@ typedef enum {
 	ET_INVISIBLE,
 	ET_GRAPPLE,				// grapple hooked on wall
 	ET_TEAM,
+	ET_TURRET,
 	ET_CORONA,
 
 	ET_EVENTS				// any of the EV_* events can be added freestanding

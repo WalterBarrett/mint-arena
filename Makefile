@@ -1390,6 +1390,7 @@ MPGOBJ = \
   $(B)/$(MISSIONPACK)/game/ai_main.o \
   $(B)/$(MISSIONPACK)/game/ai_move.o \
   $(B)/$(MISSIONPACK)/game/ai_team.o \
+  $(B)/$(MISSIONPACK)/game/ai_turret.o \
   $(B)/$(MISSIONPACK)/game/ai_weap.o \
   $(B)/$(MISSIONPACK)/game/ai_weight.o \
   $(B)/$(MISSIONPACK)/game/ai_vcmd.o \

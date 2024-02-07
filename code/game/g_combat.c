@@ -1002,6 +1002,13 @@ void G_Damage( gentity_t *targ, gentity_t *inflictor, gentity_t *attacker,
 		}
 	}
 
+	if (mod == MOD_LIGHTNING && OnSameTeam(targ, attacker)) {
+		if ( targ->pain ) {
+			targ->pain (targ, attacker, -damage);
+		}
+		return;
+	}
+
 	// check for completely getting out of the damage
 	if ( !(dflags & DAMAGE_NO_PROTECTION) ) {
 

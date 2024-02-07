@@ -31,6 +31,7 @@ Suite 120, Rockville, Maryland 20850 USA.
 // g_misc.c
 
 #include "g_local.h"
+#include "ai_turret.h"
 
 
 /*QUAKED func_group (0 0 0) ?
@@ -428,6 +429,216 @@ void SP_shooter_grenade( gentity_t *ent ) {
 	InitShooter( ent, WP_GRENADE_LAUNCHER);
 }
 
+/*
+======================================================================
+
+  TURRETS
+
+======================================================================
+*/
+
+static void TurretThink( gentity_t *ent ) {
+	vec3_t		dir;
+	float		deg;
+	vec3_t		up, right;
+
+	dir[PITCH] = ent->s.angles[PITCH];
+	dir[YAW] = ent->s.angles[YAW];
+	dir[ROLL] = ent->s.angles[ROLL];
+	ent->nextthink = level.time + 500;
+	ent->enemy = NULL;
+	if (ent->s.team == TEAM_FREE) {
+		return;
+	}
+	ent->enemy = TurretFindVisibleEnemy( GetEntNumFromEnt(ent), ent->s.origin, dir );
+
+	// see if we have a target
+	if ( !ent->enemy ) {
+		return;
+	}
+
+	// see if we're too damaged to function
+	if (ent->health < g_obeliskHealth.integer / 40) {
+		return;
+	}
+
+	VectorSubtract( ent->enemy->r.currentOrigin, ent->s.origin, dir );
+	VectorNormalize( dir );
+
+	// randomize a bit
+	PerpendicularVector( up, dir );
+	CrossProduct( up, dir, right );
+
+	deg = crandom() * ent->random;
+	VectorMA( dir, deg, up, dir );
+
+	deg = crandom() * ent->random;
+	VectorMA( dir, deg, right, dir );
+
+	VectorNormalize( dir );
+
+	switch ( ent->s.weapon ) {
+	case WP_GRENADE_LAUNCHER:
+		fire_grenade( ent, ent->s.origin, dir );
+		break;
+	case WP_ROCKET_LAUNCHER:
+		fire_rocket( ent, ent->s.origin, dir );
+		break;
+	case WP_PLASMAGUN:
+		fire_plasma( ent, ent->s.origin, dir );
+		break;
+	}
+
+	G_AddEvent( ent, EV_FIRE_WEAPON, 0 );
+
+	ent->s.angles[PITCH] = dir[PITCH];
+	ent->s.angles[YAW] = dir[YAW];
+	ent->s.angles[ROLL] = dir[ROLL];
+}
+static void TurretDie( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int damage, int mod ) {
+	self->takedamage = qfalse;
+
+	G_AddEvent( self, EV_OBELISKEXPLODE, 0 );
+
+	if (!!( self->spawnflags & 2 )) {
+		trap_SendServerCommand( -1, va("cp \"%s" S_COLOR_WHITE "\ndestroyed a red turret.\n\"", attacker->player->pers.netname));
+	} else if (!!( self->spawnflags & 4 )) {
+		trap_SendServerCommand( -1, va("cp \"%s" S_COLOR_WHITE "\ndestroyed a blue turret.\n\"", attacker->player->pers.netname));
+	} else {
+		trap_SendServerCommand( -1, va("cp \"%s" S_COLOR_WHITE "\ndestroyed an unaligned turret.\n\"", attacker->player->pers.netname));
+	}
+
+	G_FreeEntity( self );
+}
+
+static void TurretPain( gentity_t *self, gentity_t *attacker, int damage ) {
+	if (damage == 0) {
+		return;
+	}
+
+	if (damage < 0) {
+		if (self->health >= g_obeliskHealth.integer / 10) {
+			// Don't give infinite points for healing when it's at max health
+			return;
+		} else {
+			self->health -= damage;
+		}
+	}
+
+	if (self->health > g_obeliskHealth.integer / 10) {
+		self->health = g_obeliskHealth.integer / 10;
+	}
+
+	self->s.modelindex2 = self->health * 0xff / (g_obeliskHealth.integer / 10);
+
+	if (damage > 0) {
+		G_AddEvent(self, EV_OBELISKPAIN, 0);
+		AddScore(attacker, self->r.currentOrigin, damage);
+	} else {
+		AddScore(attacker, self->r.currentOrigin, -damage);
+	}
+}
+
+void InitTurret( gentity_t *ent, int weapon ) {
+	trace_t		tr;
+	vec3_t		dest;
+
+	if ( g_gametype.integer <= GT_TEAM ) {
+		G_FreeEntity(ent);
+		return;
+	}
+
+	VectorSet( ent->s.mins, -15, -15, 0 );
+	VectorSet( ent->s.maxs, 15, 15, 87 );
+
+	ent->s.weapon = weapon;
+	RegisterItem( BG_FindItemForWeapon( weapon ) );
+
+	// initial obelisk health value
+	ent->s.modelindex2 = 0xff;
+	ent->s.frame = 0;
+	if (!!( ent->spawnflags & 2 )) {
+		ent->s.team = TEAM_RED;
+		ent->s.modelindex = TEAM_RED;
+		ent->takedamage = qtrue;
+	} else if (!!( ent->spawnflags & 4 )) {
+		ent->s.team = TEAM_BLUE;
+		ent->s.modelindex = TEAM_BLUE;
+		ent->takedamage = qtrue;
+	} else {
+		ent->s.team = TEAM_FREE;
+		ent->s.modelindex = TEAM_FREE;
+		ent->takedamage = qfalse;
+	}
+
+	//ent->s.modelindex = G_ModelIndex( SP_PODIUM_MODEL );
+
+	//G_SetMovedir( ent->s.angles, ent->movedir );
+
+	if ( !ent->random ) {
+		ent->random = 1.0;
+	}
+	ent->random = sin( M_PI * ent->random / 180 );
+	ent->s.eType = ET_TURRET;
+	ent->flags = FL_NO_KNOCKBACK;
+	ent->s.contents = CONTENTS_SOLID;
+	ent->health = g_obeliskHealth.integer / 10;
+	ent->die = TurretDie;
+	ent->pain = TurretPain;
+	ent->think = TurretThink;
+	ent->nextthink = level.time + 500;
+
+	if ( ent->spawnflags & 1 ) {
+		// suspended
+		G_SetOrigin( ent, ent->s.origin );
+	} else {
+		// mappers like to put them exactly on the floor, but being coplanar
+		// will sometimes show up as starting in solid, so lif it up one pixel
+		ent->s.origin[2] += 1;
+
+		// drop to floor
+		VectorSet( dest, ent->s.origin[0], ent->s.origin[1], ent->s.origin[2] - 4096 );
+		trap_Trace( &tr, ent->s.origin, ent->s.mins, ent->s.maxs, dest, ent->s.number, MASK_SOLID );
+		if ( tr.startsolid ) {
+			ent->s.origin[2] -= 1;
+			G_Printf( "TurretInit: %s startsolid at %s\n", ent->classname, vtos(ent->s.origin) );
+
+			ent->s.groundEntityNum = ENTITYNUM_NONE;
+			G_SetOrigin( ent, ent->s.origin );
+		}
+		else {
+			// allow to ride movers
+			ent->s.groundEntityNum = tr.entityNum;
+			G_SetOrigin( ent, tr.endpos );
+		}
+	}
+	trap_LinkEntity( ent );
+}
+
+/*QUAKED turret_rocket (1 0 0) (-16 -16 -16) (16 16 16)
+Fires at enemies if it has a team.
+"random" the number of degrees of deviance from the target. (1.0 default)
+*/
+void SP_turret_rocket( gentity_t *ent ) {
+	InitTurret( ent, WP_ROCKET_LAUNCHER );
+}
+
+/*QUAKED turret_plasma (1 0 0) (-16 -16 -16) (16 16 16)
+Fires at enemies if it has a team.
+"random" is the number of degrees of deviance from the target. (1.0 default)
+*/
+void SP_turret_plasma( gentity_t *ent ) {
+	InitTurret( ent, WP_PLASMAGUN );
+}
+
+/*QUAKED turret_grenade (1 0 0) (-16 -16 -16) (16 16 16)
+Fires at enemies if it has a team.
+"random" is the number of degrees of deviance from the target. (1.0 default)
+*/
+void SP_turret_grenade( gentity_t *ent ) {
+	InitTurret( ent, WP_GRENADE_LAUNCHER );
+}
+
 /*QUAKED corona (0 1 0) (-4 -4 -4) (4 4 4) START_OFF
 Use color picker to set color or key "color".  values are 0.0-1.0 for each color (rgb).
 "scale" will designate a multiplier to the default size.  (so 2.0 is 2xdefault size, 0.5 is half)
@@ -790,3 +1001,16 @@ void DropPortalSource( gentity_t *player ) {
 
 }
 #endif
+
+int GetEntNumFromEnt( gentity_t *ent )
+{
+	int i;
+
+	for (i = 0; i < ARRAY_LEN(g_entities); i++) {
+		if (ent == &g_entities[i]) {
+			return i;
+		}
+	}
+
+	return -1;
+}

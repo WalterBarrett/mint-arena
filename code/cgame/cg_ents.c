@@ -1136,6 +1136,55 @@ static void CG_TeamBase( centity_t *cent ) {
 }
 
 /*
+===============
+CG_Turret
+===============
+*/
+static void CG_Turret( centity_t *cent ) {
+	refEntity_t model;
+	float c;
+
+	// show the turret
+	memset(&model, 0, sizeof(model));
+	model.reType = RT_MODEL;
+	VectorCopy( cent->lerpOrigin, model.lightingOrigin );
+	VectorCopy( cent->lerpOrigin, model.origin );
+	AnglesToAxis( cent->currentState.angles, model.axis );
+
+	model.hModel = cgs.media.overloadBaseModel;
+	CG_AddRefEntityWithMinLight( &model );
+	// if hit
+	cent->miscTime = 0;
+	cent->muzzleFlashTime = 0;
+	// modelindex2 is the health value of the obelisk
+	c = cent->currentState.modelindex2;
+
+	if (cent->currentState.modelindex == TEAM_RED) {
+		model.shaderRGBA[0] = c;
+		model.shaderRGBA[1] = 0;
+		model.shaderRGBA[2] = 0;
+		model.shaderRGBA[3] = 0xff;
+	} else if (cent->currentState.modelindex == TEAM_BLUE) {
+		model.shaderRGBA[0] = 0;
+		model.shaderRGBA[1] = 0;
+		model.shaderRGBA[2] = c;
+		model.shaderRGBA[3] = 0xff;
+	} else {
+		model.shaderRGBA[0] = c;
+		model.shaderRGBA[1] = c;
+		model.shaderRGBA[2] = c;
+		model.shaderRGBA[3] = 0xff;
+	}
+	// show the lights
+	model.hModel = cgs.media.overloadLightsModel;
+	CG_AddRefEntityWithMinLight( &model );
+	// show the target
+	model.origin[2] += 56;
+	model.hModel = cgs.media.overloadTargetModel;
+	CG_AddRefEntityWithMinLight( &model );
+}
+
+/*
 ==============
 CG_Corona
 
@@ -1252,6 +1301,9 @@ static void CG_AddCEntity( centity_t *cent ) {
 		break;
 	case ET_TEAM:
 		CG_TeamBase( cent );
+		break;
+	case ET_TURRET:
+		CG_Turret( cent );
 		break;
 	case ET_CORONA:
 		CG_Corona( cent );

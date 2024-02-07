@@ -164,25 +164,63 @@ void AddTeamScore(vec3_t origin, int team, int score) {
 	level.teamScores[ team ] += score;
 }
 
+team_t GetEntTeam(gentity_t *ent1) {
+	if ( ent1->player ) {
+		return ent1->player->sess.sessionTeam;
+	} else if ( ent1->item && ent1->item->giType == IT_PERSISTANT_POWERUP ) {
+		if (!!( ent1->spawnflags & 2 )) {
+			return TEAM_RED;
+		} else if (!!( ent1->spawnflags & 4 )) {
+			return TEAM_BLUE;
+		} else {
+			return TEAM_FREE;
+		}
+	} else if ( ent1->item && ent1->item->giType == IT_TEAM ) {
+		if ( ent1->item->giTag == PW_REDFLAG ) {
+			return TEAM_RED;
+		} else if ( ent1->item->giTag == PW_BLUEFLAG ) {
+			return TEAM_BLUE;
+		} else {
+			return TEAM_FREE;
+		}
+	} else if ( !Q_stricmpn(ent1->classname, "turret_", 7 ) ) {
+		if (!!( ent1->spawnflags & 2 )) {
+			return TEAM_RED;
+		} else if (!!( ent1->spawnflags & 4 )) {
+			return TEAM_BLUE;
+		} else {
+			return TEAM_FREE;
+		}
+	} else {
+		return TEAM_FREE;
+	}
+}
+
 /*
 ==============
 OnSameTeam
 ==============
 */
 qboolean OnSameTeam( gentity_t *ent1, gentity_t *ent2 ) {
-	if ( !ent1 || !ent1->player || !ent2 || !ent2->player ) {
-		return qfalse;
-	}
+	team_t team1;
+	team_t team2;
 
 	if ( g_gametype.integer < GT_TEAM ) {
 		return qfalse;
 	}
 
-	if ( ent1->player->sess.sessionTeam == ent2->player->sess.sessionTeam ) {
-		return qtrue;
+	if (!ent1 || !ent2) {
+		return qfalse;
 	}
 
-	return qfalse;
+	team1 = GetEntTeam(ent1);
+	team2 = GetEntTeam(ent2);
+
+	if (team1 == TEAM_FREE || team2 == TEAM_FREE) {
+		return qfalse;
+	}
+
+	return team1 == team2;
 }
 
 

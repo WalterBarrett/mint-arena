@@ -595,6 +595,7 @@ void TeleportPlayer( gentity_t *player, vec3_t origin, vec3_t angles );
 void DropPortalSource( gentity_t *ent );
 void DropPortalDestination( gentity_t *ent );
 #endif
+int GetEntNumFromEnt( gentity_t *ent );
 
 
 //
