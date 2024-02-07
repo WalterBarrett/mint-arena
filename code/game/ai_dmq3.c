@@ -222,6 +222,8 @@ qboolean EntityIsDead(aas_entityinfo_t *entinfo) {
 		}
 
 		if (ps.pm_type != PM_NORMAL) return qtrue;
+	} else if (entinfo->type == ET_TURRET) {
+		return entinfo->modelindex2 < 0x40;
 	}
 	return qfalse;
 }
@@ -2879,20 +2881,7 @@ BotSameTeam
 ==================
 */
 int BotSameTeam(bot_state_t *bs, int entnum) {
-
-	if (bs->playernum < 0 || bs->playernum >= MAX_CLIENTS) {
-		return qfalse;
-	}
-
-	if (entnum < 0 || entnum >= MAX_CLIENTS) {
-		return qfalse;
-	}
-
-	if (gametype >= GT_TEAM) {
-		if (level.players[bs->playernum].sess.sessionTeam == level.players[entnum].sess.sessionTeam) return qtrue;
-	}
-
-	return qfalse;
+	return OnSameTeam(&g_entities[bs->playernum], &g_entities[entnum]);
 }
 
 /*
@@ -3107,7 +3096,7 @@ int BotFindEnemy(bot_state_t *bs, int curenemy) {
 	}
 #endif
 	//
-	for (i = 0; i < level.maxplayers; i++) {
+	for (i = 0; i < level.num_entities; i++) {
 
 		if (i == bs->playernum) continue;
 		//if it's the current enemy
@@ -3124,6 +3113,9 @@ int BotFindEnemy(bot_state_t *bs, int curenemy) {
 		BotEntityInfo(i, &entinfo);
 		//
 		if (!entinfo.valid) continue;
+		if (entinfo.type != ET_PLAYER && entinfo.type != ET_TURRET) {
+			continue;
+		}
 		//if the enemy isn't dead and the enemy isn't the bot self
 		if (EntityIsDead(&entinfo) || entinfo.number == bs->entitynum) continue;
 		//if the enemy is invisible
