@@ -5124,7 +5124,7 @@ void BotCheckForTurrets(bot_state_t *bs, entityState_t *state) {
 #endif
 	} else {
 		// try to avoid the turret
-		BotAddAvoidSpot(bs->ms, state->pos.trBase, 160, AVOID_ALWAYS);
+		BotAddAvoidSpot(bs->ms, state->pos.trBase, 160, AVOID_DONTBLOCK);
 		if (bs->numturrets >= MAX_TURRETS) {
 			return;
 		}
