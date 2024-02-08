@@ -831,15 +831,17 @@ void PlayerUserinfoChanged( int playerNum ) {
 		Q_strncpyz( headModel, playerClasses[CLASS_CIVILIAN].unalignedModel, sizeof( headModel ) );
 	}
 
-	detectedClass = CLASS_CIVILIAN;
-	for ( i = FIRST_STANDARD_CLASS; i <= LAST_STANDARD_CLASS; i++ ) {
-		if (playerClasses[i].powerup != PW_NONE && player->ps.powerups[playerClasses[i].powerup]) {
-			detectedClass = i;
-			break;
+	if (player->ps.stats[STAT_HEALTH] > 0) {
+		detectedClass = CLASS_CIVILIAN;
+		for ( i = FIRST_STANDARD_CLASS; i <= LAST_STANDARD_CLASS; i++ ) {
+			if (playerClasses[i].powerup != PW_NONE && player->ps.powerups[playerClasses[i].powerup]) {
+				detectedClass = i;
+				break;
+			}
 		}
-	}
 
-	player->pers.currentClass = detectedClass;
+		player->pers.currentClass = detectedClass;
+	}
 
 	if (player->sess.sessionTeam == TEAM_RED) {
 		Q_strncpyz( model, playerClasses[player->pers.currentClass].redModel, sizeof( model ) );
