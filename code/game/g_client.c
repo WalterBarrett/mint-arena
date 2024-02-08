@@ -812,15 +812,11 @@ void PlayerUserinfoChanged( int playerNum ) {
 	}
 
 	// set max health
-#ifdef MISSIONPACK
 	if (player->ps.powerups[PW_GUARD]) {
-		player->pers.maxHealth = 200;
+		player->pers.maxHealth = PlayerHandicap( player ) * 2;
 	} else {
 		player->pers.maxHealth = PlayerHandicap( player );
 	}
-#else
-	player->pers.maxHealth = PlayerHandicap( player );
-#endif
 	player->ps.stats[STAT_MAX_HEALTH] = player->pers.maxHealth;
 
 	// set model
