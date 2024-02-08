@@ -371,6 +371,9 @@ void	Svcmd_EntityList_f (void) {
 		case ET_GRAPPLE:
 			G_Printf("ET_GRAPPLE          ");
 			break;
+		case ET_TURRET:
+			G_Printf("ET_TURRET           ");
+			break;
 		case ET_CORONA:
 			G_Printf("ET_CORONA           ");
 			break;
