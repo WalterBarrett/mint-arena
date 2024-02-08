@@ -224,6 +224,8 @@ qboolean EntityIsDead(aas_entityinfo_t *entinfo) {
 		if (ps.pm_type != PM_NORMAL) return qtrue;
 	} else if (entinfo->type == ET_TURRET) {
 		return entinfo->modelindex2 < 0x40;
+	} else if (entinfo->type == ET_PLAYER) {
+		return qtrue;
 	}
 	return qfalse;
 }
