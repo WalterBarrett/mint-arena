@@ -2330,6 +2330,9 @@ BotFeelingBad
 ==================
 */
 float BotFeelingBad(bot_state_t *bs) {
+	if (g_entities[bs->entitynum].s.eType == ET_TURRET) {
+		return 0;
+	}
 	if (bs->weaponnum == WP_GAUNTLET) {
 		return 100;
 	}
