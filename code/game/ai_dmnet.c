@@ -1403,7 +1403,7 @@ void BotClearPath(bot_state_t *bs, bot_moveresult_t *moveresult) {
 			VectorSubtract(target, bs->eye, dir);
 			vectoangles(dir, moveresult->ideal_viewangles);
 			if (state.eType == ET_TURRET) {
-				if (state.team == BotTeam(bs)) {
+				if (BotSameTeam(bs, besttarget)) {
 					if (bs->inventory[INVENTORY_LIGHTNING] > 0 && bs->inventory[INVENTORY_LIGHTNINGAMMO] > 0) {
 						moveresult->weapon = WEAPONINDEX_LIGHTNING;
 					} else {

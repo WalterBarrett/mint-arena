@@ -5095,7 +5095,7 @@ void BotCheckForTurrets(bot_state_t *bs, entityState_t *state) {
 	}
 
 	// if this turret is on our own team
-	if (state->team == BotTeam(bs)) {
+	if (BotSameTeam(bs, state->playerNum)) {
 #if 1
 		return;
 #else

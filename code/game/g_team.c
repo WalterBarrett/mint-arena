@@ -216,6 +216,14 @@ qboolean OnSameTeam( gentity_t *ent1, gentity_t *ent2 ) {
 	team1 = GetEntTeam(ent1);
 	team2 = GetEntTeam(ent2);
 
+	if (ent1->s.eType == ET_TURRET && team1 == TEAM_FREE) {
+		return qtrue;
+	}
+
+	if (ent2->s.eType == ET_TURRET && team2 == TEAM_FREE) {
+		return qtrue;
+	}
+
 	if (team1 == TEAM_FREE || team2 == TEAM_FREE) {
 		return qfalse;
 	}
