@@ -1016,3 +1016,54 @@ int GetEntNumFromEnt( gentity_t *ent )
 
 	return -1;
 }
+
+float VectorDistanceSquared(vec3_t p1, vec3_t p2)
+{
+	vec3_t dir;
+	VectorSubtract(p2, p1, dir);
+	return VectorLengthSquared(dir);
+}
+
+// returns the distance between the two vectors
+float VectorDistance(vec3_t v1, vec3_t v2)
+{
+	vec3_t dir;
+	VectorSubtract(v2, v1, dir);
+	return VectorLength(dir);
+}
+
+gentity_t * GetNearestBase( gentity_t *ent )
+{
+	float retDist = 99999999;
+	gentity_t *retEnt = NULL;
+	int i;
+
+	for (i = 0; i < ARRAY_LEN(g_entities); i++) {
+		float curdist;
+		gentity_t *curEnt = &g_entities[i];
+		vec3_t* origin1;
+		vec3_t* origin2;
+
+		if (curEnt == ent) {
+			continue;
+		}
+
+		if (curEnt->s.eType != ET_TEAM) {
+			continue;
+		}
+
+		origin1 = &ent->r.currentOrigin;
+		origin2 = &curEnt->r.currentOrigin;
+
+		curdist = VectorDistance(*origin1, *origin2);
+		//Com_Printf ("'%s': %f\n", curEnt->classname, curdist);
+		if (curdist < retDist) {
+			retEnt = curEnt;
+			retDist = curdist;
+		}
+	}
+
+	//Com_Printf ("> '%s': %f (%s)\n", retEnt->classname, retDist, TeamName(GetEntTeam(retEnt)));
+
+	return retEnt;
+}

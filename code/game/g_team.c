@@ -180,6 +180,18 @@ team_t GetEntTeam(gentity_t *ent1) {
 			return TEAM_RED;
 		} else if ( ent1->item->giTag == PW_BLUEFLAG ) {
 			return TEAM_BLUE;
+		} else if ( ent1->item->giTag == PW_NEUTRALFLAG ) {
+			return TEAM_FREE;
+		} else {
+			return TEAM_FREE;
+		}
+	} else if ( ent1->s.eType == ET_TEAM ) {
+		if ( ent1->s.modelindex == TEAM_RED ) {
+			return TEAM_RED;
+		} else if ( ent1->s.modelindex == TEAM_BLUE ) {
+			return TEAM_BLUE;
+		} else if ( ent1->s.modelindex == TEAM_FREE ) {
+			return TEAM_FREE;
 		} else {
 			return TEAM_FREE;
 		}

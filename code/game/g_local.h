@@ -596,6 +596,9 @@ void DropPortalSource( gentity_t *ent );
 void DropPortalDestination( gentity_t *ent );
 #endif
 int GetEntNumFromEnt( gentity_t *ent );
+float VectorDistanceSquared(vec3_t p1, vec3_t p2);
+float VectorDistance(vec3_t v1, vec3_t v2);
+gentity_t * GetNearestBase( gentity_t *ent );
 
 
 //

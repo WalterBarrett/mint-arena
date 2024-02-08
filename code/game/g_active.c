@@ -837,13 +837,13 @@ void PlayerThink_real( gentity_t *ent ) {
 	// set speed
 	player->ps.speed = g_speed.value;
 
-#ifdef MISSIONPACK
+	if( BG_ItemForItemNum( player->ps.stats[STAT_PERSISTANT_POWERUP] )->giTag == PW_GUARD && !OnSameTeam(ent, GetNearestBase(ent)) ) {
+		player->ps.speed *= 0.5;
+	}
+
 	if( BG_ItemForItemNum( player->ps.stats[STAT_PERSISTANT_POWERUP] )->giTag == PW_SCOUT ) {
 		player->ps.speed *= 1.5;
-	}
-	else
-#endif
-	if ( player->ps.powerups[PW_HASTE] ) {
+	} else if ( player->ps.powerups[PW_HASTE] ) {
 		player->ps.speed *= 1.3;
 	}
 

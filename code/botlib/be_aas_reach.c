@@ -48,6 +48,7 @@ Suite 120, Rockville, Maryland 20850 USA.
 #include "be_aas_funcs.h"
 #include "be_interface.h"
 #include "be_aas_def.h"
+#include "../game/g_local.h"
 
 //#define REACH_DEBUG
 
@@ -1600,20 +1601,6 @@ int AAS_Reachability_Step_Barrier_WaterJump_WalkOffLedge(int area1num, int area2
 	} //end if
 	return qfalse;
 } //end of the function AAS_Reachability_Step_Barrier_WaterJump_WalkOffLedge
-//===========================================================================
-// returns the distance between the two vectors
-//
-// Parameter:				-
-// Returns:					-
-// Changes Globals:		-
-//===========================================================================
-float VectorDistance(vec3_t v1, vec3_t v2)
-{
-	vec3_t dir;
-
-	VectorSubtract(v2, v1, dir);
-	return VectorLength(dir);
-} //end of the function VectorDistance
 //===========================================================================
 // returns true if the first vector is between the last two vectors
 //
