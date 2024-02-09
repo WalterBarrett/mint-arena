@@ -390,6 +390,25 @@ static void CG_DrawPlayerAmmoValue(rectDef_t *rect, float scale, vec4_t color, q
 
 }
 
+static void CG_DrawPlayerCellsValue(rectDef_t *rect, float scale, vec4_t color, qhandle_t shader, int textStyle) {
+	char	num[16];
+	int value;
+	playerState_t	*ps = cg.cur_ps;
+
+	value = ps->ammo[WP_LIGHTNING];
+	if ( value > -1 ) {
+		if (shader) {
+		trap_R_SetColor( color );
+			CG_DrawPic(rect->x, rect->y, rect->w, rect->h, shader);
+			trap_R_SetColor( NULL );
+		} else {
+			Com_sprintf (num, sizeof(num), "%i", value);
+			value = CG_Text_Width(num, scale, 0);
+			CG_Text_PaintGradient(rect->x + (rect->w - value) / 2, rect->y + rect->h, scale, color, num, 0, 0, textStyle);
+		}
+	}
+}
+
 
 
 static void CG_DrawPlayerHead(rectDef_t *rect, qboolean draw2D) {
@@ -1120,6 +1139,9 @@ float CG_GetValue(int ownerDraw) {
 		  return ps->ammo[cent->currentState.weapon];
 		}
     break;
+  case CG_PLAYER_CELLS_VALUE:
+		return ps->ammo[WP_LIGHTNING];
+    break;
   case CG_PLAYER_SCORE:
 	  return ps->persistant[PERS_SCORE];
     break;
@@ -1667,6 +1689,9 @@ void CG_OwnerDraw(float x, float y, float w, float h, float text_x, float text_y
     break;
   case CG_PLAYER_AMMO_VALUE:
     CG_DrawPlayerAmmoValue(&rect, scale, color, shader, textStyle);
+    break;
+  case CG_PLAYER_CELLS_VALUE:
+    CG_DrawPlayerCellsValue(&rect, scale, color, shader, textStyle);
     break;
   case CG_SELECTEDPLAYER_HEAD:
     CG_DrawSelectedPlayerHead(&rect, ownerDrawFlags & CG_SHOW_2DONLY, qfalse);
