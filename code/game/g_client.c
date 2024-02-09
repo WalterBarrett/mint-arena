@@ -1227,13 +1227,11 @@ void PlayerSpawn(gentity_t *ent) {
 	if ( g_instagib.integer ) {
 		player->ps.stats[STAT_WEAPONS] = ( 1 << WP_RAILGUN );
 		player->ps.ammo[WP_RAILGUN] = 999;
+		player->ps.ammo[WP_LIGHTNING] = 100;
 	} else {
 		player->ps.stats[STAT_WEAPONS] = ( 1 << WP_MACHINEGUN );
-		if ( g_gametype.integer == GT_TEAM ) {
-			player->ps.ammo[WP_MACHINEGUN] = 50;
-		} else {
-			player->ps.ammo[WP_MACHINEGUN] = 100;
-		}
+		player->ps.ammo[WP_MACHINEGUN] = 100;
+		player->ps.ammo[WP_LIGHTNING] = 100;
 	}
 
 	player->ps.stats[STAT_WEAPONS] |= ( 1 << WP_GAUNTLET );
