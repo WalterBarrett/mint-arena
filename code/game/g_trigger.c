@@ -229,7 +229,7 @@ void Use_target_push( gentity_t *self, gentity_t *other, gentity_t *activator ) 
 	if ( activator->player->ps.pm_type != PM_NORMAL ) {
 		return;
 	}
-	if ( activator->player->ps.powerups[PW_FLIGHT] ) {
+	if ( activator->player->ps.powerups[PW_FLIGHT] || ((activator->player->ps.eFlags & EF_CLASSSPECIAL) && activator->player->ps.powerups[PW_SCOUT] ) ) {
 		return;
 	}
 

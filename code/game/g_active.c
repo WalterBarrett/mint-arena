@@ -414,6 +414,9 @@ Actions that happen once a second
 void PlayerTimerActions( gentity_t *ent, int msec ) {
 	gplayer_t	*player;
 	int			maxHealth;
+	qboolean	getsCells, getsAmmo;
+	int w, max, inc, t, i;
+    int weapList[]={WP_MACHINEGUN,WP_SHOTGUN,WP_GRENADE_LAUNCHER,WP_ROCKET_LAUNCHER,WP_LIGHTNING,WP_RAILGUN,WP_PLASMAGUN,WP_BFG,WP_NAILGUN,WP_PROX_LAUNCHER,WP_CHAINGUN};
 
 	player = ent->player;
 	player->timeResidual += msec;
@@ -459,54 +462,51 @@ void PlayerTimerActions( gentity_t *ent, int msec ) {
 			player->ps.stats[STAT_ARMOR]--;
 		}
 	}
-#ifdef MISSIONPACK
-	if( BG_ItemForItemNum( player->ps.stats[STAT_PERSISTANT_POWERUP] )->giTag == PW_AMMOREGEN ) {
-		int w, max, inc, t, i;
-    int weapList[]={WP_MACHINEGUN,WP_SHOTGUN,WP_GRENADE_LAUNCHER,WP_ROCKET_LAUNCHER,WP_LIGHTNING,WP_RAILGUN,WP_PLASMAGUN,WP_BFG,WP_NAILGUN,WP_PROX_LAUNCHER,WP_CHAINGUN};
-    int weapCount = ARRAY_LEN( weapList );
-		//
-    for (i = 0; i < weapCount; i++) {
-		  w = weapList[i];
 
-		  switch(w) {
-			  case WP_MACHINEGUN: max = 50; inc = 4; t = 1000; break;
-			  case WP_SHOTGUN: max = 10; inc = 1; t = 1500; break;
-			  case WP_GRENADE_LAUNCHER: max = 10; inc = 1; t = 2000; break;
-			  case WP_ROCKET_LAUNCHER: max = 10; inc = 1; t = 1750; break;
-			  case WP_LIGHTNING: max = 50; inc = 5; t = 1500; break;
-			  case WP_RAILGUN:
-				if ( g_instagib.integer ) {
-					max = 10;
-					inc = 1;
-					t = 1750;
-				} else {
-					max = 50;
-					inc = 5;
-					t = 1250;
-				}
-				break;
-			  case WP_PLASMAGUN: max = 50; inc = 5; t = 1500; break;
-			  case WP_BFG: max = 10; inc = 1; t = 4000; break;
-			  case WP_NAILGUN: max = 10; inc = 1; t = 1250; break;
-			  case WP_PROX_LAUNCHER: max = 5; inc = 1; t = 2000; break;
-			  case WP_CHAINGUN: max = 100; inc = 5; t = 1000; break;
-			  default: max = 0; inc = 0; t = 1000; break;
-		  }
-		  player->ammoTimes[w] += msec;
-		  if ( player->ps.ammo[w] >= max ) {
-			  player->ammoTimes[w] = 0;
-		  }
-		  if ( player->ammoTimes[w] >= t ) {
-			  while ( player->ammoTimes[w] >= t )
-				  player->ammoTimes[w] -= t;
-			  player->ps.ammo[w] += inc;
-			  if ( player->ps.ammo[w] > max ) {
-				  player->ps.ammo[w] = max;
-			  }
-		  }
-    }
+	if ((ent->player->ps.eFlags & EF_CLASSSPECIAL) && player->pers.currentClass == CLASS_CIVILIAN) {
+		ent->player->ps.eFlags ^= EF_CLASSSPECIAL;
 	}
-#endif
+
+	if ((ent->player->ps.eFlags & EF_CLASSSPECIAL) && player->ps.ammo[WP_LIGHTNING] <= 0) {
+		ent->player->ps.eFlags ^= EF_CLASSSPECIAL;
+	}
+
+	getsCells = !(ent->player->ps.eFlags & EF_CLASSSPECIAL);
+	switch (player->pers.currentClass) {
+		default:				getsAmmo = qfalse; break;
+		case CLASS_AMMOREGEN:	getsAmmo = qtrue; break;
+		case CLASS_DOUBLER:		getsAmmo = ent->player->ps.eFlags & EF_CLASSSPECIAL; break;
+	}
+
+    for (i = 0; i < ARRAY_LEN( weapList ); i++) {
+		w = weapList[i];
+		switch(w) {
+			case WP_MACHINEGUN: max = getsAmmo ? 50 : 0; inc = 4; t = 1000; break;
+			case WP_SHOTGUN: max = getsAmmo ? 10 : 0; inc = 1; t = 1500; break;
+			case WP_GRENADE_LAUNCHER: max = getsAmmo ? 10 : 0; inc = 1; t = 2000; break;
+			case WP_ROCKET_LAUNCHER: max = getsAmmo ? 10 : 0; inc = 1; t = 1750; break;
+			case WP_LIGHTNING: max = getsCells ? 100 : 1000; inc = getsCells ? 5 : -1; t = getsCells ? 1500 : 200; break;
+			case WP_RAILGUN: max = getsAmmo ? 10 : 0; inc = 1; t = 1750; break;
+			case WP_PLASMAGUN: max = getsAmmo ? 50 : 0; inc = 5; t = 1500; break;
+			case WP_BFG: max = getsAmmo ? 10 : 0; inc = 1; t = 4000; break;
+			case WP_NAILGUN: max = getsAmmo ? 10 : 0; inc = 1; t = 1250; break;
+			case WP_PROX_LAUNCHER: max = getsAmmo ? 5 : 0; inc = 1; t = 2000; break;
+			case WP_CHAINGUN: max = getsAmmo ? 100 : 0; inc = 5; t = 1000; break;
+			default: max = 0; inc = 0; t = 1000; break;
+		}
+		player->ammoTimes[w] += msec;
+		if ( player->ps.ammo[w] >= max ) {
+			player->ammoTimes[w] = 0;
+		}
+		if ( player->ammoTimes[w] >= t ) {
+			while ( player->ammoTimes[w] >= t )
+				player->ammoTimes[w] -= t;
+			player->ps.ammo[w] += inc;
+			if ( player->ps.ammo[w] > max ) {
+				player->ps.ammo[w] = max;
+			}
+		}
+    }
 }
 
 /*

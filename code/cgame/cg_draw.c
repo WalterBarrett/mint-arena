@@ -2094,7 +2094,7 @@ static void CG_ScanForCrosshairEntity( void ) {
 	}
 
 	// if the player is invisible, don't show it
-	if ( cg_entities[ trace.entityNum ].currentState.powerups & ( 1 << PW_INVIS ) ) {
+	if ( cg_entities[ trace.entityNum ].currentState.powerups & ( 1 << PW_INVIS ) || ((cg_entities[ trace.entityNum ].currentState.eFlags & EF_CLASSSPECIAL) && (cg_entities[ trace.entityNum ].currentState.powerups & ( 1 << PW_AMMOREGEN ))) ) {
 		return;
 	}
 

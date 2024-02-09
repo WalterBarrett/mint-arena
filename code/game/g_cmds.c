@@ -1845,6 +1845,21 @@ void Cmd_Stats_f( gentity_t *ent ) {
 
 /*
 =================
+Cmd_ClassSpecial_f
+=================
+*/
+void Cmd_ClassSpecial_f( gentity_t *ent ) {
+	ent->player->ps.eFlags ^= EF_CLASSSPECIAL;
+
+	if (!(ent->player->ps.eFlags & EF_CLASSSPECIAL)) {
+		trap_SendServerCommand( ent-g_entities, va("print \"Class special OFF\n\""));
+	}   else {
+		trap_SendServerCommand( ent-g_entities, va("print \"Class special ON\n\""));
+	}
+}
+
+/*
+=================
 ClientCommand
 =================
 */
@@ -1984,6 +1999,8 @@ void ClientCommand( int connectionNum ) {
 		Cmd_SetViewpos_f( ent );
 	else if (Q_stricmp (cmd, "stats") == 0)
 		Cmd_Stats_f( ent );
+	else if (Q_stricmp (cmd, "classspecial") == 0)
+		Cmd_ClassSpecial_f( ent );
 	else
 		trap_SendServerCommand( playerNum, va("print \"unknown cmd %s\n\"", buf ) );
 }

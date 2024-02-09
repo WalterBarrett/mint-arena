@@ -1760,7 +1760,8 @@ static playerConsoleCommand_t	playerCommands[] = {
 	{ "callteamvote", CG_ForwardToServer_f, CMD_INGAME, CG_CallTeamVoteComplete },
 	{ "teamvote", CG_ForwardToServer_f, CMD_INGAME, CG_VoteComplete },
 	{ "setviewpos", CG_ForwardToServer_f, CMD_INGAME },
-	{ "stats", CG_ForwardToServer_f, CMD_INGAME }
+	{ "stats", CG_ForwardToServer_f, CMD_INGAME },
+	{ "classspecial", CG_ForwardToServer_f, CMD_INGAME },
 };
 
 static int numPlayerCommands = ARRAY_LEN( playerCommands );

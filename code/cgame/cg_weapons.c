@@ -1163,9 +1163,9 @@ static float	CG_MachinegunSpinAngle( centity_t *cent ) {
 CG_AddWeaponWithPowerups
 ========================
 */
-static void CG_AddWeaponWithPowerups( refEntity_t *gun, int powerups ) {
+static void CG_AddWeaponWithPowerups( refEntity_t *gun, int powerups, qboolean classspecial ) {
 	// add powerup effects
-	if ( powerups & ( 1 << PW_INVIS ) ) {
+	if ( powerups & ( 1 << PW_INVIS ) || (classspecial && (powerups & ( 1 << PW_AMMOREGEN ))) ) {
 		gun->customShader = cgs.media.invisShader;
 		CG_AddRefEntityWithMinLight( gun );
 	} else {
@@ -1303,7 +1303,7 @@ void CG_AddPlayerWeapon( refEntity_t *parent, playerState_t *ps, centity_t *cent
 	MatrixMultiply(lerped.axis, ((refEntity_t *)parent)->axis, gun.axis);
 	gun.backlerp = parent->backlerp;
 
-	CG_AddWeaponWithPowerups( &gun, cent->currentState.powerups );
+	CG_AddWeaponWithPowerups( &gun, cent->currentState.powerups, !!(cent->currentState.eFlags & EF_CLASSSPECIAL) );
 
 	// add the spinning barrel
 	if ( weapon->barrelModel ) {
@@ -1320,7 +1320,7 @@ void CG_AddPlayerWeapon( refEntity_t *parent, playerState_t *ps, centity_t *cent
 
 		CG_PositionRotatedEntityOnTag( &barrel, &gun, weapon->weaponModel, "tag_barrel" );
 
-		CG_AddWeaponWithPowerups( &barrel, cent->currentState.powerups );
+		CG_AddWeaponWithPowerups( &barrel, cent->currentState.powerups, !!(cent->currentState.eFlags & EF_CLASSSPECIAL) );
 	}
 
 	memset( &flash, 0, sizeof( flash ) );

@@ -320,7 +320,7 @@ EntityIsInvisible
 */
 qboolean EntityIsInvisible(aas_entityinfo_t *entinfo) {
 	// if player is invisible
-	if (entinfo->powerups & (1 << PW_INVIS)) {
+	if (entinfo->powerups & (1 << PW_INVIS) || ((entinfo->flags & EF_CLASSSPECIAL) && (entinfo->powerups & ( 1 << PW_AMMOREGEN )))) {
 		// a shooting player is always visible
 		if (EntityIsShooting(entinfo)) {
 			return qfalse;
@@ -1809,9 +1809,9 @@ void BotUpdateInventory(bot_state_t *bs) {
 	bs->inventory[INVENTORY_QUAD] = bs->cur_ps.powerups[PW_QUAD] != 0;
 	bs->inventory[INVENTORY_ENVIRONMENTSUIT] = bs->cur_ps.powerups[PW_BATTLESUIT] != 0;
 	bs->inventory[INVENTORY_HASTE] = bs->cur_ps.powerups[PW_HASTE] != 0;
-	bs->inventory[INVENTORY_INVISIBILITY] = bs->cur_ps.powerups[PW_INVIS] != 0;
+	bs->inventory[INVENTORY_INVISIBILITY] = bs->cur_ps.powerups[PW_INVIS] != 0 || ((bs->cur_ps.eFlags & EF_CLASSSPECIAL) && bs->cur_ps.powerups[PW_AMMOREGEN]);
 	bs->inventory[INVENTORY_REGEN] = bs->cur_ps.powerups[PW_REGEN] != 0;
-	bs->inventory[INVENTORY_FLIGHT] = bs->cur_ps.powerups[PW_FLIGHT] != 0;
+	bs->inventory[INVENTORY_FLIGHT] = bs->cur_ps.powerups[PW_FLIGHT] != 0 || ((bs->cur_ps.eFlags & EF_CLASSSPECIAL) && bs->cur_ps.powerups[PW_SCOUT]);
 #ifdef MISSIONPACK
 	bs->inventory[INVENTORY_SCOUT] = bs->cur_ps.stats[STAT_PERSISTANT_POWERUP] == MODELINDEX_SCOUT;
 	bs->inventory[INVENTORY_GUARD] = bs->cur_ps.stats[STAT_PERSISTANT_POWERUP] == MODELINDEX_GUARD;

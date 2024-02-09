@@ -1632,7 +1632,7 @@ void BG_TouchJumpPad( playerState_t *ps, entityState_t *jumppad ) {
 	}
 
 	// flying characters don't hit bounce pads
-	if ( ps->powerups[PW_FLIGHT] ) {
+	if ( ps->powerups[PW_FLIGHT] || ((ps->eFlags & EF_CLASSSPECIAL) && ps->powerups[PW_SCOUT]) ) {
 		return;
 	}
 

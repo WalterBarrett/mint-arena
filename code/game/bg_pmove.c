@@ -216,7 +216,7 @@ static void PM_Friction( void ) {
 	}
 
 	// apply flying friction
-	if ( pm->ps->powerups[PW_FLIGHT]) {
+	if ( pm->ps->powerups[PW_FLIGHT] || ((pm->ps->eFlags & EF_CLASSSPECIAL) && pm->ps->powerups[PW_SCOUT]) ) {
 		drop += speed*pm_flightfriction*pml.frametime;
 	}
 
@@ -1985,7 +1985,7 @@ void PmoveSingle (pmove_t *pmove) {
 		PM_GrappleMove();
 		// We can wiggle a bit
 		PM_AirMove();
-	} else if ( pm->ps->powerups[PW_FLIGHT] ) {
+	} else if ( pm->ps->powerups[PW_FLIGHT] || ((pm->ps->eFlags & EF_CLASSSPECIAL) && pm->ps->powerups[PW_SCOUT] )) {
 		// flight powerup doesn't allow jump and has different friction
 		PM_FlyMove();
 	} else if (pm->ps->pm_flags & PMF_TIME_WATERJUMP) {

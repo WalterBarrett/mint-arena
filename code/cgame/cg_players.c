@@ -2125,7 +2125,7 @@ static void CG_PlayerPowerups( centity_t *cent, refEntity_t *torso ) {
 	}
 
 	// flight plays a looped sound
-	if ( powerups & ( 1 << PW_FLIGHT ) ) {
+	if ( powerups & ( 1 << PW_FLIGHT ) || ((cent->currentState.eFlags & EF_CLASSSPECIAL) && powerups & ( 1 << PW_SCOUT )) ) {
 		trap_S_AddLoopingSound( cent->currentState.number, cent->lerpOrigin, vec3_origin, cgs.media.flightSound );
 	}
 
@@ -2303,7 +2303,7 @@ static qboolean CG_PlayerShadow( centity_t *cent, vec3_t start, float alphaMult,
 	}
 
 	// no shadows when invisible
-	if ( cent->currentState.powerups & ( 1 << PW_INVIS ) ) {
+	if ( cent->currentState.powerups & ( 1 << PW_INVIS ) || ((cent->currentState.eFlags & EF_CLASSSPECIAL) && (cent->currentState.powerups & ( 1 << PW_AMMOREGEN ))) ) {
 		return qfalse;
 	}
 
@@ -2438,7 +2438,7 @@ Also called by CG_Missile for quad rockets, but nobody can tell...
 */
 void CG_AddRefEntityWithPowerups( refEntity_t *ent, entityState_t *state ) {
 
-	if ( state->powerups & ( 1 << PW_INVIS ) ) {
+	if ( state->powerups & ( 1 << PW_INVIS ) || ((state->eFlags & EF_CLASSSPECIAL) && (state->powerups & ( 1 << PW_AMMOREGEN ))) ) {
 		ent->customShader = cgs.media.invisShader;
 		CG_AddRefEntityWithMinLight( ent );
 	} else {
