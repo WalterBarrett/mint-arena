@@ -39,6 +39,7 @@ Suite 120, Rockville, Maryland 20850 USA.
 #include "ai_main.h"
 #include "ai_dmq3.h"
 #include "ai_turret.h"
+#include "inv.h"
 
 
 /*
@@ -75,10 +76,11 @@ gentity_t *TurretFindVisibleEnemy(int turretentnum, vec3_t eye, vec3_t viewangle
 	bs.eye[2] = eye[2];
 	//int areanum;									//the number of the area the bot is in
 	//int inventory[MAX_ITEMS];						//string with items amounts the bot has
+	bs.inventory[INVENTORY_HEALTH] = 99;
 	//int tfl;										//the travel flags the bot uses
 	//int flags;										//several flags
 	//int respawn_wait;								//wait until respawned
-	//int lasthealth;									//health value previous frame
+	bs.lasthealth = 9999; // health value previous frame
 	//int lastkilledplayer;							//last killed player
 	//int lastkilledby;								//player that last killed this bot
 	//int botdeathtype;								//the death type of the bot
@@ -88,8 +90,8 @@ gentity_t *TurretFindVisibleEnemy(int turretentnum, vec3_t eye, vec3_t viewangle
 	//int setupcount;									//true when the bot has just been setup
 	//int map_restart;									//true when the map is being restarted
 	//int entergamechat;								//true when the bot used an enter game chat
-	//int num_deaths;									//number of time this bot died
-	//int num_kills;									//number of kills of this bot
+	bs.num_deaths = 0;									//number of time this bot died
+	bs.num_kills = 0;									//number of kills of this bot
 	//int revenge_enemy;								//the revenge enemy
 	//int revenge_kills;								//number of kills the enemy made
 	//int lastframe_health;							//health value the last frame
@@ -158,12 +160,12 @@ gentity_t *TurretFindVisibleEnemy(int turretentnum, vec3_t eye, vec3_t viewangle
 	//int lastenemyareanum;							//last reachability area the enemy was in
 	//vec3_t lastenemyorigin;							//last origin of the enemy in the reachability area
 	bs.weaponnum = turretent->s.weapon; //current weapon number
-	viewangles[0] = viewangles[0]; //current view angles
-	viewangles[1] = viewangles[1];
-	viewangles[2] = viewangles[2];
+	bs.viewangles[0] = viewangles[0]; //current view angles
+	bs.viewangles[1] = viewangles[1];
+	bs.viewangles[2] = viewangles[2];
 	//vec3_t ideal_viewangles;						//ideal view angles
 	//vec3_t viewanglespeed;
-	//int ltgtype;									//long term goal type
+	bs.ltgtype = LTG_DEFENDKEYAREA; //long term goal type
 	// team goals
 	//int teammate;									//team mate involved in this team goal
 	//int decisionmaker;								//player who decided to go for this goal
@@ -211,7 +213,9 @@ gentity_t *TurretFindVisibleEnemy(int turretentnum, vec3_t eye, vec3_t viewangle
 	//bot_waypoint_t *curpatrolpoint;					//current patrol point the bot is going for
 	//int patrolflags;								//patrol flags
 
-	if (BotFindEnemy(&bs, bs.enemy)) {
+	BotFindEnemy(&bs, bs.enemy);
+
+	if (bs.enemy >= 0) {
 		return &g_entities[bs.enemy];
 	}
 

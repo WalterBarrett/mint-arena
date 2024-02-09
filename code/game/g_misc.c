@@ -442,15 +442,15 @@ static void TurretThink( gentity_t *ent ) {
 	float		deg;
 	vec3_t		up, right;
 
-	dir[PITCH] = ent->s.angles[PITCH];
-	dir[YAW] = ent->s.angles[YAW];
-	dir[ROLL] = ent->s.angles[ROLL];
+	dir[PITCH] = ent->r.currentAngles[PITCH];
+	dir[YAW] = ent->r.currentAngles[YAW];
+	dir[ROLL] = ent->r.currentAngles[ROLL];
 	ent->nextthink = level.time + 500;
 	ent->enemy = NULL;
 	if (ent->s.team == TEAM_FREE) {
 		return;
 	}
-	ent->enemy = TurretFindVisibleEnemy( GetEntNumFromEnt(ent), ent->s.origin, dir );
+	ent->enemy = TurretFindVisibleEnemy( GetEntNumFromEnt(ent), ent->r.currentOrigin, ent->r.currentAngles );
 
 	// see if we have a target
 	if ( !ent->enemy ) {
@@ -495,6 +495,7 @@ static void TurretThink( gentity_t *ent ) {
 	ent->s.angles[YAW] = dir[YAW];
 	ent->s.angles[ROLL] = dir[ROLL];
 }
+
 static void TurretDie( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int damage, int mod ) {
 	self->takedamage = qfalse;
 
@@ -506,7 +507,7 @@ static void TurretDie( gentity_t *self, gentity_t *inflictor, gentity_t *attacke
 		} else if (!!( self->spawnflags & 4 )) {
 			trap_SendServerCommand( -1, va("cp \"%s" S_COLOR_WHITE "\ndestroyed a blue turret.\n\"", attacker->player->pers.netname));
 		} else {
-			trap_SendServerCommand( -1, va("cp \"%s" S_COLOR_WHITE "\ndestroyed an unaligned turret.\n\"", attacker->player->pers.netname));
+			trap_SendServerCommand( -1, va("cp \"%s" S_COLOR_WHITE "\ndestroyed a neutral turret.\n\"", attacker->player->pers.netname));
 		}
 	}
 
