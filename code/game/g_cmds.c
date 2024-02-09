@@ -1849,12 +1849,54 @@ Cmd_ClassSpecial_f
 =================
 */
 void Cmd_ClassSpecial_f( gentity_t *ent ) {
-	ent->player->ps.eFlags ^= EF_CLASSSPECIAL;
+	switch (ent->player->pers.currentClass) {
+		case CLASS_CIVILIAN:
+			trap_SendServerCommand( ent-g_entities, "print \"Pick a class first!\n\"");
+			break;
+		case CLASS_SCOUT:
+			ent->player->ps.eFlags ^= EF_CLASSSPECIAL;
 
-	if (!(ent->player->ps.eFlags & EF_CLASSSPECIAL)) {
-		trap_SendServerCommand( ent-g_entities, va("print \"Class special OFF\n\""));
-	}   else {
-		trap_SendServerCommand( ent-g_entities, va("print \"Class special ON\n\""));
+			if (ent->player->ps.eFlags & EF_CLASSSPECIAL) {
+				trap_SendServerCommand( ent-g_entities, "print \"You feel lighter!\n\"");
+			}   else {
+				trap_SendServerCommand( ent-g_entities, "print \"You feel heavier.\n\"");
+			}
+			break;
+		case CLASS_GUARD:
+			if (ent->player->ps.ammo[WP_LIGHTNING] >= 50) {
+				trap_SendServerCommand( ent-g_entities, "print \"Returning to base!\n\"");
+				ent->player->ps.eFlags |= EF_CLASSSPECIAL;
+			} else {
+				trap_SendServerCommand( ent-g_entities, "print \"Not enough cells to return to base!\n\"");
+			}
+			break;
+		case CLASS_DOUBLER:
+			ent->player->ps.eFlags ^= EF_CLASSSPECIAL;
+
+			if (ent->player->ps.eFlags & EF_CLASSSPECIAL) {
+				trap_SendServerCommand( ent-g_entities, "print \"Here comes the ammo!\n\"");
+			}   else {
+				trap_SendServerCommand( ent-g_entities, "print \"The ammo stops pouring in.\n\"");
+			}
+			break;
+		case CLASS_AMMOREGEN:
+			ent->player->ps.eFlags ^= EF_CLASSSPECIAL;
+
+			if (ent->player->ps.eFlags & EF_CLASSSPECIAL) {
+				trap_SendServerCommand( ent-g_entities, "print \"You're one with the shadows!\n\"");
+			}   else {
+				trap_SendServerCommand( ent-g_entities, "print \"Covert operations terminated.\n\"");
+			}
+			break;
+		default:
+			ent->player->ps.eFlags ^= EF_CLASSSPECIAL;
+
+			if (ent->player->ps.eFlags & EF_CLASSSPECIAL) {
+				trap_SendServerCommand( ent-g_entities, "print \"Class special activated.\n\"");
+			}   else {
+				trap_SendServerCommand( ent-g_entities, "print \"Class special disabled!\n\"");
+			}
+			break;
 	}
 }
 

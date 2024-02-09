@@ -1799,7 +1799,7 @@ void BotUpdateInventory(bot_state_t *bs) {
 #endif
 	//powerups
 	bs->inventory[INVENTORY_HEALTH] = bs->cur_ps.stats[STAT_HEALTH];
-	bs->inventory[INVENTORY_TELEPORTER] = bs->cur_ps.stats[STAT_HOLDABLE_ITEM] == MODELINDEX_TELEPORTER;
+	bs->inventory[INVENTORY_TELEPORTER] = bs->cur_ps.stats[STAT_HOLDABLE_ITEM] == MODELINDEX_TELEPORTER || ((bs->cur_ps.ammo[WP_LIGHTNING] >= 50) && bs->cur_ps.powerups[PW_GUARD]);
 	bs->inventory[INVENTORY_MEDKIT] = bs->cur_ps.stats[STAT_HOLDABLE_ITEM] == MODELINDEX_MEDKIT;
 #ifdef MISSIONPACK
 	bs->inventory[INVENTORY_KAMIKAZE] = bs->cur_ps.stats[STAT_HOLDABLE_ITEM] == MODELINDEX_KAMIKAZE;
@@ -1888,7 +1888,7 @@ void BotUseKamikaze(bot_state_t *bs) {
 			BotEntityInfo(c, &entinfo);
 			VectorSubtract(entinfo.origin, bs->origin, dir);
 			if (VectorLengthSquared(dir) < Square(KAMIKAZE_DIST)) {
-				EA_Use(bs->playernum);
+				EA_Use(bs->playernum, HI_KAMIKAZE);
 				return;
 			}
 		}
@@ -1909,7 +1909,7 @@ void BotUseKamikaze(bot_state_t *bs) {
 			BotEntityInfo(c, &entinfo);
 			VectorSubtract(entinfo.origin, bs->origin, dir);
 			if (VectorLengthSquared(dir) < Square(KAMIKAZE_DIST)) {
-				EA_Use(bs->playernum);
+				EA_Use(bs->playernum, HI_KAMIKAZE);
 				return;
 			}
 		}
@@ -1926,7 +1926,7 @@ void BotUseKamikaze(bot_state_t *bs) {
 		if (VectorLengthSquared(dir) < Square(KAMIKAZE_DIST * 0.9)) {
 			BotAI_Trace(&trace, bs->eye, NULL, NULL, target, bs->playernum, CONTENTS_SOLID);
 			if (trace.fraction >= 1 || trace.entityNum == goal->entitynum) {
-				EA_Use(bs->playernum);
+				EA_Use(bs->playernum, HI_KAMIKAZE);
 				return;
 			}
 		}
@@ -1948,7 +1948,7 @@ void BotUseKamikaze(bot_state_t *bs) {
 			BotEntityInfo(c, &entinfo);
 			VectorSubtract(entinfo.origin, bs->origin, dir);
 			if (VectorLengthSquared(dir) < Square(KAMIKAZE_DIST)) {
-				EA_Use(bs->playernum);
+				EA_Use(bs->playernum, HI_KAMIKAZE);
 				return;
 			}
 		}
@@ -1957,7 +1957,7 @@ void BotUseKamikaze(bot_state_t *bs) {
 	BotVisibleTeamMatesAndEnemies(bs, &teammates, &enemies, KAMIKAZE_DIST);
 	//
 	if (enemies > 2 && enemies > teammates+1) {
-		EA_Use(bs->playernum);
+		EA_Use(bs->playernum, HI_KAMIKAZE);
 		return;
 	}
 }
@@ -1998,7 +1998,7 @@ void BotUseInvulnerability(bot_state_t *bs) {
 		if (VectorLengthSquared(dir) < Square(200)) {
 			BotAI_Trace(&trace, bs->eye, NULL, NULL, target, bs->playernum, CONTENTS_SOLID);
 			if (trace.fraction >= 1 || trace.entityNum == goal->entitynum) {
-				EA_Use(bs->playernum);
+				EA_Use(bs->playernum, HI_INVULNERABILITY);
 				return;
 			}
 		}
@@ -2022,7 +2022,7 @@ void BotUseInvulnerability(bot_state_t *bs) {
 		if (VectorLengthSquared(dir) < Square(200)) {
 			BotAI_Trace(&trace, bs->eye, NULL, NULL, target, bs->playernum, CONTENTS_SOLID);
 			if (trace.fraction >= 1 || trace.entityNum == goal->entitynum) {
-				EA_Use(bs->playernum);
+				EA_Use(bs->playernum, HI_INVULNERABILITY);
 				return;
 			}
 		}
@@ -2039,7 +2039,7 @@ void BotUseInvulnerability(bot_state_t *bs) {
 		if (VectorLengthSquared(dir) < Square(300)) {
 			BotAI_Trace(&trace, bs->eye, NULL, NULL, target, bs->playernum, CONTENTS_SOLID);
 			if (trace.fraction >= 1 || trace.entityNum == goal->entitynum) {
-				EA_Use(bs->playernum);
+				EA_Use(bs->playernum, HI_INVULNERABILITY);
 				return;
 			}
 		}
@@ -2063,7 +2063,7 @@ void BotUseInvulnerability(bot_state_t *bs) {
 		if (VectorLengthSquared(dir) < Square(200)) {
 			BotAI_Trace(&trace, bs->eye, NULL, NULL, target, bs->playernum, CONTENTS_SOLID);
 			if (trace.fraction >= 1 || trace.entityNum == goal->entitynum) {
-				EA_Use(bs->playernum);
+				EA_Use(bs->playernum, HI_INVULNERABILITY);
 				return;
 			}
 		}
@@ -2085,13 +2085,13 @@ void BotBattleUseItems(bot_state_t *bs) {
 				&& !BotHarvesterCarryingCubes(bs)
 #endif
 				) {
-				EA_Use(bs->playernum);
+				EA_Use(bs->playernum, HI_TELEPORTER);
 			}
 		}
 	}
 	if (bs->inventory[INVENTORY_HEALTH] < 60) {
 		if (bs->inventory[INVENTORY_MEDKIT] > 0) {
-			EA_Use(bs->playernum);
+			EA_Use(bs->playernum, HI_MEDKIT);
 		}
 	}
 #ifdef MISSIONPACK
@@ -5380,7 +5380,7 @@ void BotCheckEvents(bot_state_t *bs, entityState_t *state) {
 					//if the bot has a personal teleporter
 					if (bs->inventory[INVENTORY_TELEPORTER] > 0) {
 						//use the holdable item
-						EA_Use(bs->playernum);
+						EA_Use(bs->playernum, HI_TELEPORTER);
 					}
 				}
 			}

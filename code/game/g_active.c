@@ -417,6 +417,7 @@ void PlayerTimerActions( gentity_t *ent, int msec ) {
 	qboolean	getsCells, getsAmmo;
 	int w, max, inc, t, i;
     int weapList[]={WP_MACHINEGUN,WP_SHOTGUN,WP_GRENADE_LAUNCHER,WP_ROCKET_LAUNCHER,WP_LIGHTNING,WP_RAILGUN,WP_PLASMAGUN,WP_BFG,WP_NAILGUN,WP_PROX_LAUNCHER,WP_CHAINGUN};
+	vec3_t	origin, angles;
 
 	player = ent->player;
 	player->timeResidual += msec;
@@ -469,6 +470,14 @@ void PlayerTimerActions( gentity_t *ent, int msec ) {
 
 	if ((ent->player->ps.eFlags & EF_CLASSSPECIAL) && player->ps.ammo[WP_LIGHTNING] <= 0) {
 		ent->player->ps.eFlags ^= EF_CLASSSPECIAL;
+		switch (ent->player->pers.currentClass) {
+			case CLASS_CIVILIAN:	trap_SendServerCommand( ent-g_entities, "print \"Pick a class first!\n\""); break;
+			case CLASS_SCOUT:		trap_SendServerCommand( ent-g_entities, "print \"You feel heavier.\n\""); break;
+			case CLASS_GUARD:		trap_SendServerCommand( ent-g_entities, "print \"Not enough cells to return to base!\n\""); break;
+			case CLASS_DOUBLER:		trap_SendServerCommand( ent-g_entities, "print \"The ammo stops pouring in.\n\""); break;
+			case CLASS_AMMOREGEN:	trap_SendServerCommand( ent-g_entities, "print \"Covert operations terminated.\n\""); break;
+			default:				trap_SendServerCommand( ent-g_entities, "print \"Class special disabled!\n\""); break;
+		}
 	}
 
 	getsCells = !(ent->player->ps.eFlags & EF_CLASSSPECIAL);
@@ -485,7 +494,21 @@ void PlayerTimerActions( gentity_t *ent, int msec ) {
 			case WP_SHOTGUN: max = getsAmmo ? 10 : 0; inc = 1; t = 1500; break;
 			case WP_GRENADE_LAUNCHER: max = getsAmmo ? 10 : 0; inc = 1; t = 2000; break;
 			case WP_ROCKET_LAUNCHER: max = getsAmmo ? 10 : 0; inc = 1; t = 1750; break;
-			case WP_LIGHTNING: max = getsCells ? 100 : 1000; inc = getsCells ? 5 : -1; t = getsCells ? 1500 : 200; break;
+			case WP_LIGHTNING:
+				max = getsCells ? 100 : 1000;
+				if (getsCells) {
+					inc = 5;
+				} else {
+					switch (player->pers.currentClass) {
+						default:				inc = -1; break;
+						case CLASS_SCOUT:		inc = -5; break;
+						case CLASS_GUARD:		inc = 5; break;
+						case CLASS_DOUBLER:		inc = -4; break;
+						case CLASS_AMMOREGEN:	inc = -1; break;
+					}
+				}
+				t = getsCells ? 1500 : 200;
+				break;
 			case WP_RAILGUN: max = getsAmmo ? 10 : 0; inc = 1; t = 1750; break;
 			case WP_PLASMAGUN: max = getsAmmo ? 50 : 0; inc = 5; t = 1500; break;
 			case WP_BFG: max = getsAmmo ? 10 : 0; inc = 1; t = 4000; break;
@@ -494,6 +517,12 @@ void PlayerTimerActions( gentity_t *ent, int msec ) {
 			case WP_CHAINGUN: max = getsAmmo ? 100 : 0; inc = 5; t = 1000; break;
 			default: max = 0; inc = 0; t = 1000; break;
 		}
+
+		if (inc > 0 && player->pers.currentClass == CLASS_DOUBLER && (player->ps.eFlags & EF_CLASSSPECIAL)) {
+			t /= 4;
+			max *= 1.5;
+		}
+
 		player->ammoTimes[w] += msec;
 		if ( player->ps.ammo[w] >= max ) {
 			player->ammoTimes[w] = 0;
@@ -505,6 +534,20 @@ void PlayerTimerActions( gentity_t *ent, int msec ) {
 			if ( player->ps.ammo[w] > max ) {
 				player->ps.ammo[w] = max;
 			}
+		}
+
+		if (player->pers.currentClass == CLASS_GUARD && (player->ps.eFlags & EF_CLASSSPECIAL)) {
+			if (player->ps.ammo[WP_LIGHTNING] >= 50) {
+				TossPlayerGametypeItems( ent );
+				SelectCTFSpawnPoint( 
+						player->sess.sessionTeam, 
+						player->pers.teamState.state, 
+						origin, angles,
+						!!(ent->r.svFlags & SVF_BOT));
+				TeleportPlayer( ent, origin, angles );
+				player->ps.ammo[WP_LIGHTNING] -= 50;
+			}
+			player->ps.eFlags &= (~EF_CLASSSPECIAL);
 		}
     }
 }

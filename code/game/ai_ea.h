@@ -93,7 +93,7 @@ void EA_Attack(int playerNum);
 void EA_Respawn(int playerNum);
 void EA_Talk(int playerNum);
 void EA_Gesture(int playerNum);
-void EA_Use(int playerNum);
+void EA_Use(int playerNum, holdable_t itemToUse);
 
 //regular elementary actions
 void EA_SelectWeapon(int playerNum, int weapon);

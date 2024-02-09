@@ -210,13 +210,23 @@ void EA_Talk(int playerNum)
 // Returns:				-
 // Changes Globals:		-
 //===========================================================================
-void EA_Use(int playerNum)
+void EA_Use(int playerNum, holdable_t itemToUse)
 {
 	bot_input_t *bi;
 
-	bi = &botinputs[playerNum];
+	// If we have a class version of this item, use it instead:
+	switch (itemToUse) {
+		case HI_TELEPORTER:
+			if (g_entities[playerNum].player->ps.powerups[PW_GUARD] && g_entities[playerNum].player->ps.ammo[WP_LIGHTNING] > 50) {
+				g_entities[playerNum].player->ps.eFlags &= EF_CLASSSPECIAL;
+				break;
+			}
+		default:
+			bi = &botinputs[playerNum];
 
-	bi->actionflags |= ACTION_USE;
+			bi->actionflags |= ACTION_USE;
+			break;
+	}
 } //end of the function EA_Use
 //===========================================================================
 //
