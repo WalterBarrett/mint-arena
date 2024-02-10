@@ -218,7 +218,7 @@ void EA_Use(int playerNum, holdable_t itemToUse)
 	switch (itemToUse) {
 		case HI_TELEPORTER:
 			if (g_entities[playerNum].player->ps.powerups[PW_GUARD] && g_entities[playerNum].player->ps.ammo[WP_LIGHTNING] > 50) {
-				g_entities[playerNum].player->ps.eFlags &= EF_CLASSSPECIAL;
+				g_entities[playerNum].player->ps.eFlags |= EF_CLASSSPECIAL;
 				break;
 			}
 		default:
