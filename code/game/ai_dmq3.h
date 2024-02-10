@@ -191,6 +191,7 @@ int PlayerOnSameTeamFromName(bot_state_t *bs, char *name);
 int BotPointAreaNum(vec3_t origin);
 //
 void BotMapScripts(bot_state_t *bs);
+void BotClassScripts(bot_state_t *bs);
 
 //ctf flags
 #define CTF_FLAG_NONE		0

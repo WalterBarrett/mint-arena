@@ -1494,6 +1494,7 @@ int AINode_Seek_ActivateEntity(bot_state_t *bs) {
 	if (BotInLavaOrSlime(bs)) bs->tfl |= TFL_LAVA|TFL_SLIME;
 	// map specific code
 	BotMapScripts(bs);
+	BotClassScripts(bs);
 	// if the bot has no activate goal
 	if (!bs->activatestack) {
 		BotClearActivateGoalStack(bs);
@@ -1728,6 +1729,7 @@ int AINode_Seek_NBG(bot_state_t *bs) {
 	}
 	//map specific code
 	BotMapScripts(bs);
+	BotClassScripts(bs);
 	//no enemy
 	bs->enemy = -1;
 	//if the bot has no goal
@@ -1871,6 +1873,7 @@ int AINode_Seek_LTG(bot_state_t *bs)
 	}
 	//map specific code
 	BotMapScripts(bs);
+	BotClassScripts(bs);
 	//no enemy
 	bs->enemy = -1;
 	//
@@ -2242,6 +2245,7 @@ int AINode_Battle_Chase(bot_state_t *bs)
 	}
 	//map specific code
 	BotMapScripts(bs);
+	BotClassScripts(bs);
 	//create the chase goal
 	goal.entitynum = bs->enemy;
 	goal.areanum = bs->lastenemyareanum;
@@ -2376,6 +2380,7 @@ int AINode_Battle_Retreat(bot_state_t *bs) {
 	if (BotInLavaOrSlime(bs)) bs->tfl |= TFL_LAVA|TFL_SLIME;
 	//map specific code
 	BotMapScripts(bs);
+	BotClassScripts(bs);
 	//update the attack inventory values
 	BotUpdateBattleInventory(bs, bs->enemy);
 	//if the bot doesn't want to retreat anymore... probably picked up some nice items
@@ -2564,6 +2569,7 @@ int AINode_Battle_NBG(bot_state_t *bs) {
 	}
 	//map specific code
 	BotMapScripts(bs);
+	BotClassScripts(bs);
 	//update the last time the enemy was visible
 	if (BotEntityVisible(bs->entitynum, bs->eye, bs->viewangles, 360, bs->enemy)) {
 		bs->enemyvisible_time = FloatTime();
