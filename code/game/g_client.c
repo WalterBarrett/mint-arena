@@ -1227,16 +1227,15 @@ void PlayerSpawn(gentity_t *ent) {
 	if ( g_instagib.integer ) {
 		player->ps.stats[STAT_WEAPONS] = ( 1 << WP_RAILGUN );
 		player->ps.ammo[WP_RAILGUN] = 999;
-		player->ps.ammo[WP_LIGHTNING] = 100;
 	} else {
-		player->ps.stats[STAT_WEAPONS] = ( 1 << WP_MACHINEGUN );
+		player->ps.stats[STAT_WEAPONS] = ( 1 << WP_MACHINEGUN ) | ( 1 << WP_LIGHTNING );
 		player->ps.ammo[WP_MACHINEGUN] = 100;
-		player->ps.ammo[WP_LIGHTNING] = 100;
 	}
 
 	player->ps.stats[STAT_WEAPONS] |= ( 1 << WP_GAUNTLET );
 	player->ps.ammo[WP_GAUNTLET] = -1;
 	player->ps.ammo[WP_GRAPPLING_HOOK] = -1;
+	player->ps.ammo[WP_LIGHTNING] = 100;
 
 	// health will count down towards max_health
 	ent->health = player->ps.stats[STAT_HEALTH] = player->ps.stats[STAT_MAX_HEALTH] + 25;
