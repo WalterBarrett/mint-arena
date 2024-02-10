@@ -1398,15 +1398,12 @@ void BotClearPath(bot_state_t *bs, bot_moveresult_t *moveresult) {
 			// deactivate prox mines in the bot's path by shooting
 			// rockets or plasma cells etc. at them
 			BotAI_GetEntityState(besttarget, &state);
-			VectorCopy(state.pos.trBase, target);
-			target[2] += 2;
-			VectorSubtract(target, bs->eye, dir);
-			vectoangles(dir, moveresult->ideal_viewangles);
 			if (state.eType == ET_TURRET) {
 				if (BotSameTeam(bs, besttarget)) {
-					if (bs->inventory[INVENTORY_LIGHTNING] > 0 && bs->inventory[INVENTORY_LIGHTNINGAMMO] > 0) {
+					if (bs->inventory[INVENTORY_LIGHTNING] > 0 && bs->inventory[INVENTORY_LIGHTNINGAMMO] > 0 && state.modelindex2 < 0xff) {
 						moveresult->weapon = WEAPONINDEX_LIGHTNING;
 					} else {
+						besttarget = -1;
 						moveresult->weapon = 0;
 					}
 				} else {
@@ -1423,6 +1420,12 @@ void BotClearPath(bot_state_t *bs, bot_moveresult_t *moveresult) {
 				else {
 					moveresult->weapon = 0;
 				}
+			}
+			if (besttarget != -1) {
+				VectorCopy(state.pos.trBase, target);
+				target[2] += 2;
+				VectorSubtract(target, bs->eye, dir);
+				vectoangles(dir, moveresult->ideal_viewangles);
 			}
 			if (moveresult->weapon) {
 				//
