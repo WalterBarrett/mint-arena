@@ -3937,6 +3937,25 @@ void BotMapScripts(bot_state_t *bs) {
 
 /*
 ==================
+BotClassScripts
+==================
+*/
+void BotClassScripts(bot_state_t *bs) {
+	playerState_t* ps = &g_entities[bs->entitynum].player->ps;
+	qboolean hasEnemies = BotVisibleEnemies(bs);
+	if (ps->powerups[PW_AMMOREGEN]) {
+		if (bs->flagcarrier == bs->playernum) {
+			ps->eFlags &= (~EF_CLASSSPECIAL);
+		} else if (hasEnemies && ps->ammo[WP_LIGHTNING] > 25) {
+			ps->eFlags |= EF_CLASSSPECIAL;
+		} else if (!hasEnemies && (ps->eFlags & EF_CLASSSPECIAL)) {
+			ps->eFlags &= (~EF_CLASSSPECIAL);
+		}
+	}
+}
+
+/*
+==================
 BotSetMovedir
 ==================
 */
