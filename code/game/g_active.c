@@ -483,6 +483,7 @@ void PlayerTimerActions( gentity_t *ent, int msec ) {
 	getsCells = !(ent->player->ps.eFlags & EF_CLASSSPECIAL);
 	switch (player->pers.currentClass) {
 		default:				getsAmmo = qfalse; break;
+		case CLASS_GUARD:		getsAmmo = qfalse; getsCells = qtrue; break;
 		case CLASS_AMMOREGEN:	getsAmmo = qtrue; break;
 		case CLASS_DOUBLER:		getsAmmo = ent->player->ps.eFlags & EF_CLASSSPECIAL; break;
 	}
@@ -490,10 +491,6 @@ void PlayerTimerActions( gentity_t *ent, int msec ) {
     for (i = 0; i < ARRAY_LEN( weapList ); i++) {
 		w = weapList[i];
 		switch(w) {
-			case WP_MACHINEGUN: max = getsAmmo ? 50 : 0; inc = 4; t = 1000; break;
-			case WP_SHOTGUN: max = getsAmmo ? 10 : 0; inc = 1; t = 1500; break;
-			case WP_GRENADE_LAUNCHER: max = getsAmmo ? 10 : 0; inc = 1; t = 2000; break;
-			case WP_ROCKET_LAUNCHER: max = getsAmmo ? 10 : 0; inc = 1; t = 1750; break;
 			case WP_LIGHTNING:
 				max = getsCells ? 100 : 1000;
 				if (getsCells) {
@@ -502,25 +499,29 @@ void PlayerTimerActions( gentity_t *ent, int msec ) {
 					switch (player->pers.currentClass) {
 						default:				inc = -1; break;
 						case CLASS_SCOUT:		inc = -5; break;
-						case CLASS_GUARD:		inc = 5; break;
+						case CLASS_GUARD:		inc =  0; break;
 						case CLASS_DOUBLER:		inc = -4; break;
 						case CLASS_AMMOREGEN:	inc = -1; break;
 					}
 				}
 				t = getsCells ? 1500 : 200;
 				break;
-			case WP_RAILGUN: max = getsAmmo ? 10 : 0; inc = 1; t = 1750; break;
-			case WP_PLASMAGUN: max = getsAmmo ? 50 : 0; inc = 5; t = 1500; break;
-			case WP_BFG: max = getsAmmo ? 10 : 0; inc = 1; t = 4000; break;
-			case WP_NAILGUN: max = getsAmmo ? 10 : 0; inc = 1; t = 1250; break;
-			case WP_PROX_LAUNCHER: max = getsAmmo ? 5 : 0; inc = 1; t = 2000; break;
-			case WP_CHAINGUN: max = getsAmmo ? 100 : 0; inc = 5; t = 1000; break;
+			case WP_MACHINEGUN:       max = getsAmmo ?  50 : 0; inc = 4; t = 1000; break;
+			case WP_SHOTGUN:          max = getsAmmo ?  10 : 0; inc = 1; t = 1500; break;
+			case WP_GRENADE_LAUNCHER: max = getsAmmo ?  10 : 0; inc = 1; t = 2000; break;
+			case WP_ROCKET_LAUNCHER:  max = getsAmmo ?  10 : 0; inc = 1; t = 1750; break;
+			case WP_RAILGUN:          max = getsAmmo ?  15 : 0; inc = 1; t = 1750; break;
+			case WP_PLASMAGUN:        max = getsAmmo ?  50 : 0; inc = 5; t = 1500; break;
+			case WP_BFG:              max = getsAmmo ?  20 : 0; inc = 1; t = 4000; break;
+			case WP_NAILGUN:          max = getsAmmo ?  10 : 0; inc = 1; t = 1250; break;
+			case WP_PROX_LAUNCHER:    max = getsAmmo ?   5 : 0; inc = 1; t = 2000; break;
+			case WP_CHAINGUN:         max = getsAmmo ? 100 : 0; inc = 5; t = 1000; break;
 			default: max = 0; inc = 0; t = 1000; break;
 		}
 
 		if (inc > 0 && player->pers.currentClass == CLASS_DOUBLER && (player->ps.eFlags & EF_CLASSSPECIAL)) {
 			t /= 4;
-			max *= 1.5;
+			max *= 2;
 		}
 
 		player->ammoTimes[w] += msec;

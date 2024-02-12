@@ -225,7 +225,7 @@ gitem_t	bg_itemlist[] =
 		NULL, NULL, NULL},
 /* icon */		"icons/iconw_machinegun",
 /* pickup */	"Machinegun",
-		40,
+		50,
 		IT_WEAPON,
 		WP_MACHINEGUN,
 /* sounds */ ""
@@ -285,7 +285,7 @@ gitem_t	bg_itemlist[] =
 		NULL, NULL, NULL},
 /* icon */		"icons/iconw_railgun",
 /* pickup */	"Railgun",
-		10,
+		15,
 		IT_WEAPON,
 		WP_RAILGUN,
 /* sounds */ ""
@@ -863,7 +863,7 @@ Only in One Flag CTF games
 		NULL, NULL, NULL},
 /* icon */		"icons/iconw_chaingun",
 /* pickup */	"Chaingun",
-		80,
+		100,
 		IT_WEAPON,
 		WP_CHAINGUN,
 /* sounds */ "sound/weapons/vulcan/wvulwind.wav"
