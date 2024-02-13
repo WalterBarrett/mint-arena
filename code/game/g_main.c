@@ -115,6 +115,8 @@ vmCvar_t	g_proxMineTimeout;
 #endif
 vmCvar_t	g_playerCapsule;
 vmCvar_t	g_instagib;
+vmCvar_t	g_turretHealth;
+vmCvar_t	g_simulantHealth;
 
 static cvarTable_t		gameCvarTable[] = {
 	// don't override the cheat state set by the system
@@ -197,7 +199,10 @@ static cvarTable_t		gameCvarTable[] = {
 	{ &pmove_fixed, "pmove_fixed", "0", CVAR_SYSTEMINFO, 0, RANGE_BOOL },
 	{ &pmove_msec, "pmove_msec", "8", CVAR_SYSTEMINFO, 0, RANGE_ALL },
 
-	{ &g_rankings, "g_rankings", "0", 0, 0, RANGE_ALL }
+	{ &g_rankings, "g_rankings", "0", 0, 0, RANGE_ALL },
+
+	{ &g_turretHealth, "g_turretHealth", "500", 0, 0, RANGE_ALL },
+	{ &g_simulantHealth, "g_simulantHealth", "200", 0, 0, RANGE_ALL },
 
 };
 

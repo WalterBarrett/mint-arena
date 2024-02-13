@@ -1143,6 +1143,7 @@ CG_Turret
 static void CG_Turret( centity_t *cent ) {
 	refEntity_t model;
 	float c;
+	float bboxColor[4] = { 0, 0, 0, 0.375f };
 
 	// show the turret
 	memset(&model, 0, sizeof(model));
@@ -1182,6 +1183,16 @@ static void CG_Turret( centity_t *cent ) {
 	model.origin[2] += 56;
 	model.hModel = cgs.media.overloadTargetModel;
 	CG_AddRefEntityWithMinLight( &model );
+
+	if ( cent->currentState.modelindex == TEAM_RED ) {
+		bboxColor[0] = 0.625f;
+	} else if ( cent->currentState.modelindex == TEAM_BLUE ) {
+		bboxColor[2] = 0.75f;
+	} else {
+		bboxColor[1] = 0.5f;
+	}
+
+	CG_DrawBBox( cent, bboxColor );
 }
 
 /*
@@ -1304,6 +1315,9 @@ static void CG_AddCEntity( centity_t *cent ) {
 		break;
 	case ET_TURRET:
 		CG_Turret( cent );
+		break;
+	case ET_SIMULANT:
+		CG_Simulant( cent );
 		break;
 	case ET_CORONA:
 		CG_Corona( cent );

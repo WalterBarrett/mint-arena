@@ -441,28 +441,36 @@ static void TurretThink( gentity_t *ent ) {
 	vec3_t		dir;
 	float		deg;
 	vec3_t		up, right;
+	vec3_t		tmpOrigin;
 
-	dir[PITCH] = ent->r.currentAngles[PITCH];
-	dir[YAW] = ent->r.currentAngles[YAW];
-	dir[ROLL] = ent->r.currentAngles[ROLL];
+	dir[PITCH] = ent->s.angles[PITCH];
+	dir[YAW] = ent->s.angles[YAW];
+	dir[ROLL] = ent->s.angles[ROLL];
+
+	VectorCopy( ent->s.origin, tmpOrigin );
+	if (ent->s.eType == ET_SIMULANT) {
+		tmpOrigin[2] += DEFAULT_VIEWHEIGHT;
+	}
+
 	ent->nextthink = level.time + 500;
 	ent->enemy = NULL;
 	if (ent->s.team == TEAM_FREE) {
 		return;
 	}
-	ent->enemy = TurretFindVisibleEnemy( GetEntNumFromEnt(ent), ent->r.currentOrigin, ent->r.currentAngles );
+
+	// see if we're too damaged to function
+	if (ent->health < 0) {
+		return;
+	}
+
+	ent->enemy = TurretFindVisibleEnemy( GetEntNumFromEnt(ent), tmpOrigin, dir );
 
 	// see if we have a target
 	if ( !ent->enemy ) {
 		return;
 	}
 
-	// see if we're too damaged to function
-	if (ent->health < g_obeliskHealth.integer / 40) {
-		return;
-	}
-
-	VectorSubtract( ent->enemy->r.currentOrigin, ent->s.origin, dir );
+	VectorSubtract( ent->enemy->r.currentOrigin, tmpOrigin, dir );
 	VectorNormalize( dir );
 
 	// randomize a bit
@@ -479,21 +487,23 @@ static void TurretThink( gentity_t *ent ) {
 
 	switch ( ent->s.weapon ) {
 	case WP_GRENADE_LAUNCHER:
-		fire_grenade( ent, ent->s.origin, dir );
+		fire_grenade( ent, tmpOrigin, dir );
 		break;
 	case WP_ROCKET_LAUNCHER:
-		fire_rocket( ent, ent->s.origin, dir );
+		fire_rocket( ent, tmpOrigin, dir );
 		break;
 	case WP_PLASMAGUN:
-		fire_plasma( ent, ent->s.origin, dir );
+		fire_plasma( ent, tmpOrigin, dir );
 		break;
 	}
 
 	G_AddEvent( ent, EV_FIRE_WEAPON, 0 );
 
-	ent->s.angles[PITCH] = dir[PITCH];
+	VectorSubtract( ent->enemy->r.currentOrigin, tmpOrigin, dir );
+	vectoangles(dir, dir);
+	ent->s.angles[PITCH] = 0; //dir[PITCH];
 	ent->s.angles[YAW] = dir[YAW];
-	ent->s.angles[ROLL] = dir[ROLL];
+	ent->s.angles[ROLL] = 0;
 }
 
 static void TurretDie( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int damage, int mod ) {
@@ -520,22 +530,36 @@ static void TurretPain( gentity_t *self, gentity_t *attacker, int damage ) {
 	}
 
 	if (damage < 0) {
-		if (self->health >= g_obeliskHealth.integer / 10) {
-			// Don't give infinite points for healing when it's at max health
+		// Don't give infinite points for healing when it's at max health
+		if ( self->s.eType == ET_TURRET && self->health >= g_turretHealth.integer) {
+			return;
+		} else if ( self->s.eType == ET_SIMULANT && self->health >= g_simulantHealth.integer) {
 			return;
 		} else {
 			self->health -= damage;
 		}
 	}
 
-	if (self->health > g_obeliskHealth.integer / 10) {
-		self->health = g_obeliskHealth.integer / 10;
+	if ( self->s.eType == ET_TURRET ) {
+		if (self->health > g_turretHealth.integer) {
+			self->health = g_turretHealth.integer;
+		}
+
+		self->s.modelindex2 = self->health * 0xff / g_turretHealth.integer;
+	} else if ( self->s.eType == ET_SIMULANT ) {
+		if (self->health > g_simulantHealth.integer) {
+			self->health = g_simulantHealth.integer;
+		}
+
+		self->s.modelindex2 = self->health * 0xff / g_simulantHealth.integer;
 	}
 
-	self->s.modelindex2 = self->health * 0xff / (g_obeliskHealth.integer / 10);
-
 	if (damage > 0) {
-		G_AddEvent(self, EV_OBELISKPAIN, 0);
+		if ( self->s.eType == ET_TURRET ) {
+			G_AddEvent(self, EV_OBELISKPAIN, 0);
+		} else if ( self->s.eType == ET_SIMULANT ) {
+			G_AddEvent(self, EV_PAIN, 0);
+		}
 		AddScore(attacker, self->r.currentOrigin, damage);
 	} else {
 		AddScore(attacker, self->r.currentOrigin, -damage);
@@ -552,7 +576,7 @@ void InitTurret( gentity_t *ent, int weapon ) {
 	}
 
 	VectorSet( ent->s.mins, -15, -15, 0 );
-	VectorSet( ent->s.maxs, 15, 15, 87 );
+	VectorSet( ent->s.maxs, 15, 15, 80 );
 
 	ent->s.weapon = weapon;
 	RegisterItem( BG_FindItemForWeapon( weapon ) );
@@ -640,6 +664,20 @@ Fires at enemies if it has a team.
 */
 void SP_turret_grenade( gentity_t *ent ) {
 	InitTurret( ent, WP_GRENADE_LAUNCHER );
+}
+
+/*QUAKED simulant_camp (1 0 0) (-16 -16 -16) (16 16 16)
+Fires at enemies if it has a team.
+"random" is the number of degrees of deviance from the target. (1.0 default)
+*/
+void SP_simulant_camp( gentity_t *ent ) {
+	InitTurret( ent, WP_PLASMAGUN );
+	VectorSet( ent->s.mins, -11, -11, 0 );
+	VectorSet( ent->s.maxs, 11, 11, 64 );
+	ent->r.currentAngles[PITCH] = ent->s.angles[PITCH];
+	ent->r.currentAngles[YAW] = ent->s.angles[YAW];
+	ent->r.currentAngles[ROLL] = ent->s.angles[ROLL];
+	ent->s.eType = ET_SIMULANT;
 }
 
 /*QUAKED corona (0 1 0) (-4 -4 -4) (4 4 4) START_OFF

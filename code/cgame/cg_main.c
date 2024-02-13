@@ -1781,6 +1781,17 @@ static void CG_RegisterGraphics( void ) {
 		}
 	}
 */
+
+	cgs.media.simulantLegsModel = trap_R_RegisterModel( "models/players/skelebot/lower.md3" );
+	cgs.media.simulantTorsoModel = trap_R_RegisterModel( "models/players/skelebot/upper.md3" );
+	cgs.media.simulantHeadModel = trap_R_RegisterModel( "models/players/skelebot/head.md3" );
+
+	CG_RegisterSkin( "models/players/skelebot/lower_red.skin",  &cgs.media.redSimulantLegsSkin, qfalse );
+	CG_RegisterSkin( "models/players/skelebot/upper_red.skin", &cgs.media.redSimulantTorsoSkin, qfalse );
+	CG_RegisterSkin( "models/players/skelebot/head_red.skin", &cgs.media.redSimulantHeadSkin, qfalse );
+	CG_RegisterSkin( "models/players/skelebot/lower_blue.skin", &cgs.media.blueSimulantLegsSkin, qfalse );
+	CG_RegisterSkin( "models/players/skelebot/upper_red.skin", &cgs.media.blueSimulantTorsoSkin, qfalse );
+	CG_RegisterSkin( "models/players/skelebot/head_red.skin", &cgs.media.blueSimulantHeadSkin, qfalse );
 }
 
 

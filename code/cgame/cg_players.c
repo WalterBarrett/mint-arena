@@ -3012,3 +3012,163 @@ void CG_ResetPlayerEntity( centity_t *cent ) {
 	}
 }
 
+
+//=====================================================================
+
+/*
+===============
+CG_Simulant
+===============
+*/
+void CG_Simulant( centity_t *cent ) {
+	refEntity_t		legs;
+	refEntity_t		torso;
+	refEntity_t		head;
+	int				renderfx;
+	qboolean		shadow;
+	float			shadowPlane;
+	refEntity_t		shadowRef;
+	vec3_t			shadowOrigin;
+	float			shadowAlpha = 1;
+	float			bboxColor[4] = { 0, 0, 0, 0.375f };
+	team_t			team = TEAM_RED;
+
+	if ( cg_blood.integer && cg_gibs.integer && ( cent->currentState.eFlags & EF_GIBBED ) ) {
+		return;
+	}
+
+	// get the player model information
+	renderfx = 0;
+
+	if ( team == TEAM_RED ) {
+		bboxColor[0] = 0.625f;
+	} else if ( team == TEAM_BLUE ) {
+		bboxColor[2] = 0.75f;
+	} else {
+		bboxColor[1] = 0.5f;
+	}
+
+	CG_DrawBBox( cent, bboxColor );
+
+	memset( &legs, 0, sizeof(legs) );
+	memset( &torso, 0, sizeof(torso) );
+	memset( &head, 0, sizeof(head) );
+
+	legs.hModel = cgs.media.simulantLegsModel;
+	torso.hModel = cgs.media.simulantTorsoModel;
+	head.hModel = cgs.media.simulantHeadModel;
+
+	if (team == TEAM_RED) {
+		legs.customSkin = CG_AddSkinToFrame( &cgs.media.redSimulantLegsSkin );
+		torso.customSkin = CG_AddSkinToFrame( &cgs.media.redSimulantTorsoSkin );
+		head.customSkin = CG_AddSkinToFrame( &cgs.media.redSimulantHeadSkin );
+	} else if (team == TEAM_BLUE) {
+		legs.customSkin = CG_AddSkinToFrame( &cgs.media.blueSimulantLegsSkin );
+		torso.customSkin = CG_AddSkinToFrame( &cgs.media.blueSimulantTorsoSkin );
+		head.customSkin = CG_AddSkinToFrame( &cgs.media.blueSimulantHeadSkin );
+	}
+
+	// get the rotation information
+	cent->currentState.playerNum = -1;
+	cent->currentState.angles2[YAW] = 4;
+	cent->lerpAngles[PITCH] = cent->pe.torso.pitchAngle = cent->currentState.angles[PITCH];
+	cent->lerpAngles[YAW] = cent->pe.torso.yawAngle = cent->pe.legs.yawAngle = cent->currentState.angles[YAW];
+	cent->lerpAngles[ROLL] = 0;
+	
+	cent->pe.torso.yawing = qfalse;
+	cent->pe.torso.pitching = qfalse;
+	cent->pe.legs.yawing = qfalse;
+	cent->pe.legs.pitching = qfalse;
+	cent->pe.legs.pitchAngle = 0;
+	CG_PlayerAngles( cent, legs.axis, torso.axis, head.axis );
+
+	// I'm not sure these are even used in the code's current state:
+	legs.oldframe = 117;
+	legs.frame = 117;
+	legs.backlerp = 1.0;
+	torso.oldframe = 155;
+	torso.frame = 155;
+	torso.backlerp = 1.0;
+
+	// get the animation state (after rotation, to allow feet shuffle)
+	//CG_PlayerAnimation( cent, &legs.oldframe, &legs.frame, &legs.backlerp, &torso.oldframe, &torso.frame, &torso.backlerp );
+
+	// cast shadow from torso origin
+	memcpy(&shadowRef, &torso, sizeof(shadowRef));
+	VectorCopy(cent->lerpOrigin, legs.origin);
+	legs.origin[2] += 24;
+
+	// ZTM: NOTE: Make sure to set legs.frameModel / legs.oldframeModel before this
+	//            call, if you're going to use them!
+	if (CG_PositionRotatedEntityOnTag(&shadowRef, &legs, legs.hModel, "tag_torso")) {
+		VectorCopy(shadowRef.origin, shadowOrigin);
+	} else {
+		VectorCopy(legs.origin, shadowOrigin);
+	}
+
+	// add the shadow
+	shadow = CG_PlayerShadow( cent, shadowOrigin, shadowAlpha, &shadowPlane );
+
+	// add a water splash if partially in and out of water
+	CG_PlayerSplash( cent );
+
+	if ( cg_shadows.integer == 3 && shadow ) {
+		renderfx |= RF_SHADOW_PLANE;
+	}
+	renderfx |= RF_LIGHTING_ORIGIN;			// use the same origin for all
+
+	//
+	// add the legs
+	//
+
+	VectorCopy( legs.origin, legs.lightingOrigin );
+	legs.shadowPlane = shadowPlane;
+	legs.renderfx = renderfx;
+	VectorCopy (legs.origin, legs.oldorigin);	// don't positionally lerp at all
+
+	//Byte4Copy( pi->c1RGBA, legs.shaderRGBA );
+
+	CG_AddRefEntityWithPowerups( &legs, &cent->currentState );
+
+	//
+	// add the torso
+	//
+
+	VectorCopy( legs.origin, torso.lightingOrigin );
+
+	CG_PositionRotatedEntityOnTag( &torso, &legs, legs.hModel, "tag_torso");
+
+	torso.shadowPlane = shadowPlane;
+	torso.renderfx = renderfx;
+
+	//Byte4Copy( pi->c1RGBA, torso.shaderRGBA );
+
+	CG_AddRefEntityWithPowerups( &torso, &cent->currentState );
+
+	//
+	// add the head
+	//
+
+	VectorCopy( legs.origin, head.lightingOrigin );
+
+	CG_PositionRotatedEntityOnTag( &head, &torso, torso.hModel, "tag_head");
+
+	head.shadowPlane = shadowPlane;
+	head.renderfx = renderfx;
+
+	//Byte4Copy( pi->c1RGBA, head.shaderRGBA );
+
+	CG_AddRefEntityWithPowerups( &head, &cent->currentState );
+
+	CG_AddBreathPuffs( cent, &head );
+
+	CG_DustTrail(cent);
+
+	//
+	// add the gun / barrel / flash
+	//
+	CG_AddPlayerWeapon( &torso, NULL, cent, team );
+
+	// add powerups floating behind the player
+	CG_PlayerPowerups( cent, &torso );
+}

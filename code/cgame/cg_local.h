@@ -1209,6 +1209,16 @@ typedef struct {
 	sfxHandle_t	wstbimpdSound;
 	sfxHandle_t	wstbactvSound;
 
+	qhandle_t simulantLegsModel;
+	qhandle_t simulantTorsoModel;
+	qhandle_t simulantHeadModel;
+
+	cgSkin_t redSimulantLegsSkin;
+	cgSkin_t redSimulantTorsoSkin;
+	cgSkin_t redSimulantHeadSkin;
+	cgSkin_t blueSimulantLegsSkin;
+	cgSkin_t blueSimulantTorsoSkin;
+	cgSkin_t blueSimulantHeadSkin;
 } cgMedia_t;
 
 #define MAX_STATIC_GAMEMODELS   1024
@@ -1731,6 +1741,7 @@ sfxHandle_t	CG_CustomSound( int playerNum, const char *soundName );
 void CG_CachePlayerSounds( const char *modelName );
 void CG_CachePlayerModels( const char *modelName, const char *headModelName );
 void CG_PlayerColorFromIndex( int val, vec3_t color );
+void CG_Simulant( centity_t *cent );
 
 //
 // cg_predict.c

@@ -195,7 +195,7 @@ team_t GetEntTeam(gentity_t *ent1) {
 		} else {
 			return TEAM_FREE;
 		}
-	} else if ( !Q_stricmpn(ent1->classname, "turret_", 7 ) ) {
+	} else if ( ent1->s.eType == ET_TURRET || ent1->s.eType == ET_SIMULANT ) {
 		if (!!( ent1->spawnflags & 2 )) {
 			return TEAM_RED;
 		} else if (!!( ent1->spawnflags & 4 )) {

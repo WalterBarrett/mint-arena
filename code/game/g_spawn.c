@@ -190,6 +190,8 @@ void SP_turret_rocket( gentity_t *ent );
 void SP_turret_plasma( gentity_t *ent );
 void SP_turret_grenade( gentity_t *ent );
 
+void SP_simulant_camp( gentity_t *ent );
+
 void SP_team_CTF_redplayer( gentity_t *ent );
 void SP_team_CTF_blueplayer( gentity_t *ent );
 
@@ -276,6 +278,8 @@ spawn_t	spawns[] = {
 	{"turret_rocket", SP_turret_rocket},
 	{"turret_grenade", SP_turret_grenade},
 	{"turret_plasma", SP_turret_plasma},
+
+	{"simulant_camp", SP_simulant_camp},
 
 	{"team_CTF_redplayer", SP_team_CTF_redplayer},
 	{"team_CTF_blueplayer", SP_team_CTF_blueplayer},
