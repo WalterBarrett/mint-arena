@@ -786,6 +786,7 @@ void ClearRegisteredItems( void ) {
 		RegisterItem( BG_FindItemForWeapon( WP_RAILGUN ) );
 	} else {
 		RegisterItem( BG_FindItemForWeapon( WP_MACHINEGUN ) );
+		RegisterItem( BG_FindItemForWeapon( WP_LIGHTNING ) );
 	}
 	RegisterItem( BG_FindItemForWeapon( WP_GAUNTLET ) );
 #ifdef MISSIONPACK
